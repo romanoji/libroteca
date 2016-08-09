@@ -1,0 +1,4 @@
+suites:
+    libroteca_suite:
+        namespace: RJozwiak\Libroteca
+        psr4_prefix: RJozwiak\Libroteca
