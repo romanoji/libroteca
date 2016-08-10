@@ -21,8 +21,8 @@ class Author
      */
     public function __construct($name, $surname)
     {
-        $this->setName($name);
-        $this->setSurname($surname);
+        $this->setName(trim($name));
+        $this->setSurname(trim($surname));
     }
 
     /**
@@ -54,7 +54,7 @@ class Author
     {
         $this->assertNotEmpty($subject, $type);
         $this->assertValidFormat($subject, $type);
-        $this->assertMaxLength($subject, $type);
+        $this->assertNotTooLong($subject, $type);
     }
 
     /**
@@ -86,7 +86,7 @@ class Author
      * @param string $type
      * @throws InvalidAuthorException
      */
-    private function assertMaxLength($subject, $type = 'name')
+    private function assertNotTooLong($subject, $type = 'name')
     {
         if (mb_strlen($subject) > self::MAX_LENGTH) {
             throw InvalidAuthorException::byMaxLength($type);

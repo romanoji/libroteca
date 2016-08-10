@@ -14,27 +14,24 @@ class InvalidAuthorException extends \InvalidArgumentException
     }
 
     /**
-     * @param string $nameOrSurname
      * @param string $type
      * @return self
      */
-    public static function byFormat($nameOrSurname, $type = 'name')
+    public static function byFormat($type = 'name')
     {
-        return new self("Author's {$type} '{$nameOrSurname}' has invalid format");
+        return new self("Author's {$type} has invalid format");
     }
 
     /**
-     * @param string $nameOrSurname
      * @param string $type
      * @return self
      */
-    public static function byMaxLength($nameOrSurname, $type = 'name')
+    public static function byMaxLength($type = 'name')
     {
         return new self(
             sprintf(
-                "Author's %s '%s' exceeds maximum length of %s characters",
+                "Author's %s exceeds maximum length of %s characters",
                 $type,
-                $nameOrSurname,
                 Author::MAX_LENGTH
             )
         );
