@@ -17,40 +17,38 @@ class AuthorSpec extends ObjectBehavior
 
     function it_throws_exception_on_empty_name()
     {
-        $this->shouldThrow(InvalidAuthorException::class)->during('__construct', ['', 'Rowling']);
+        $this->beConstructedWith('', 'Rowling');
+        $this->shouldThrow(InvalidAuthorException::class)->duringInstantiation();
     }
 
-    function it_throws_exception_on_name_length_beyond_range()
+    function it_throws_exception_when_name_length_is_beyond_range()
     {
-        $this
-            ->shouldThrow(InvalidAuthorException::class)
-            ->during('__construct', ['Peaches Honeyblossom Michelle Charlotte Angel Vanessa', 'Geldof']);
+        $this->beConstructedWith('Peaches Honeyblossom Michelle Charlotte Angel Vanessa', 'Geldof');
+        $this->shouldThrow(InvalidAuthorException::class)->duringInstantiation();
     }
 
     function it_throws_exception_when_name_has_invalid_format()
     {
-        $this
-            ->shouldThrow(InvalidAuthorException::class)
-            ->during('__construct', ['Anthon1', 'Veraas']);
+        $this->beConstructedWith('Anthon1', 'Veraas');
+        $this->shouldThrow(InvalidAuthorException::class)->duringInstantiation();
     }
 
     function it_throws_exception_on_empty_surname()
     {
-        $this->shouldThrow(InvalidAuthorException::class)->during('__construct', ['George R.R.', '']);
+        $this->beConstructedWith('George R.R.', '');
+        $this->shouldThrow(InvalidAuthorException::class)->duringInstantiation();
     }
 
-    function it_throws_exception_on_surname_length_beyond_range()
+    function it_throws_exception_when_surname_length_is_beyond_range()
     {
-        $this
-            ->shouldThrow(InvalidAuthorException::class)
-            ->during('__construct', ['Hubert Blaine', 'Wolfeschlegelsteinhausenbergerdorffwelchevoralternwaren']);
+        $this->beConstructedWith('Hubert Blaine', 'Wolfeschlegelsteinhausenbergerdorffwelchevoralternwaren');
+        $this->shouldThrow(InvalidAuthorException::class)->duringInstantiation();
     }
 
     function it_throws_exception_when_surname_has_invalid_format()
     {
-        $this
-            ->shouldThrow(InvalidAuthorException::class)
-            ->during('__construct', ['Anthony', 'Veraa2']);
+        $this->beConstructedWith('Anthony', 'Veraa2');
+        $this->shouldThrow(InvalidAuthorException::class)->duringInstantiation();
     }
 
     function it_returns_full_name_of_author()

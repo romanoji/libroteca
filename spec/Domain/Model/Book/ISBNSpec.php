@@ -17,7 +17,8 @@ class ISBNSpec extends ObjectBehavior
 
     function it_throws_exception_when_isbn_has_incorrect_format()
     {
-        $this->shouldThrow(InvalidISBNException::class)->during('__construct', ['0-306']);
+        $this->beConstructedWith('0-306');
+        $this->shouldThrow(InvalidISBNException::class)->duringInstantiation();
     }
 
     function it_throws_exception_when_isbn_checksum_validation_fails()
@@ -26,13 +27,13 @@ class ISBNSpec extends ObjectBehavior
         $this->shouldThrow(InvalidISBNException::class)->during('__construct', ['978-3-16-148410-1']);
     }
 
-    function it_returns_correct_format_of_isbn_for_isbn_10()
+    function it_returns_correct_format_of_isbn_10()
     {
         $this->beConstructedWith('0-306-40615-2');
         $this->format()->shouldReturn(ISBN::ISBN_10);
     }
 
-    function it_returns_correct_format_of_isbn_for_isbn_13()
+    function it_returns_correct_format_of_isbn_13()
     {
         $this->beConstructedWith('978-3-16-148410-0');
         $this->format()->shouldReturn(ISBN::ISBN_13);
