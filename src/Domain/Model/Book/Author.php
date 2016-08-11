@@ -5,24 +5,19 @@ namespace RJozwiak\Libroteca\Domain\Model\Book;
 class Author
 {
     const NAME_FORMAT = '/^[ \pL\'\-.]+$/u'; // '/^[ \x{00c0}-\x{01ff}a-zA-Z\'\-.]+$/u'
-    const MAX_LENGTH = 50;
+    const MAX_LENGTH = 100;
 
     /** @var string */
     private $name;
 
-    /** @var string */
-    private $surname;
-
     /**
      * Author constructor.
      * @param string $name
-     * @param string $surname
      * @throws InvalidAuthorException
      */
-    public function __construct($name, $surname)
+    public function __construct($name)
     {
         $this->setName(trim($name));
-        $this->setSurname(trim($surname));
     }
 
     /**
@@ -31,74 +26,60 @@ class Author
      */
     private function setName($name)
     {
-        $this->validate($name, 'name');
+        $this->validate($name);
         $this->name = $name;
     }
 
     /**
-     * @param string $surname
+     * @param string $subject
      * @throws InvalidAuthorException
      */
-    private function setSurname($surname)
+    private function validate($subject)
     {
-        $this->validate($surname, 'surname');
-        $this->surname = $surname;
+        $this->assertNotEmpty($subject);
+        $this->assertValidFormat($subject);
+        $this->assertNotTooLong($subject);
     }
 
     /**
      * @param string $subject
-     * @param string $type
      * @throws InvalidAuthorException
      */
-    private function validate($subject, $type = 'name')
-    {
-        $this->assertNotEmpty($subject, $type);
-        $this->assertValidFormat($subject, $type);
-        $this->assertNotTooLong($subject, $type);
-    }
-
-    /**
-     * @param string $subject
-     * @param string $type
-     * @throws InvalidAuthorException
-     */
-    private function assertNotEmpty($subject, $type = 'name')
+    private function assertNotEmpty($subject)
     {
         if (empty($subject)) {
-            throw InvalidAuthorException::byEmptyNameOrSurname($type);
+            throw InvalidAuthorException::byEmpty();
         }
     }
 
     /**
      * @param string $subject
-     * @param string $type
      * @throws InvalidAuthorException
      */
-    private function assertValidFormat($subject, $type = 'name')
+    private function assertValidFormat($subject)
     {
         if (!preg_match(self::NAME_FORMAT, $subject)) {
-            throw InvalidAuthorException::byFormat($type);
+            throw InvalidAuthorException::byFormat();
         }
     }
 
     /**
      * @param string $subject
-     * @param string $type
      * @throws InvalidAuthorException
      */
-    private function assertNotTooLong($subject, $type = 'name')
+    private function assertNotTooLong($subject)
     {
         if (mb_strlen($subject) > self::MAX_LENGTH) {
-            throw InvalidAuthorException::byMaxLength($type);
+            throw InvalidAuthorException::byMaxLength();
         }
     }
 
     /**
      * @return string
      */
-    public function fullName()
+    public function name()
     {
-        return $this->name.' '.$this->surname;
+        return $this->name;
     }
 
     /**
@@ -107,6 +88,6 @@ class Author
      */
     public function equals(Author $author)
     {
-        return $this->fullName() === $author->fullName();
+        return $this->name() === $author->name();
     }
 }
