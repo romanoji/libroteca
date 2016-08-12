@@ -54,6 +54,7 @@ Feature: Book registration
     And identified by ISBN "978-0553801477"
     When I try to register another book with ISBN "978-0553801477"
     Then I should be notified that book with provided ISBN is already registered in library
+    And there should be only one book with ISBN "978-0553801477"
 
   # TODO
 #  Scenario: Registering a new book with minimum details
