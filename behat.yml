@@ -1,0 +1,5 @@
+default:
+    suites:
+        library:
+            paths: [ %paths.base%/features/domain ]
+            contexts: [ Domain\LibraryContext ]
