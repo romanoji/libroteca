@@ -1,1 +1,1 @@
-## Libroteca
+## Libroteca - simple, sexy, small library management system
