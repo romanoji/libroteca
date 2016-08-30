@@ -1,5 +1,11 @@
 default:
     suites:
-        library:
-            paths: [ %paths.base%/features/domain ]
-            contexts: [ Domain\LibraryContext ]
+        reader:
+            paths: [ %paths.base%/features/domain/reader ]
+            contexts: [ Domain\ReaderContext ]
+        lending:
+            paths: [ %paths.base%/features/domain/lending ]
+            contexts:
+                - Domain\ReaderContext
+                - Domain\BookContext
+                - Domain\LendContext
