@@ -44,9 +44,9 @@ class NameSpec extends ObjectBehavior
     function it_is_comparable()
     {
         $sameName = new Name('John');
-        $otherName = new Name('Andy');
-
         $this->equals($sameName)->shouldBe(true);
+
+        $otherName = new Name('Andy');
         $this->equals($otherName)->shouldBe(false);
     }
 }

@@ -45,9 +45,9 @@ class SurnameSpec extends ObjectBehavior
     function it_is_comparable()
     {
         $sameSurname = new Surname('Kowalsky');
-        $otherSurname = new Surname('Novak');
-
         $this->equals($sameSurname)->shouldBe(true);
+
+        $otherSurname = new Surname('Novak');
         $this->equals($otherSurname)->shouldBe(false);
     }
 }

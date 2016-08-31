@@ -24,10 +24,12 @@ class PhoneSpec extends ObjectBehavior
         $this->shouldThrow(new \InvalidArgumentException('Invalid phone format.'))->duringInstantiation();
     }
 
-    function it_is_comparable(Phone $phone)
+    function it_is_comparable(Phone $samePhone, Phone $otherPhone)
     {
-        $phone->phone()->willReturn('+48 123456789');
+        $samePhone->phone()->willReturn('+48 123456789');
+        $this->equals($samePhone)->shouldBe(true);
 
-        $this->equals($phone)->shouldBe(true);
+        $otherPhone->phone()->willReturn('+48 987654321');
+        $this->equals($otherPhone)->shouldBe(false);
     }
 }
