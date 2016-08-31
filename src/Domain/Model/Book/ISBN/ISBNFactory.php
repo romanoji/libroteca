@@ -5,14 +5,17 @@ namespace RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 class ISBNFactory
 {
     /**
-     * @param string $isbn
+     * @param null|string $isbn
      * @return ISBN
      * @throws \InvalidArgumentException
      */
-    public function create($isbn)
+    public function create($isbn = null)
     {
-        $isbn = $this->toRawISBN($isbn);
+        if ($isbn === null) {
+            return new NullISBN();
+        }
 
+        $isbn = $this->toRawISBN($isbn);
         switch ($isbn) {
             case strlen($isbn) === 10:
                 return new ISBN10($isbn);

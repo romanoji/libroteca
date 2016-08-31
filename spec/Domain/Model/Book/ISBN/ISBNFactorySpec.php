@@ -7,6 +7,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN13;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 
 class ISBNFactorySpec extends ObjectBehavior
 {
@@ -23,6 +24,11 @@ class ISBNFactorySpec extends ObjectBehavior
     function it_creates_isbn13_from_valid_isbn_string()
     {
         $this->create('978-0553801477')->shouldBeLike(new ISBN13('9780553801477'));
+    }
+
+    function it_creates_nullisbn_on_default()
+    {
+        $this->create()->shouldBeLike(new NullISBN());
     }
 
     function it_throw_exception_on_invalid_isbn_length()

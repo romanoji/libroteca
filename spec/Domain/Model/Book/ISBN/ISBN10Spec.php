@@ -17,6 +17,10 @@ class ISBN10Spec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(ISBN10::class);
+    }
+
+    function it_is_subtype_of_isbn()
+    {
         $this->shouldBeAnInstanceOf(ISBN::class);
     }
 
@@ -36,9 +40,9 @@ class ISBN10Spec extends ObjectBehavior
             ->duringInstantiation();
     }
 
-    function it_returns_isbn_string()
+    function it_returns_isbn()
     {
-        $this->__toString()->shouldReturn('392844400X');
+        $this->isbn()->shouldReturn('392844400X');
     }
 
     function it_is_comparable(ISBN10 $sameISBN, ISBN10 $otherISBN)
