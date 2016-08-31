@@ -24,6 +24,11 @@ class EmailSpec extends ObjectBehavior
         $this->shouldThrow(new \InvalidArgumentException('Invalid email format.'))->duringInstantiation();
     }
 
+    function it_returns_email()
+    {
+        $this->email()->shouldReturn('john.kowalsky@mail.com');
+    }
+
     function it_is_comparable(Email $sameEmail, Email $otherEmail)
     {
         $sameEmail->email()->willReturn('john.kowalsky@mail.com');
