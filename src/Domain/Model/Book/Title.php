@@ -7,14 +7,36 @@ class Title
     /** @var string */
     private $title;
 
+    /**
+     * Title constructor.
+     * @param string $title
+     * @throws \InvalidArgumentException
+     */
     public function __construct($title)
     {
         $this->setTitle($title);
     }
 
+    /**
+     * @param string $title
+     * @throws \InvalidArgumentException
+     */
     private function setTitle($title)
     {
+        $this->assertNotEmpty($title);
+
         $this->title = $title;
+    }
+
+    /**
+     * @param string $title
+     * @throws \InvalidArgumentException
+     */
+    private function assertNotEmpty($title)
+    {
+        if (empty($title)) {
+            throw new \InvalidArgumentException('Empty title.');
+        }
     }
 
     /**

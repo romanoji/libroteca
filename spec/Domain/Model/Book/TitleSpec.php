@@ -10,7 +10,7 @@ class TitleSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('A Dance with Dragons');
+        $this->beConstructedWith('The Lord of the Rings');
     }
 
     function it_is_initializable()
@@ -18,17 +18,23 @@ class TitleSpec extends ObjectBehavior
         $this->shouldHaveType(Title::class);
     }
 
+    function it_throws_exception_on_empty_title()
+    {
+        $this->beConstructedWith('');
+        $this->shouldThrow(new \InvalidArgumentException('Empty title.'))->duringInstantiation();
+    }
+
     function it_returns_title()
     {
-        $this->title()->shouldBe('A Dance with Dragons');
+        $this->title()->shouldBe('The Lord of the Rings');
     }
 
     function it_is_comparable(Title $sameTitle, Title $otherTitle)
     {
-        $sameTitle->title()->willReturn('A Dance with Dragons');
-        $otherTitle->title()->willReturn('Harry Potter');
-
+        $sameTitle->title()->willReturn('The Lord of the Rings');
         $this->equals($sameTitle)->shouldBe(true);
+
+        $otherTitle->title()->willReturn('Harry Potter');
         $this->equals($otherTitle)->shouldBe(false);
     }
 }

@@ -23,12 +23,24 @@ class AuthorSpec extends ObjectBehavior
         $this->name()->shouldBe('George R.R. Martin');
     }
 
+    function it_throws_exception_on_empty_name()
+    {
+        $this->beConstructedWith('');
+        $this->shouldThrow(new \InvalidArgumentException('Empty name.'))->duringInstantiation();
+    }
+
+    function it_throws_exception_on_invalid_name_format()
+    {
+        $this->beConstructedWith('Ge0rg3.123');
+        $this->shouldThrow(new \InvalidArgumentException('Invalid name format.'))->duringInstantiation();
+    }
+
     function it_is_comparable(Author $sameAuthor, Author $otherAuthor)
     {
         $sameAuthor->name()->willReturn('George R.R. Martin');
-        $otherAuthor->name()->willReturn('J.K. Rowling');
-
         $this->equals($sameAuthor)->shouldBe(true);
+
+        $otherAuthor->name()->willReturn('J.K. Rowling');
         $this->equals($otherAuthor)->shouldBe(false);
     }
 }
