@@ -4,6 +4,8 @@ namespace Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Helper\CatchesException;
+use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
@@ -15,6 +17,8 @@ use Webmozart\Assert\Assert;
 
 class ReaderContext implements Context, SnippetAcceptingContext
 {
+    use SpiesOnExceptions;
+
     /** @var ReaderRepository */
     private $readerRepository;
     /** @var RegisterReader */
@@ -22,8 +26,6 @@ class ReaderContext implements Context, SnippetAcceptingContext
 
     /** @var Reader */
     private $currentReader;
-    /** @var \Exception */
-    private $catchedException;
 
     public function __construct()
     {
@@ -44,11 +46,9 @@ class ReaderContext implements Context, SnippetAcceptingContext
      */
     public function iRegisterReaderByHisNameSurnameEmailAndPhone($name, $surname, $email, $phone)
     {
-        try {
+        $this->spyOnException(function () use ($name, $surname, $email, $phone) {
             $this->currentReader = $this->registerReader->execute($name, $surname, $email, $phone);
-        } catch (\Exception $e) {
-            $this->catchedException = $e;
-        }
+        });
     }
 
     /**
