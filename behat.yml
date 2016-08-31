@@ -8,4 +8,4 @@ default:
             contexts:
                 - Domain\ReaderContext
                 - Domain\BookContext
-                - Domain\LendContext
+                - Domain\LoanContext
