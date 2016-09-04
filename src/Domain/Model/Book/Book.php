@@ -27,43 +27,21 @@ class Book
      */
     public function __construct(BookID $id, ISBN $isbn, $authors, Title $title)
     {
-        $this->setID($id);
-        $this->setISBN($isbn);
-        $this->setAuthors($authors);
-        $this->setTitle($title);
-    }
-
-    /**
-     * @param BookID $id
-     */
-    private function setID(BookID $id)
-    {
         $this->id = $id;
-    }
-
-    /**
-     * @param ISBN $isbn
-     */
-    private function setISBN(ISBN $isbn)
-    {
         $this->isbn = $isbn;
-    }
-
-    /**
-     * @param Author[] $authors
-     */
-    private function setAuthors($authors)
-    {
-        // TODO: foreach instanceof Author
-        $this->authors = $authors;
-    }
-
-    /**
-     * @param Title $title
-     */
-    private function setTitle(Title $title)
-    {
         $this->title = $title;
+
+        foreach ($authors as $author) {
+            $this->addAuthor($author);
+        }
+    }
+
+    /**
+     * @param Author $author
+     */
+    private function addAuthor(Author $author)
+    {
+        $this->authors[] = $author;
     }
 
     /**
@@ -72,5 +50,29 @@ class Book
     public function id()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Title
+     */
+    public function title()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return Author[]
+     */
+    public function authors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * @return ISBN
+     */
+    public function isbn()
+    {
+        return $this->isbn;
     }
 }

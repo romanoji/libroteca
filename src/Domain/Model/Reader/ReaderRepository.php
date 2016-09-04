@@ -4,6 +4,8 @@ namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 interface ReaderRepository
 {
+    // TODO: find -> get
+
     /**
      * @return ReaderID
      */

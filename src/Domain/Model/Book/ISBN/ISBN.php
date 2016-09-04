@@ -66,7 +66,8 @@ abstract class ISBN
         $isbnToCompare = substr($isbn, 0, $posBeforeChecksum).$checksumDigit;
 
         if ($isbn !== $isbnToCompare) {
-            throw new \InvalidArgumentException('Invalid isbn checksum.');
+            // it's intentionally, user shouldn't know about invalid checksum
+            throw new \InvalidArgumentException('Invalid isbn format.');
         }
     }
 

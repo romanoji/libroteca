@@ -5,9 +5,13 @@ namespace Domain;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
+use Helper\SpiesOnExceptions;
 
 class LoanContext implements Context, SnippetAcceptingContext
 {
+    use SpiesOnExceptions;
+
     public function __construct()
     {
     }
@@ -138,9 +142,9 @@ class LoanContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should be notified that book copy is already borrowed
+     * @Then I should be notified that book copy is already lent
      */
-    public function iShouldBeNotifiedThatBookCopyIsAlreadyBorrowed()
+    public function iShouldBeNotifiedThatBookCopyIsAlreadyLent()
     {
         throw new PendingException();
     }

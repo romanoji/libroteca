@@ -50,7 +50,7 @@ class Surname
      */
     private function assertNotTooLong($surname)
     {
-        if (strlen($surname) > self::MAX_LENGTH) {
+        if (mb_strlen($surname) > self::MAX_LENGTH) {
             throw new \InvalidArgumentException('Too long surname.');
         }
     }

@@ -11,7 +11,7 @@ class ISBNFactory
      */
     public function create($isbn = null)
     {
-        if ($isbn === null) {
+        if ($isbn === null || $isbn === '') {
             return new NullISBN();
         }
 

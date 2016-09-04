@@ -24,15 +24,15 @@ Feature: Lending book copy
     Then reader with email "john.kowalsky@mail.com" should have that book copy lent for 30 days
     And there should be 2 book copies of ISBN "978-0553801477" available for loan
 
-  Scenario: Trying to lend already borrowed book copy
+  Scenario: Trying to lend already lent book copy
     Given there is reader with email "andy.novak@mail.com", name "Andy", surname "Novak" and phone "135792468"
     And there is a loan for a book of ISBN "0-00-224743-1" to reader with email "andy.novak@mail.com" for 30 days
     When I try to lend the same book copy to the reader with email "john.kowalsky@mail.com" for 30 days
-    Then I should be notified that book copy is already borrowed
+    Then I should be notified that book copy is already lent
     And the book loan should not be successful
     And there should be 1 book copy of ISBN "0-00-224743-1" available for loan
 
-  Scenario: Trying to lend a book copy to the reader with exceeded time to return previously borrowed books
+  Scenario: Trying to lend a book copy to the reader with exceeded time to return previously lent books
     Given there is a loan for a book of ISBN "0-00-224743-1" to reader with email "john.kowalsky@mail.com" till "yesterday"
     When I lend book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
     Then I should be notified that reader must return books first to proceed with loan attempt
@@ -55,3 +55,8 @@ Feature: Lending book copy
 #      |  0-00-224743-1  |      60      |
 #      |  978-0553801477 |      60      |
 
+#  Scenario: Setting book copy as unavailable for loan
+#
+#  Scenario: Trying to lend a book copy unavailable for loan
+#
+#  Scenario: Trying to set already lent book copy as unavailable for loan

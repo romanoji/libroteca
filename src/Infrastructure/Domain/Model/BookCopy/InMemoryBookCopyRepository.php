@@ -46,10 +46,18 @@ class InMemoryBookCopyRepository implements BookCopyRepository
 
     /**
      * @param BookID $bookID
-     * @return null|BookCopy
+     * @return BookCopy[]
      */
     public function findByBookID(BookID $bookID)
     {
-        // TODO: Implement findByBookID() method.
+        $booksCopies = [];
+
+        foreach ($this->booksCopies as $bookCopy) {
+            if ($bookCopy->bookID()->equals($bookID)) {
+                $booksCopies[] = $bookCopy;
+            }
+        }
+
+        return $booksCopies;
     }
 }

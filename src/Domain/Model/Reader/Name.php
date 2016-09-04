@@ -50,7 +50,7 @@ class Name
      */
     private function assertNotTooLong($name)
     {
-        if (strlen($name) > self::MAX_LENGTH) {
+        if (mb_strlen($name) > self::MAX_LENGTH) {
             throw new \InvalidArgumentException('Too long name.');
         }
     }

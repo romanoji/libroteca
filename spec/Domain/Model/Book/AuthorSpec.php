@@ -8,19 +8,16 @@ use Prophecy\Argument;
 
 class AuthorSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith('George R.R. Martin');
-    }
-
     function it_is_initializable()
     {
+        $this->beConstructedWith('George R.R. Martin');
         $this->shouldHaveType(Author::class);
     }
 
     function it_returns_name()
     {
-        $this->name()->shouldBe('George R.R. Martin');
+        $this->beConstructedWith('Grzegorz R.R. Brzęczyszcząkiewić');
+        $this->name()->shouldBe('Grzegorz R.R. Brzęczyszcząkiewić');
     }
 
     function it_throws_exception_on_empty_name()
@@ -37,6 +34,8 @@ class AuthorSpec extends ObjectBehavior
 
     function it_is_comparable(Author $sameAuthor, Author $otherAuthor)
     {
+        $this->beConstructedWith('George R.R. Martin');
+
         $sameAuthor->name()->willReturn('George R.R. Martin');
         $this->equals($sameAuthor)->shouldBe(true);
 

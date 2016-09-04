@@ -2,10 +2,12 @@
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Book;
 
+use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
+use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
 class InMemoryBookRepository implements BookRepository
 {
@@ -65,5 +67,28 @@ class InMemoryBookRepository implements BookRepository
         }
 
         return null;
+    }
+
+    /**
+     * @param Author $author
+     * @param Title $title
+     * @return Book[]
+     */
+    public function findByAuthorAndTitle(Author $author, Title $title)
+    {
+        $books = [];
+
+        foreach ($this->books as $book) {
+            if ($book->title()->equals($title)) {
+                foreach ($book->authors() as $bookAuthor) {
+                    if ($bookAuthor->equals($author)) {
+                        $books[] = $book;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $books;
     }
 }

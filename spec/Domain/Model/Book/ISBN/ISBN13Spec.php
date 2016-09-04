@@ -36,7 +36,7 @@ class ISBN13Spec extends ObjectBehavior
     {
         $this->beConstructedWith('9783161484101');
         $this
-            ->shouldThrow(new \InvalidArgumentException('Invalid isbn checksum.'))
+            ->shouldThrow(new \InvalidArgumentException('Invalid isbn format.'))
             ->duringInstantiation();
     }
 

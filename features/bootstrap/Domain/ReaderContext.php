@@ -4,14 +4,20 @@ namespace Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Helper\CatchesException;
 use Helper\SpiesOnExceptions;
+use RJozwiak\Libroteca\Application\Command\RegisterReader;
+use RJozwiak\Libroteca\Application\Command\RegisterReaderHandler;
+use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;
+use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
-use RJozwiak\Libroteca\Domain\Model\Reader\RegisterReader;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\ClassNameInflector;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\InMemoryHandlerLocator;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\SimpleCommandBus;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\InMemoryReaderRepository;
 use Webmozart\Assert\Assert;
 
@@ -19,18 +25,26 @@ class ReaderContext implements Context, SnippetAcceptingContext
 {
     use SpiesOnExceptions;
 
+    /** @var CommandBus */
+    private $commandBus;
+
     /** @var ReaderRepository */
     private $readerRepository;
-    /** @var RegisterReader */
-    private $registerReader;
 
-    /** @var Reader */
-    private $currentReader;
+    /** @var null|ReaderID */
+    private $currentReaderID;
 
     public function __construct()
     {
         $this->readerRepository = new InMemoryReaderRepository();
-        $this->registerReader = new RegisterReader($this->readerRepository);
+        $this->commandBus = new SimpleCommandBus(
+            new CommandHandlerResolver(
+                new ClassNameInflector(),
+                new InMemoryHandlerLocator([
+                    new RegisterReaderHandler($this->readerRepository)
+                ])
+            )
+        );
     }
 
     /**
@@ -42,12 +56,25 @@ class ReaderContext implements Context, SnippetAcceptingContext
 
     /**
      * @Given there is reader with email :email, name :name, surname :surname and phone :phone
+     */
+    public function thereIsReaderWithEmailNameSurnameAndPhone($name, $surname, $email, $phone)
+    {
+        $this->currentReaderID = $this->readerRepository->nextID();
+        $this->commandBus->handle(
+            new RegisterReader($this->currentReaderID->id(), $name, $surname, $email, $phone)
+        );
+    }
+
+    /**
      * @When I (try to) register reader with his name :name, surname :surname, email :email and phone :phone
      */
     public function iRegisterReaderByHisNameSurnameEmailAndPhone($name, $surname, $email, $phone)
     {
         $this->spyOnException(function () use ($name, $surname, $email, $phone) {
-            $this->currentReader = $this->registerReader->execute($name, $surname, $email, $phone);
+            $this->currentReaderID = $this->readerRepository->nextID();
+            $this->commandBus->handle(
+                new RegisterReader($this->currentReaderID->id(), $name, $surname, $email, $phone)
+            );
         });
     }
 
@@ -56,9 +83,9 @@ class ReaderContext implements Context, SnippetAcceptingContext
      */
     public function theReaderShouldBeRegistered()
     {
-        Assert::same(
-            $this->readerRepository->find($this->currentReader->id()),
-            $this->currentReader
+        Assert::isInstanceOf(
+            $this->readerRepository->find($this->currentReaderID),
+            Reader::class
         );
     }
 
@@ -68,6 +95,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     public function iShouldBeNotifiedThatSpecifiedEmailIsAlreadyInUse()
     {
         Assert::isInstanceOf($this->catchedException, EmailAlreadyInUseException::class);
+        Assert::eq('Email is already in use.', $this->catchedException->getMessage());
     }
 
     /**
@@ -76,6 +104,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     public function iShouldBeNotifiedThatSpecifiedPhoneIsAlreadyInUse()
     {
         Assert::isInstanceOf($this->catchedException, PhoneAlreadyInUseException::class);
+        Assert::eq('Phone is already in use.', $this->catchedException->getMessage());
     }
 
     /**
@@ -84,7 +113,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     public function iShouldBeNotifiedThatSpecifiedEmailHasInvalidFormat()
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
-        Assert::eq($this->catchedException->getMessage(), 'Invalid email format.');
+        Assert::eq('Invalid email format.', $this->catchedException->getMessage());
     }
 
     /**
@@ -93,7 +122,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     public function iShouldBeNotifiedThatSpecifiedPhoneHasInvalidFormat()
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
-        Assert::eq($this->catchedException->getMessage(), 'Invalid phone format.');
+        Assert::eq('Invalid phone format.', $this->catchedException->getMessage());
     }
 
     /**
@@ -101,10 +130,6 @@ class ReaderContext implements Context, SnippetAcceptingContext
      */
     public function theReaderShouldNotBeRegistered()
     {
-        if ($this->currentReader !== null) {
-            Assert::same($this->readerRepository->count(), 1);
-        } else {
-            Assert::same($this->readerRepository->count(), 0);
-        }
+        Assert::null($this->readerRepository->find($this->currentReaderID));
     }
 }

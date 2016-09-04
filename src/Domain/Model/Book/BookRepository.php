@@ -32,4 +32,11 @@ interface BookRepository
      * @return Book
      */
     public function findOneByISBN(ISBN $isbn);
+
+    /**
+     * @param Author $author
+     * @param Title $title
+     * @return Book[]
+     */
+    public function findByAuthorAndTitle(Author $author, Title $title);
 }

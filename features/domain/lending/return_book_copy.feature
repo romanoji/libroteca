@@ -29,4 +29,4 @@ Feature: Accepting borrowed book copy
     When I accept a book copy identified by ISBN "978-0553801477" from a reader with email "john.kowalsky@mail.com" without remarks
     Then I should be notified that adding remarks to overdue loan is required
     And this book copy should not be returned
-    And there should be no book copy of ISBN "978-0553801477" available for loan
+    And there should be no book copies of ISBN "978-0553801477" available for loan

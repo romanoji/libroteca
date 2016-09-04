@@ -33,52 +33,16 @@ class Reader
         Surname $surname,
         Email $email,
         Phone $phone
+        // TODO: Address (Street, City, PostCode)
     ) {
-        $this->setID($id);
-        $this->setName($name);
-        $this->setSurname($surname);
-        $this->setEmail($email);
-        $this->setPhone($phone);
-    }
-
-    /**
-     * @param ReaderID $id
-     */
-    private function setID(ReaderID $id)
-    {
         $this->id = $id;
-    }
-
-    /**
-     * @param Name $name
-     */
-    private function setName(Name $name)
-    {
         $this->name = $name;
-    }
-
-    /**
-     * @param Surname $surname
-     */
-    private function setSurname(Surname $surname)
-    {
         $this->surname = $surname;
-    }
-
-    /**
-     * @param Email $email
-     */
-    private function setEmail(Email $email)
-    {
         $this->email = $email;
-    }
-
-    /**
-     * @param Phone $phone
-     */
-    private function setPhone(Phone $phone)
-    {
         $this->phone = $phone;
+
+        // TODO: ReaderRegistered event
+        // TODO: Book loans
     }
 
     /**

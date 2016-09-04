@@ -6,6 +6,8 @@ use RJozwiak\Libroteca\Domain\Model\DomainEvent;
 
 class ReaderRegistered implements DomainEvent
 {
+    // TODO:
+
     /** @var ReaderID */
     private $readerID;
 

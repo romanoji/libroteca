@@ -24,7 +24,7 @@ interface BookCopyRepository
 
     /**
      * @param BookID $bookID
-     * @return null|BookCopy
+     * @return BookCopy[]
      */
     public function findByBookID(BookID $bookID);
 }
