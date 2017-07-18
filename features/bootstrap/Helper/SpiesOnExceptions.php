@@ -9,13 +9,14 @@ trait SpiesOnExceptions
 
     /**
      * @param callable $fn
+     * @param array $params
      * @param bool $rethrow
      * @throws \Exception
      */
-    public function spyOnException(callable $fn, $rethrow = false)
+    public function spyOnException(callable $fn, array $params = [], $rethrow = false)
     {
         try {
-            $fn();
+            call_user_func_array($fn, $params);
         } catch (\Exception $e) {
             $this->catchedException = $e;
             if ($rethrow) {

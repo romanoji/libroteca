@@ -1,28 +1,23 @@
 <?php
+declare(strict_types=1);
 
 namespace Domain;
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\{
+    Context, SnippetAcceptingContext
+};
 use Helper\SpiesOnExceptions;
-use RJozwiak\Libroteca\Application\Command\RegisterBook;
-use RJozwiak\Libroteca\Application\Command\RegisterBookCopy;
-use RJozwiak\Libroteca\Application\Command\RegisterBookCopyHandler;
-use RJozwiak\Libroteca\Application\Command\RegisterBookHandler;
+use RJozwiak\Libroteca\Application\Command\{
+    RegisterBook, RegisterBookCopy, RegisterBookCopyHandler, RegisterBookHandler
+};
 use RJozwiak\Libroteca\Application\CommandBus;
-use RJozwiak\Libroteca\Domain\Model\Book\Author;
-use RJozwiak\Libroteca\Domain\Model\Book\Book;
-use RJozwiak\Libroteca\Domain\Model\Book\BookID;
-use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
-use RJozwiak\Libroteca\Domain\Model\Book\ISBN\Exception\ISBNAlreadyInUseException;
-use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
-use RJozwiak\Libroteca\Domain\Model\Book\Title;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
+use RJozwiak\Libroteca\Domain\Model\Book\{
+    Author, Book, BookID, BookRepository, ISBN\Exception\ISBNAlreadyInUseException, ISBN\ISBNFactory, Title
+};
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\ClassNameInflector;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\InMemoryHandlerLocator;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\{
+    CommandHandlerResolver, Inflector\ClassNameInflector, Locator\InMemoryHandlerLocator
+};
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\SimpleCommandBus;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\InMemoryBookRepository;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy\InMemoryBookCopyRepository;
@@ -64,15 +59,15 @@ class BookContext implements Context, SnippetAcceptingContext
     /**
      * @Transform :authors
      */ // /^(\w+((, ?\w+)+)?)$/
-    public function castStringToArray($authors)
+    public function castStringToArray(string $authors)
     {
         return array_map('trim', explode(',', $authors));
     }
 
     /**
-     * @Given there was no book previously registered with ISBN :isbn in library
+     * @Given there is no book with ISBN :isbn registered in library
      */
-    public function thereWasNoBookPreviouslyRegisteredWithIsbnInLibrary($isbn)
+    public function assertThereIsNoBookByISBN(string $isbn)
     {
         $book = $this->bookRepository->findOneByISBN(
             $this->isbnFactory->create($isbn)
@@ -82,9 +77,9 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given there is registered a book of :authors titled :title with ISBN :isbn
+     * @Given there is registered a book :title of :authors with ISBN :isbn
      */
-    public function thereIsRegisteredABookOfTitledWithISBN($authors, $title, $isbn)
+    public function createBookFromData(string $title, array $authors, ?string $isbn)
     {
         $this->currentBookID = $this->bookRepository->nextID();
         $this->commandBus->handle(
@@ -93,10 +88,10 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given there is :copies book copy of ISBN :isbn available for loan
-     * @Given there are :copies book copies of ISBN :isbn available for loan
+     * @Given there is :copies book copy with ISBN :isbn available for loan
+     * @Given there are :copies book copies with ISBN :isbn available for loan
      */
-    public function thereAreBookCopiesOfISBNAvailableForLoan($copies, $isbn)
+    public function createBookCopiesByISBN($copies, string $isbn)
     {
         $this->currentBookID = $this->bookRepository
             ->findOneByISBN($this->isbnFactory->create($isbn))
@@ -111,61 +106,18 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given there are registered a books copies:
+     * @When I register a book :title of :authors
+     * @When I register a book :title of :authors with ISBN :isbn
      */
-    public function thereAreRegisteredABooksCopies(TableNode $books)
+    public function createBookFromDataWithException(string $title, array $authors, ?string $isbn = null)
     {
-        foreach ($books as $book) {
-            $authors = explode(',', $book['authors']);
-
-            $this->currentBookID = $this->bookRepository->nextID();
-            $this->commandBus->handle(
-                new RegisterBook(
-                    $this->currentBookID->id(),
-                    $book['isbn'],
-                    $authors,
-                    $book['title']
-                )
-            );
-
-            for ($i = 0; $i < $book['copies']; $i++) {
-                $bookCopyID = $this->bookCopyRepository->nextID();
-                $this->commandBus->handle(
-                    new RegisterBookCopy($bookCopyID->id(), $this->currentBookID->id())
-                );
-            }
-        }
-    }
-
-    /**
-     * @When I register a book copy of :authors titled :title
-     * @When I register a book copy of :authors titled :title with ISBN :isbn
-     */
-    public function iRegisterABookCopyOfTitledWithISBN($authors, $title, $isbn = null)
-    {
-        $this->spyOnException(function () use ($authors, $title, $isbn) {
-            $this->currentBookID = $this->bookRepository->nextID();
-            $this->commandBus->handle(
-                new RegisterBook(
-                    $this->currentBookID->id(),
-                    $isbn,
-                    $authors,
-                    $title
-                )
-            );
-
-            // TODO: include adding a copy in RegisterBook command
-            $bookCopyID = $this->bookCopyRepository->nextID();
-            $this->commandBus->handle(
-                new RegisterBookCopy($bookCopyID->id(), $this->currentBookID->id())
-            );
-        });
+        $this->spyOnException([$this, 'createBookFromData'], [$title, $authors, $isbn]);
     }
 
     /**
      * @When I register book copy by ISBN :isbn
      */
-    public function iRegisterBookCopyByIsbn($isbn)
+    public function createBookCopyByISBNWithException(string $isbn)
     {
         $this->spyOnException(function () use ($isbn) {
             $this->currentBookID = $this->bookRepository
@@ -180,9 +132,25 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then the book :title of :author with ISBN :isbn should be registered in library
+     * @Then the book :title of :author should be registered in library
+     */
+    public function assertBookWithDataIsRegisteredInLibrary(string $title, string $author, ?string $isbn = null)
+    {
+        if ($isbn) {
+            $book = $this->bookRepository->findOneByISBN($this->isbnFactory->create($isbn));
+        } else {
+            $books = $this->bookRepository->findByAuthorAndTitle(new Author($author), new Title($title));
+            Assert::count($books, 1);
+            $book = $books[0];
+        }
+        Assert::isInstanceOf($book, Book::class);
+    }
+
+    /**
      * @Then the book should be registered in library
      */
-    public function theBookShouldBeRegisteredInLibrary()
+    public function assertBookIsRegisteredInLibrary()
     {
         Assert::isInstanceOf(
             $this->bookRepository->find($this->currentBookID),
@@ -193,15 +161,15 @@ class BookContext implements Context, SnippetAcceptingContext
     /**
      * @Then the book should not be registered in library
      */
-    public function theBookShouldNotBeRegisteredInLibrary()
+    public function assertThereIsNoBookRegisteredInLibrary()
     {
         Assert::eq(0, $this->bookRepository->count());
     }
 
     /**
-     * @Then /^there should be (\d+) book cop(?:y|ies) of ISBN "([^"]*)" available for loan$/
+     * @Then /^there should be (\d+) book cop(?:y|ies) with ISBN "([^"]*)" available for loan$/
      */
-    public function thereShouldBeBookCopiesOfIsbnAvailableForLoan($copies = 0, $isbn)
+    public function assertSomeNumberOfBookCopiesAvailableForLoan(int $copies = 0, string $isbn)
     {
         $book = $this->bookRepository->findOneByISBN(
             $this->isbnFactory->create($isbn)
@@ -216,35 +184,12 @@ class BookContext implements Context, SnippetAcceptingContext
         }
 
         Assert::eq($copies, $availableCopies);
-        // TODO:
-    }
-
-    /**
-     * @Then /^there should be (\d+) book cop(?:y|ies) of "([^"]*)" titled "([^"]*)" available for loan$/
-     */
-    public function thereShouldBeBookCopiesOfTitledAvailableForLoan($copies, $author, $title)
-    {
-        $book = $this->bookRepository->findByAuthorAndTitle(
-            new Author($author),
-            new Title($title)
-        )[0];
-        $bookCopies = $this->bookCopyRepository->findByBookID($book->id());
-        $availableCopies = 0;
-
-        foreach ($bookCopies as $bookCopy) {
-            if (!$bookCopy->isLent()) {
-                $availableCopies++;
-            }
-        }
-
-        Assert::eq($copies, $availableCopies);
-        // TODO:
     }
 
     /**
      * @Then I should be notified that book with provided ISBN is already registered in library
      */
-    public function iShouldBeNotifiedThatBookWithProvidedIsbnIsAlreadyRegisteredInLibrary()
+    public function assertISBNAlreadyInUseExceptionHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, ISBNAlreadyInUseException::class);
         Assert::eq('ISBN is already in use.', $this->catchedException->getMessage());
@@ -253,7 +198,7 @@ class BookContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that ISBN has invalid length
      */
-    public function iShouldBeNotifiedThatIsbnHasInvalidLength()
+    public function assertInvalidISBNLengthExceptinHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
         Assert::eq('Invalid isbn length.', $this->catchedException->getMessage());
@@ -262,7 +207,7 @@ class BookContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that ISBN has invalid format
      */
-    public function iShouldBeNotifiedThatIsbnHasInvalidFormat()
+    public function assertInvalidISBNFormatExceptionHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
         Assert::eq('Invalid isbn format.', $this->catchedException->getMessage());
