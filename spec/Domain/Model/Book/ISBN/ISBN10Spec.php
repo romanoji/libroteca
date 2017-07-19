@@ -32,7 +32,7 @@ class ISBN10Spec extends ObjectBehavior
             ->duringInstantiation();
     }
 
-    function it_throws_exception_on_checksum_verification_fail()
+    function it_throws_exception_on_checksum_verification_failure()
     {
         $this->beConstructedWith('0306406153');
         $this
