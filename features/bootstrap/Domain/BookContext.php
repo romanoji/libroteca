@@ -6,6 +6,7 @@ namespace Domain;
 use Behat\Behat\Context\{
     Context, SnippetAcceptingContext
 };
+use Behat\Gherkin\Node\TableNode;
 use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\{
     RegisterBook, RegisterBookCopy, RegisterBookCopyHandler, RegisterBookHandler
@@ -102,6 +103,33 @@ class BookContext implements Context, SnippetAcceptingContext
             $this->commandBus->handle(
                 new RegisterBookCopy($bookCopyID->id(), $this->currentBookID->id())
             );
+        }
+    }
+
+    /**
+     * @Given there are registered a books copies:
+     */
+    public function createBookCopies(TableNode $books)
+    {
+        foreach ($books as $book) {
+            $authors = explode(',', $book['authors']);
+
+            $this->currentBookID = $this->bookRepository->nextID();
+            $this->commandBus->handle(
+                new RegisterBook(
+                    $this->currentBookID->id(),
+                    $book['isbn'],
+                    $authors,
+                    $book['title']
+                )
+            );
+
+            for ($i = 0; $i < $book['copies']; $i++) {
+                $bookCopyID = $this->bookCopyRepository->nextID();
+                $this->commandBus->handle(
+                    new RegisterBookCopy($bookCopyID->id(), $this->currentBookID->id())
+                );
+            }
         }
     }
 
