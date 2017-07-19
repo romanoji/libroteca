@@ -19,6 +19,18 @@ class IDSpec extends ObjectBehavior
         $this->id()->shouldReturn(1337);
     }
 
+    function it_cannot_be_constructed_with_empty_identifier()
+    {
+        $exceptionMsg = 'ID cannot be empty.';
+
+        $this->shouldThrow(new \InvalidArgumentException($exceptionMsg))
+            ->during('__construct', [null]);
+        $this->shouldThrow(new \InvalidArgumentException($exceptionMsg))
+            ->during('__construct', [0]);
+        $this->shouldThrow(new \InvalidArgumentException($exceptionMsg))
+            ->during('__construct', ['']);
+    }
+
     function it_is_comparable(FakeID $sameID, FakeID $otherID, OtherFakeID $otherTypeSameID)
     {
         $sameID->id()->willReturn(1337);

@@ -13,7 +13,20 @@ abstract class ID
      */
     public function __construct($id)
     {
+        $this->assertNotEmpty($id);
+
         $this->id = $id;
+    }
+
+    /**
+     * @param int|string $id
+     * @throws \InvalidArgumentException
+     */
+    private function assertNotEmpty($id)
+    {
+        if (empty($id)) {
+            throw new \InvalidArgumentException('ID cannot be empty.');
+        }
     }
 
     /**
