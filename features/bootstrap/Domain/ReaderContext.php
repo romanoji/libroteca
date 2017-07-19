@@ -50,15 +50,19 @@ class ReaderContext implements Context, SnippetAcceptingContext
     /**
      * @Given reader wants to register in library
      */
-    public function readerWantsToRegisterInLibrary()
+    public function noop()
     {
     }
 
     /**
      * @Given there is reader with email :email, name :name, surname :surname and phone :phone
      */
-    public function thereIsReaderWithEmailNameSurnameAndPhone($name, $surname, $email, $phone)
-    {
+    public function createReaderFromData(
+        string $name,
+        string $surname,
+        string $email,
+        string $phone
+    ) {
         $this->currentReaderID = $this->readerRepository->nextID();
         $this->commandBus->handle(
             new RegisterReader($this->currentReaderID->id(), $name, $surname, $email, $phone)
@@ -68,20 +72,19 @@ class ReaderContext implements Context, SnippetAcceptingContext
     /**
      * @When I (try to) register reader with his name :name, surname :surname, email :email and phone :phone
      */
-    public function iRegisterReaderByHisNameSurnameEmailAndPhone($name, $surname, $email, $phone)
-    {
-        $this->spyOnException(function () use ($name, $surname, $email, $phone) {
-            $this->currentReaderID = $this->readerRepository->nextID();
-            $this->commandBus->handle(
-                new RegisterReader($this->currentReaderID->id(), $name, $surname, $email, $phone)
-            );
-        });
+    public function createReaderFromDataWithException(
+        string $name,
+        string $surname,
+        string $email,
+        string $phone
+    ) {
+        $this->spyOnException([$this, 'createReaderFromData'], [$name, $surname, $email, $phone]);
     }
 
     /**
      * @Then the reader should be registered
      */
-    public function theReaderShouldBeRegistered()
+    public function assertReaderIsRegistered()
     {
         Assert::isInstanceOf(
             $this->readerRepository->find($this->currentReaderID),
@@ -90,9 +93,17 @@ class ReaderContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then the reader should not be registered
+     */
+    public function assertCurrentReaderIsNotRegistered()
+    {
+        Assert::null($this->readerRepository->find($this->currentReaderID));
+    }
+
+    /**
      * @Then I should be notified that specified email is already in use
      */
-    public function iShouldBeNotifiedThatSpecifiedEmailIsAlreadyInUse()
+    public function assertEmailAlreadyInUseExceptionHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, EmailAlreadyInUseException::class);
         Assert::eq('Email is already in use.', $this->catchedException->getMessage());
@@ -101,7 +112,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that specified phone is already in use
      */
-    public function iShouldBeNotifiedThatSpecifiedPhoneIsAlreadyInUse()
+    public function assertPhoneAlreadyInUseExceptionHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, PhoneAlreadyInUseException::class);
         Assert::eq('Phone is already in use.', $this->catchedException->getMessage());
@@ -110,7 +121,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that specified email has invalid format
      */
-    public function iShouldBeNotifiedThatSpecifiedEmailHasInvalidFormat()
+    public function assertInvalidEmailFormatExceptionHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
         Assert::eq('Invalid email format.', $this->catchedException->getMessage());
@@ -119,17 +130,9 @@ class ReaderContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that specified phone has invalid format
      */
-    public function iShouldBeNotifiedThatSpecifiedPhoneHasInvalidFormat()
+    public function assertInvalidPhoneFormatExceptionHasBeenThrown()
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
         Assert::eq('Invalid phone format.', $this->catchedException->getMessage());
-    }
-
-    /**
-     * @Then the reader should not be registered
-     */
-    public function theReaderShouldNotBeRegistered()
-    {
-        Assert::null($this->readerRepository->find($this->currentReaderID));
     }
 }
