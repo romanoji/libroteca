@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
@@ -14,7 +15,7 @@ class Phone
      * @param $phone
      * @throws \InvalidArgumentException
      */
-    public function __construct($phone)
+    public function __construct(string $phone)
     {
         $this->setPhone($phone);
     }
@@ -23,7 +24,7 @@ class Phone
      * @param string $phone
      * @throws \InvalidArgumentException
      */
-    private function setPhone($phone)
+    private function setPhone(string $phone)
     {
         $this->assertValidFormat($phone);
 
@@ -34,7 +35,7 @@ class Phone
      * @param string $phone
      * @throws \InvalidArgumentException
      */
-    private function assertValidFormat($phone)
+    private function assertValidFormat(string $phone)
     {
         if (!preg_match(self::E123_FORMAT, $phone)) {
             throw new \InvalidArgumentException('Invalid phone format.');
@@ -44,7 +45,7 @@ class Phone
     /**
      * @return string
      */
-    public function phone()
+    public function phone() : string
     {
         return $this->phone;
     }
@@ -52,7 +53,7 @@ class Phone
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->phone;
     }
@@ -61,7 +62,7 @@ class Phone
      * @param Phone $phone
      * @return bool
      */
-    public function equals(Phone $phone)
+    public function equals(Phone $phone) : bool
     {
         return $this->phone() === $phone->phone();
     }

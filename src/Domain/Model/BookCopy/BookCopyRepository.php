@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\BookCopy;
 
@@ -20,11 +21,11 @@ interface BookCopyRepository
      * @param BookCopyID $id
      * @return null|BookCopy
      */
-    public function find(BookCopyID $id);
+    public function find(BookCopyID $id) : ?BookCopy;
 
     /**
      * @param BookID $bookID
      * @return BookCopy[]
      */
-    public function findByBookID(BookID $bookID);
+    public function findByBookID(BookID $bookID) : array;
 }

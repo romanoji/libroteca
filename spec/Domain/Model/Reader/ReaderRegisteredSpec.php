@@ -6,7 +6,6 @@ use RJozwiak\Libroteca\Domain\Model\DomainEvent;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRegistered;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ReaderRegisteredSpec extends ObjectBehavior
 {

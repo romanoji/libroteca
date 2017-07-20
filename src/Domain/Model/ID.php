@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model;
 
@@ -10,6 +11,7 @@ abstract class ID
     /**
      * ID constructor.
      * @param int|string $id
+     * @throws \InvalidArgumentException
      */
     public function __construct($id)
     {
@@ -40,7 +42,7 @@ abstract class ID
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return (string) $this->id;
     }
@@ -49,7 +51,7 @@ abstract class ID
      * @param ID $id
      * @return bool
      */
-    public function equals(ID $id)
+    public function equals(ID $id) : bool
     {
         return
             get_class($this) === get_class($id) &&

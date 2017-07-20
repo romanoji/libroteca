@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 
@@ -12,15 +13,12 @@ class NullISBN extends ISBN
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return '';
     }
 
-    /**
-     * @param string $isbn
-     */
-    protected function assertValidFormat($isbn)
+    protected function assertValidFormat(?string $isbn)
     {
     }
 
@@ -28,14 +26,11 @@ class NullISBN extends ISBN
      * Regex ISBN format
      * @return string
      */
-    protected function format()
+    protected function format() : string
     {
     }
 
-    /**
-     * @param string $isbn
-     */
-    protected function assertValidChecksum($isbn)
+    protected function assertValidChecksum(?string $isbn)
     {
     }
 
@@ -43,7 +38,7 @@ class NullISBN extends ISBN
      * @param string $isbn
      * @return string
      */
-    protected function checksumDigit($isbn)
+    protected function checksumDigit(?string $isbn) : string
     {
     }
 }

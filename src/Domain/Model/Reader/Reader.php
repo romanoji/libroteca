@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
@@ -42,13 +43,12 @@ class Reader
         $this->phone = $phone;
 
         // TODO: ReaderRegistered event
-        // TODO: Book loans
     }
 
     /**
      * @return ReaderID
      */
-    public function id()
+    public function id() : ReaderID
     {
         return $this->id;
     }
@@ -56,7 +56,7 @@ class Reader
     /**
      * @return string
      */
-    public function fullname()
+    public function fullname() : string
     {
         return $this->name.' '.$this->surname;
     }
@@ -64,7 +64,7 @@ class Reader
     /**
      * @return Email
      */
-    public function email()
+    public function email() : Email
     {
         return $this->email;
     }
@@ -72,7 +72,7 @@ class Reader
     /**
      * @return Phone
      */
-    public function phone()
+    public function phone() : Phone
     {
         return $this->phone;
     }

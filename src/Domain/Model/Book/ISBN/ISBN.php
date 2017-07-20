@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 
@@ -12,16 +13,16 @@ abstract class ISBN
      * @param null|string $isbn
      * @throws \InvalidArgumentException
      */
-    public function __construct($isbn)
+    public function __construct(string $isbn = null)
     {
         $this->setISBN($isbn);
     }
 
     /**
-     * @param string $isbn
+     * @param null|string $isbn
      * @throws \InvalidArgumentException
      */
-    private function setISBN($isbn)
+    private function setISBN(?string $isbn)
     {
         $this->validate($isbn);
 
@@ -29,20 +30,20 @@ abstract class ISBN
     }
 
     /**
-     * @param string $isbn
+     * @param null|string $isbn
      * @throws \InvalidArgumentException
      */
-    public function validate($isbn)
+    public function validate(?string $isbn)
     {
         $this->assertValidFormat($isbn);
         $this->assertValidChecksum($isbn);
     }
 
     /**
-     * @param string $isbn
+     * @param null|string $isbn
      * @throws \InvalidArgumentException
      */
-    protected function assertValidFormat($isbn)
+    protected function assertValidFormat(?string $isbn)
     {
         if (!preg_match($this->format(), $isbn)) {
             throw new \InvalidArgumentException('Invalid isbn format.');
@@ -53,13 +54,13 @@ abstract class ISBN
      * Regex ISBN format
      * @return string
      */
-    abstract protected function format();
+    abstract protected function format() : string;
 
     /**
      * @param string $isbn
      * @throws \InvalidArgumentException
      */
-    protected function assertValidChecksum($isbn)
+    protected function assertValidChecksum(?string $isbn)
     {
         $posBeforeChecksum = strlen($isbn) - 1;
         $checksumDigit = $this->checksumDigit($isbn);
@@ -75,12 +76,12 @@ abstract class ISBN
      * @param string $isbn
      * @return string
      */
-    abstract protected function checksumDigit($isbn);
+    abstract protected function checksumDigit(?string $isbn) : string;
 
     /**
      * @return null|string
      */
-    public function isbn()
+    public function isbn() : ?string
     {
         return $this->isbn;
     }
@@ -88,7 +89,7 @@ abstract class ISBN
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->isbn;
     }
@@ -97,7 +98,7 @@ abstract class ISBN
      * @param ISBN $isbn
      * @return bool
      */
-    public function equals(ISBN $isbn)
+    public function equals(ISBN $isbn) : bool
     {
         // TODO: compare ISBN10 vs. ISBN13 using conversions
         return $this->isbn() === $isbn->isbn();

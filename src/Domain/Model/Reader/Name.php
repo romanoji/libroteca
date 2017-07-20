@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
@@ -15,7 +16,7 @@ class Name
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->setName($name);
     }
@@ -24,7 +25,7 @@ class Name
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function setName($name)
+    private function setName(string $name)
     {
         $this->assertNotEmpty($name);
         $this->assertNotTooLong($name);
@@ -37,7 +38,7 @@ class Name
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function assertNotEmpty($name)
+    private function assertNotEmpty(string $name)
     {
         if (empty($name)) {
             throw new \InvalidArgumentException('Empty name.');
@@ -48,7 +49,7 @@ class Name
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function assertNotTooLong($name)
+    private function assertNotTooLong(string $name)
     {
         if (mb_strlen($name) > self::MAX_LENGTH) {
             throw new \InvalidArgumentException('Too long name.');
@@ -59,7 +60,7 @@ class Name
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function assertValidFormat($name)
+    private function assertValidFormat(string $name)
     {
         if (!preg_match(self::FORMAT, $name)) {
             throw new \InvalidArgumentException('Invalid name format.');
@@ -69,7 +70,7 @@ class Name
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }
@@ -78,7 +79,7 @@ class Name
      * @param Name $name
      * @return bool
      */
-    public function equals(Name $name)
+    public function equals(Name $name) : bool
     {
         return $this->name === $name->name;
     }

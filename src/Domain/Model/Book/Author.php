@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book;
 
@@ -14,7 +15,7 @@ class Author
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->setName($name);
     }
@@ -23,7 +24,7 @@ class Author
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function setName($name)
+    private function setName(string $name)
     {
         $this->assertNotEmpty($name);
         $this->assertValidFormat($name);
@@ -35,7 +36,7 @@ class Author
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function assertNotEmpty($name)
+    private function assertNotEmpty(string $name)
     {
         if (empty($name)) {
             throw new \InvalidArgumentException('Empty name.');
@@ -46,7 +47,7 @@ class Author
      * @param string $name
      * @throws \InvalidArgumentException
      */
-    private function assertValidFormat($name)
+    private function assertValidFormat(string $name)
     {
         if (!preg_match(self::NAME_FORMAT, $name)) {
             throw new \InvalidArgumentException('Invalid name format.');
@@ -56,7 +57,7 @@ class Author
     /**
      * @return string
      */
-    public function name()
+    public function name() : string
     {
         return $this->name;
     }
@@ -64,7 +65,7 @@ class Author
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }
@@ -73,7 +74,7 @@ class Author
      * @param Author $author
      * @return bool
      */
-    public function equals(Author $author)
+    public function equals(Author $author) : bool
     {
         return $this->name() === $author->name();
     }

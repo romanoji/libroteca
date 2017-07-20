@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book;
 
@@ -12,7 +13,7 @@ class Title
      * @param string $title
      * @throws \InvalidArgumentException
      */
-    public function __construct($title)
+    public function __construct(string $title)
     {
         $this->setTitle($title);
     }
@@ -21,7 +22,7 @@ class Title
      * @param string $title
      * @throws \InvalidArgumentException
      */
-    private function setTitle($title)
+    private function setTitle(string $title)
     {
         $this->assertNotEmpty($title);
 
@@ -32,7 +33,7 @@ class Title
      * @param string $title
      * @throws \InvalidArgumentException
      */
-    private function assertNotEmpty($title)
+    private function assertNotEmpty(string $title)
     {
         if (empty($title)) {
             throw new \InvalidArgumentException('Empty title.');

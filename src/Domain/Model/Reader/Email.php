@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
@@ -12,7 +13,7 @@ class Email
      * @param string $email
      * @throws \InvalidArgumentException
      */
-    public function __construct($email)
+    public function __construct(string $email)
     {
         $this->setEmail($email);
     }
@@ -21,7 +22,7 @@ class Email
      * @param string $email
      * @throws \InvalidArgumentException
      */
-    private function setEmail($email)
+    private function setEmail(string $email)
     {
         $this->assertValidFormat($email);
 
@@ -32,7 +33,7 @@ class Email
      * @param string $email
      * @throws \InvalidArgumentException
      */
-    private function assertValidFormat($email)
+    private function assertValidFormat(string $email)
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Invalid email format.');
@@ -42,7 +43,7 @@ class Email
     /**
      * @return string
      */
-    public function email()
+    public function email() : string
     {
         return $this->email;
     }
@@ -50,7 +51,7 @@ class Email
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->email;
     }
@@ -59,7 +60,7 @@ class Email
      * @param Email $email
      * @return bool
      */
-    public function equals(Email $email)
+    public function equals(Email $email) : bool
     {
         return $this->email() === $email->email();
     }

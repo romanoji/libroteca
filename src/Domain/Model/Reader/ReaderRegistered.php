@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
@@ -27,7 +28,7 @@ class ReaderRegistered implements DomainEvent
     /**
      * @return ReaderID
      */
-    public function readerID()
+    public function readerID() : ReaderID
     {
         return $this->readerID;
     }
@@ -35,7 +36,7 @@ class ReaderRegistered implements DomainEvent
     /**
      * @return \DateTimeImmutable
      */
-    public function occuredOn()
+    public function occuredOn() : \DateTimeImmutable
     {
         return $this->occuredOn;
     }

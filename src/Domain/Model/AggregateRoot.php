@@ -1,9 +1,28 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model;
 
-interface AggregateRoot
+abstract class AggregateRoot
 {
-    /** @return ID */
-    public function id();
+    /** @var int */
+    private $version = 0;
+
+    /**
+     * @return ID
+     */
+    abstract public function id() : ID;
+
+    /**
+     * @return int
+     */
+    public function version() : int
+    {
+        return $this->version;
+    }
+
+    public function incrementVersion() : void
+    {
+        $this->version++;
+    }
 }

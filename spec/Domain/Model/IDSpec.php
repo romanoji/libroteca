@@ -54,7 +54,7 @@ class FakeID extends ID
      * @param ID $id
      * @return bool
      */
-    public function equals(ID $id)
+    public function equals(ID $id) : bool
     {
         return
             $this->getClass() === $id->getClass() &&

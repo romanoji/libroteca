@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 interface ReaderRepository
 {
-    // TODO: find -> get
-
     /**
      * @return ReaderID
      */
@@ -19,23 +18,23 @@ interface ReaderRepository
     /**
      * @return int
      */
-    public function count();
+    public function count() : int;
 
     /**
      * @param ReaderID $id
      * @return null|Reader
      */
-    public function find(ReaderID $id);
+    public function find(ReaderID $id) : ?Reader;
 
     /**
      * @param Email $email
      * @return null|Reader
      */
-    public function findOneByEmail(Email $email);
+    public function findOneByEmail(Email $email) : ?Reader;
 
     /**
      * @param Phone $phone
      * @return null|Reader
      */
-    public function findOneByPhone(Phone $phone);
+    public function findOneByPhone(Phone $phone) : ?Reader;
 }

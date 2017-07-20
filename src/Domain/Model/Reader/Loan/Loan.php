@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader\Loan;
 
@@ -86,7 +87,7 @@ class Loan
     /**
      * @return LoanID
      */
-    public function id()
+    public function id() : LoanID
     {
         return $this->id;
     }
@@ -94,7 +95,7 @@ class Loan
     /**
      * @return BookCopyID
      */
-    public function bookCopyID()
+    public function bookCopyID() : BookCopyID
     {
         return $this->bookCopyID;
     }
@@ -102,7 +103,7 @@ class Loan
     /**
      * @return ReaderID
      */
-    public function readerID()
+    public function readerID() : ReaderID
     {
         return $this->readerID;
     }
@@ -110,7 +111,7 @@ class Loan
     /**
      * @return \DateTimeImmutable
      */
-    public function dueDate()
+    public function dueDate() : \DateTimeImmutable
     {
         return $this->dueDate;
     }
@@ -118,7 +119,7 @@ class Loan
     /**
      * @return bool
      */
-    public function hasEnded()
+    public function hasEnded() : bool
     {
         return $this->ended;
     }
@@ -126,7 +127,7 @@ class Loan
     /**
      * @return \DateTimeImmutable
      */
-    public function endDate()
+    public function endDate() : \DateTimeImmutable
     {
         return $this->endDate;
     }
@@ -134,7 +135,7 @@ class Loan
     /**
      * @return bool
      */
-    public function isProlonged()
+    public function isProlonged() : bool
     {
         return $this->prolonged;
     }
@@ -142,7 +143,7 @@ class Loan
     /**
      * @return string
      */
-    public function remarks()
+    public function remarks() : string
     {
         return $this->remarks;
     }
@@ -153,7 +154,7 @@ class Loan
      * @throws EndingOverdueLoanWithoutRemarksException
      * @throws LoanAlreadyEndedException
      */
-    public function endLoan(\DateTimeImmutable $endDate, string $remarks = null)
+    public function endLoan(\DateTimeImmutable $endDate, string $remarks = null) : void
     {
         if ($this->hasEnded()) {
             throw new LoanAlreadyEndedException('Loan has already ended.');
@@ -176,7 +177,7 @@ class Loan
      * @throws LoanAlreadyProlongedException
      * @throws \InvalidArgumentException
      */
-    public function prolongTo(\DateTimeImmutable $newDueDate)
+    public function prolongTo(\DateTimeImmutable $newDueDate) : void
     {
         if ($this->hasEnded()) {
             throw new LoanAlreadyEndedException('Loan has already ended.');
@@ -207,7 +208,7 @@ class Loan
      * @param \DateTimeImmutable|null $date
      * @return \DateTimeImmutable
      */
-    private function dateAfterDays($days, \DateTimeImmutable $date = null)
+    private function dateAfterDays($days, \DateTimeImmutable $date = null) : \DateTimeImmutable
     {
         if ($date === null) {
             $date = new \DateTimeImmutable();
@@ -221,7 +222,7 @@ class Loan
      * @param \DateTimeImmutable $date
      * @return \DateTimeImmutable
      */
-    private function clearTime(\DateTimeImmutable $date)
+    private function clearTime(\DateTimeImmutable $date) : \DateTimeImmutable
     {
         return $date->setTime(0, 0, 0);
     }

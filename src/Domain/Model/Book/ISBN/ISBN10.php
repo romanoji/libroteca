@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 
@@ -9,7 +10,7 @@ class ISBN10 extends ISBN
     /**
      * @return string
      */
-    protected function format()
+    protected function format() : string
     {
         return self::FORMAT;
     }
@@ -18,7 +19,7 @@ class ISBN10 extends ISBN
      * @param string $isbn
      * @return string
      */
-    protected function checksumDigit($isbn)
+    protected function checksumDigit(?string $isbn) : string
     {
         $sum = 0;
         for ($i = 0; $i < 9; $i++) {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
@@ -15,7 +16,7 @@ class Surname
      * @param string $surname
      * @throws \InvalidArgumentException
      */
-    public function __construct($surname)
+    public function __construct(string $surname)
     {
         $this->setSurname($surname);
     }
@@ -24,7 +25,7 @@ class Surname
      * @param string $surname
      * @throws \InvalidArgumentException
      */
-    private function setSurname($surname)
+    private function setSurname(string $surname)
     {
         $this->assertNotEmpty($surname);
         $this->assertNotTooLong($surname);
@@ -37,7 +38,7 @@ class Surname
      * @param string $surname
      * @throws \InvalidArgumentException
      */
-    private function assertNotEmpty($surname)
+    private function assertNotEmpty(string $surname)
     {
         if (empty($surname)) {
             throw new \InvalidArgumentException('Empty surname.');
@@ -48,7 +49,7 @@ class Surname
      * @param string $surname
      * @throws \InvalidArgumentException
      */
-    private function assertNotTooLong($surname)
+    private function assertNotTooLong(string $surname)
     {
         if (mb_strlen($surname) > self::MAX_LENGTH) {
             throw new \InvalidArgumentException('Too long surname.');
@@ -59,7 +60,7 @@ class Surname
      * @param string $surname
      * @throws \InvalidArgumentException
      */
-    private function assertValidFormat($surname)
+    private function assertValidFormat(string $surname)
     {
         if (!preg_match(self::FORMAT, $surname)) {
             throw new \InvalidArgumentException('Invalid surname format.');
@@ -69,7 +70,7 @@ class Surname
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->surname;
     }
@@ -78,7 +79,7 @@ class Surname
      * @param Surname $surname
      * @return bool
      */
-    public function equals(Surname $surname)
+    public function equals(Surname $surname) : bool
     {
         return $this->surname === $surname->surname;
     }

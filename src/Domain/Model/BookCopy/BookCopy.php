@@ -32,7 +32,7 @@ class BookCopy
     /**
      * @return BookCopyID
      */
-    public function id()
+    public function id() : BookCopyID
     {
         return $this->id;
     }
@@ -40,7 +40,7 @@ class BookCopy
     /**
      * @return BookID
      */
-    public function bookID()
+    public function bookID() : BookID
     {
         return $this->bookID;
     }
@@ -48,7 +48,7 @@ class BookCopy
     /**
      * @return string
      */
-    public function remarks()
+    public function remarks() : string
     {
         return $this->remarks;
     }
@@ -56,7 +56,7 @@ class BookCopy
     /**
      * @param string $remarks
      */
-    public function setRemarks(string $remarks)
+    public function setRemarks(string $remarks) : void
     {
         $this->remarks = $remarks;
     }

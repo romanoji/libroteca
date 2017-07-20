@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book;
 
@@ -17,6 +18,12 @@ class Book
 
     /** @var Title */
     private $title;
+
+//    /** @var string */
+//    private $publisher;
+//
+//    /** @var \DateTimeImmutable */
+//    private $publicationDate;
 
     /**
      * Book constructor.
@@ -47,7 +54,7 @@ class Book
     /**
      * @return BookID
      */
-    public function id()
+    public function id() : BookID
     {
         return $this->id;
     }
@@ -55,7 +62,7 @@ class Book
     /**
      * @return Title
      */
-    public function title()
+    public function title() : Title
     {
         return $this->title;
     }
@@ -63,7 +70,7 @@ class Book
     /**
      * @return Author[]
      */
-    public function authors()
+    public function authors() : array
     {
         return $this->authors;
     }
@@ -71,7 +78,7 @@ class Book
     /**
      * @return ISBN
      */
-    public function isbn()
+    public function isbn() : ISBN
     {
         return $this->isbn;
     }
