@@ -1,11 +1,11 @@
 <?php
 
-namespace RJozwiak\Libroteca\Domain\Model\Loan;
+namespace RJozwiak\Libroteca\Domain\Model\Reader\Loan;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Loan\Exception\LoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\Loan\Exception\LoanAlreadyProlongedException;
-use RJozwiak\Libroteca\Domain\Model\Loan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\LoanAlreadyEndedException;
+use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\LoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class Loan

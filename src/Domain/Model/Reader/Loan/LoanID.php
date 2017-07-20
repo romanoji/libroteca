@@ -1,6 +1,6 @@
 <?php
 
-namespace RJozwiak\Libroteca\Domain\Model\Loan;
+namespace RJozwiak\Libroteca\Domain\Model\Reader\Loan;
 
 use RJozwiak\Libroteca\Domain\Model\ID;
 

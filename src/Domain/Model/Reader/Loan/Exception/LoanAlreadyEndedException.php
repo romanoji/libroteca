@@ -1,6 +1,6 @@
 <?php
 
-namespace RJozwiak\Libroteca\Domain\Model\Loan\Exception;
+namespace RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception;
 
 class LoanAlreadyEndedException extends \DomainException
 {
