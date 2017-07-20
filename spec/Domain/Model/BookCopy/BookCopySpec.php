@@ -5,28 +5,24 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\BookCopy;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 
 class BookCopySpec extends ObjectBehavior
 {
     function let()
     {
+        $remarks = '';
+
         $this->beConstructedWith(
             new BookCopyID(1),
-            new BookID(1)
+            new BookID(1),
+            $remarks
         );
     }
 
     function it_is_initializable()
     {
         $this->shouldHaveType(BookCopy::class);
-    }
-
-    function it_is_not_lent_to_anyone_by_default()
-    {
-        $this->isLent()->shouldBe(false);
-        $this->readerID()->shouldBe(null);
     }
 
     function it_returns_identifier()
@@ -39,5 +35,16 @@ class BookCopySpec extends ObjectBehavior
         $this->bookID()->id()->shouldReturn(1);
     }
 
-    // TODO:
+    function it_allows_to_set_remarks()
+    {
+        $remarks = 'Lorem ipsum...';
+
+        $this->setRemarks($remarks);
+        $this->remarks()->shouldReturn($remarks);
+    }
+
+    function it_returns_remarks()
+    {
+        $this->remarks()->shouldReturn('');
+    }
 }

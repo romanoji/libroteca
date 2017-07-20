@@ -1,13 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\BookCopy;
 
-use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\Exception\BookCopyAlreadyLent;
-use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
-class BookCopy implements AggregateRoot
+class BookCopy
 {
     /** @var BookCopyID */
     private $id;
@@ -15,43 +13,20 @@ class BookCopy implements AggregateRoot
     /** @var BookID */
     private $bookID;
 
-    /** @var bool */
-    private $lent;
-
-    /** @var null|ReaderID */
-    private $readerID;
-
-    /** @var \DateTimeImmutable */
-    private $loanDueDate;
+    /** @var string */
+    private $remarks;
 
     /**
      * BookCopy constructor.
      * @param BookCopyID $copyID
      * @param BookID $bookID
+     * @param string $remarks
      */
-    public function __construct(BookCopyID $copyID, BookID $bookID)
+    public function __construct(BookCopyID $copyID, BookID $bookID, string $remarks)
     {
         $this->id = $copyID;
         $this->bookID = $bookID;
-        $this->lent = false;
-        $this->readerID = null;
-
-        // TODO: event
-    }
-
-    /**
-     * @param ReaderID $reader
-     * @param \DateTimeImmutable $dueDate
-     * @throws BookCopyAlreadyLent
-     */
-    public function lendTo(ReaderID $reader, \DateTimeImmutable $dueDate)
-    {
-        if ($this->lent) {
-            throw new BookCopyAlreadyLent('Book copy is already lent.');
-        }
-
-        $this->readerID = $reader;
-        $this->loanDueDate = $dueDate;
+        $this->setRemarks($remarks);
     }
 
     /**
@@ -71,15 +46,18 @@ class BookCopy implements AggregateRoot
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function isLent()
+    public function remarks()
     {
-        return $this->lent;
+        return $this->remarks;
     }
 
-    public function readerID()
+    /**
+     * @param string $remarks
+     */
+    public function setRemarks(string $remarks)
     {
-        // TODO: write logic here
+        $this->remarks = $remarks;
     }
 }
