@@ -4,8 +4,8 @@ namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 class Name
 {
-    const FORMAT = '/^[ \pL]+$/u';
-    const MAX_LENGTH = 50;
+    private const FORMAT = '/^[ \pL]+$/u';
+    private const MAX_LENGTH = 50;
 
     /** @var string */
     private $name;

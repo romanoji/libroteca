@@ -4,7 +4,7 @@ namespace RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 
 class ISBN10 extends ISBN
 {
-    const FORMAT = '/^\d{9}[0-9X]$/';
+    private const FORMAT = '/^\d{9}[0-9X]$/';
 
     /**
      * @return string

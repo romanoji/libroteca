@@ -4,7 +4,7 @@ namespace RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 
 class ISBN13 extends ISBN
 {
-    const FORMAT = '/^\d{13}$/';
+    private const FORMAT = '/^\d{13}$/';
 
     /**
      * @return string

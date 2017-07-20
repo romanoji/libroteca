@@ -10,8 +10,8 @@ use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class Loan
 {
-    const MAX_PERIOD_IN_DAYS = 60;
-    const MAX_PROLONGATION_PERIOD_IN_DAYS = 30;
+    private const MAX_PERIOD_IN_DAYS = 60;
+    private const MAX_PROLONGATION_PERIOD_IN_DAYS = 30;
 
     /** @var LoanID */
     private $id;

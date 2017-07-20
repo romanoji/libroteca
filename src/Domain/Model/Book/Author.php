@@ -4,7 +4,7 @@ namespace RJozwiak\Libroteca\Domain\Model\Book;
 
 class Author
 {
-    const NAME_FORMAT = '/^[ \pL\'\-.]+$/u';
+    private const NAME_FORMAT = '/^[ \pL\'\-.]+$/u';
 
     /** @var string */
     private $name;

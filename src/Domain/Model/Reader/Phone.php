@@ -4,7 +4,7 @@ namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 class Phone
 {
-    const E123_FORMAT = '/^\+?(?:[0-9] ?){6,14}[0-9]$/';
+    private const E123_FORMAT = '/^\+?(?:[0-9] ?){6,14}[0-9]$/';
 
     /** @var string */
     private $phone;

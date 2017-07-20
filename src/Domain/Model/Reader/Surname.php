@@ -4,8 +4,8 @@ namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 class Surname
 {
-    const FORMAT = '/^[\pL\'\-]+$/u';
-    const MAX_LENGTH = 100;
+    private const FORMAT = '/^[\pL\'\-]+$/u';
+    private const MAX_LENGTH = 100;
 
     /** @var string */
     private $surname;
