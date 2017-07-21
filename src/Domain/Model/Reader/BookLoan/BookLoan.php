@@ -1,20 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Domain\Model\Reader\Loan;
+namespace RJozwiak\Libroteca\Domain\Model\Reader\BookLoan;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\EndingOverdueLoanWithoutRemarksException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\LoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\LoanAlreadyProlongedException;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyEndedException;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
-class Loan
+class BookLoan
 {
     private const MAX_PERIOD_IN_DAYS = 60;
     private const MAX_PROLONGATION_PERIOD_IN_DAYS = 30;
 
-    /** @var LoanID */
+    /** @var BookLoanID */
     private $id;
 
     /** @var BookCopyID */
@@ -42,14 +42,14 @@ class Loan
 
     /**
      * Loan constructor.
-     * @param LoanID $id
+     * @param BookLoanID $id
      * @param BookCopyID $bookCopyID
      * @param ReaderID $readerID
      * @param \DateTimeImmutable $dueDate
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        LoanID $id,
+        BookLoanID $id,
         BookCopyID $bookCopyID,
         ReaderID $readerID,
         \DateTimeImmutable $dueDate
@@ -85,9 +85,9 @@ class Loan
     }
 
     /**
-     * @return LoanID
+     * @return BookLoanID
      */
-    public function id() : LoanID
+    public function id() : BookLoanID
     {
         return $this->id;
     }
@@ -152,12 +152,12 @@ class Loan
      * @param \DateTimeImmutable $endDate
      * @param string|null $remarks
      * @throws EndingOverdueLoanWithoutRemarksException
-     * @throws LoanAlreadyEndedException
+     * @throws BookLoanAlreadyEndedException
      */
     public function endLoan(\DateTimeImmutable $endDate, string $remarks = null) : void
     {
         if ($this->hasEnded()) {
-            throw new LoanAlreadyEndedException('Loan has already ended.');
+            throw new BookLoanAlreadyEndedException('Loan has already ended.');
         }
 
         $endDate = $this->clearTime($endDate);
@@ -173,17 +173,17 @@ class Loan
 
     /**
      * @param \DateTimeImmutable $newDueDate
-     * @throws LoanAlreadyEndedException
-     * @throws LoanAlreadyProlongedException
+     * @throws BookLoanAlreadyEndedException
+     * @throws BookLoanAlreadyProlongedException
      * @throws \InvalidArgumentException
      */
     public function prolongTo(\DateTimeImmutable $newDueDate) : void
     {
         if ($this->hasEnded()) {
-            throw new LoanAlreadyEndedException('Loan has already ended.');
+            throw new BookLoanAlreadyEndedException('Loan has already ended.');
         }
         if ($this->isProlonged()) {
-            throw new LoanAlreadyProlongedException('Loan is already prolonged.');
+            throw new BookLoanAlreadyProlongedException('Loan is already prolonged.');
         }
 
         $newDueDate = $this->clearTime($newDueDate);

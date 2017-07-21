@@ -1,22 +1,22 @@
 <?php
 
-namespace spec\RJozwiak\Libroteca\Domain\Model\Reader\Loan;
+namespace spec\RJozwiak\Libroteca\Domain\Model\Reader\BookLoan;
 
 use PhpSpec\ObjectBehavior;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\EndingOverdueLoanWithoutRemarksException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\LoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Exception\LoanAlreadyProlongedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\Loan;
-use RJozwiak\Libroteca\Domain\Model\Reader\Loan\LoanID;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyEndedException;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyProlongedException;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoan;
+use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
-class LoanSpec extends ObjectBehavior
+class BookLoanSpec extends ObjectBehavior
 {
     function let()
     {
         $this->beConstructedWith(
-            new LoanID(1),
+            new BookLoanID(1),
             new BookCopyID(2),
             new ReaderID(3),
             new \DateTimeImmutable()
@@ -25,7 +25,7 @@ class LoanSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Loan::class);
+        $this->shouldHaveType(BookLoan::class);
     }
 
     function it_has_not_ended_by_default()
@@ -54,7 +54,7 @@ class LoanSpec extends ObjectBehavior
     }
 
     function it_throws_exception_when_due_date_is_earlier_than_today(
-        LoanID $loanID,
+        BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
@@ -68,7 +68,7 @@ class LoanSpec extends ObjectBehavior
     }
 
     function it_throws_exception_when_due_date_exceeds_max_loan_period(
-        LoanID $loanID,
+        BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
@@ -80,7 +80,7 @@ class LoanSpec extends ObjectBehavior
     }
 
     function it_can_be_ended(
-        LoanID $loanID,
+        BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
@@ -97,7 +97,7 @@ class LoanSpec extends ObjectBehavior
     }
 
     function it_cannot_be_ended_twice(
-        LoanID $loanID,
+        BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
@@ -109,12 +109,12 @@ class LoanSpec extends ObjectBehavior
 
         $this->endLoan($endDate);
         $this
-            ->shouldThrow(new LoanAlreadyEndedException('Loan has already ended.'))
+            ->shouldThrow(new BookLoanAlreadyEndedException('Loan has already ended.'))
             ->during('endLoan', [$endDate]);
     }
 
     function it_requires_remarks_when_end_date_exceeds_due_date(
-        LoanID $loanID,
+        BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
@@ -130,7 +130,7 @@ class LoanSpec extends ObjectBehavior
     }
 
     function it_can_be_prolonged(
-        LoanID $loanID,
+        BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
@@ -154,7 +154,7 @@ class LoanSpec extends ObjectBehavior
 
         $this->endLoan($today);
         $this
-            ->shouldThrow(new LoanAlreadyEndedException('Loan has already ended.'))
+            ->shouldThrow(new BookLoanAlreadyEndedException('Loan has already ended.'))
             ->during('prolongTo', [$dueDate]);
     }
 
@@ -166,7 +166,7 @@ class LoanSpec extends ObjectBehavior
 
         $this->prolongTo($dueDate);
         $this
-            ->shouldThrow(new LoanAlreadyProlongedException('Loan is already prolonged.'))
+            ->shouldThrow(new BookLoanAlreadyProlongedException('Loan is already prolonged.'))
             ->during('prolongTo', [$dueDate]);
     }
 
