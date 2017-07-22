@@ -11,12 +11,9 @@ class BookCopySpec extends ObjectBehavior
 {
     function let()
     {
-        $remarks = '';
-
         $this->beConstructedWith(
             new BookCopyID(1),
-            new BookID(1),
-            $remarks
+            new BookID(1)
         );
     }
 

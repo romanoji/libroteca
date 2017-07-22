@@ -6,7 +6,7 @@ use RJozwiak\Libroteca\Application\Command;
 
 class RegisterReader implements Command
 {
-    /** @var int|string */
+    /** @var string */
     public $readerID;
 
     /** @var string */
@@ -23,14 +23,19 @@ class RegisterReader implements Command
 
     /**
      * RegisterReader constructor.
-     * @param int|string $readerID
+     * @param string $readerID
      * @param string $name
      * @param string $surname
      * @param string $email
      * @param string $phone
      */
-    public function __construct($readerID, $name, $surname, $email, $phone)
-    {
+    public function __construct(
+        string $readerID,
+        string $name,
+        string $surname,
+        string $email,
+        string $phone
+    ) {
         $this->readerID = $readerID;
         $this->name = $name;
         $this->surname = $surname;

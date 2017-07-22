@@ -30,9 +30,9 @@ interface BookRepository
 
     /**
      * @param ISBN $isbn
-     * @return Book
+     * @return null|Book
      */
-    public function findOneByISBN(ISBN $isbn) : Book;
+    public function findOneByISBN(ISBN $isbn) : ?Book;
 
     /**
      * @param Author $author

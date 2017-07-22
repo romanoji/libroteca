@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver;
 
 use RJozwiak\Libroteca\Application\Command;
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\HandlerInflector;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\HandlerLocator;
 
@@ -27,9 +29,9 @@ class CommandHandlerResolver
 
     /**
      * @param Command $command
-     * @return object
+     * @return CommandHandler
      */
-    public function resolve(Command $command)
+    public function resolve(Command $command) : CommandHandler
     {
         $handlerName = $this->inflector->inflect($command);
         $handler = $this->locator->getHandler($handlerName);

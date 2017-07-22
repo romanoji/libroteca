@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Command;
 
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
@@ -12,7 +14,7 @@ use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
 use RJozwiak\Libroteca\Domain\Model\Reader\Surname;
 
-class RegisterReaderHandler
+class RegisterReaderHandler implements CommandHandler
 {
     /** @var ReaderRepository */
     private $readerRepository;
@@ -31,7 +33,7 @@ class RegisterReaderHandler
      * @throws EmailAlreadyInUseException
      * @throws PhoneAlreadyInUseException
      */
-    public function execute(RegisterReader $command)
+    public function execute(RegisterReader $command) : void
     {
         $readerID = new ReaderID($command->readerID);
         $name = new Name($command->name);

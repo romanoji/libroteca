@@ -1,17 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator;
+
+use RJozwiak\Libroteca\Application\CommandHandler;
 
 class InMemoryHandlerLocator implements HandlerLocator
 {
     /**
-     * @var object[]
+     * @var CommandHandler[]
      */
     private $handlers = [];
 
     /**
      * InMemoryHandlerLocator constructor.
-     * @param object[] $handlers
+     * @param CommandHandler[] $handlers
+     * @throws \RuntimeException
      */
     public function __construct(array $handlers = [])
     {
@@ -21,24 +25,20 @@ class InMemoryHandlerLocator implements HandlerLocator
     }
 
     /**
-     * @param object $handler
+     * @param CommandHandler $handler
      * @throws \RuntimeException
      */
-    public function addHandler($handler)
+    public function addHandler(CommandHandler $handler)
     {
-        if (!is_object($handler)) {
-            throw new \RuntimeException('Passed argument is not an object.');
-        }
-
         $this->handlers[get_class($handler)] = $handler;
     }
 
     /**
      * @param string $handlerName
-     * @return object
+     * @return CommandHandler
      * @throws \RuntimeException
      */
-    public function getHandler($handlerName)
+    public function getHandler(string $handlerName) : CommandHandler
     {
         if (!isset($this->handlers[$handlerName])) {
             throw new \RuntimeException("Handler $handlerName is not defined.");

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Book;
 
@@ -36,7 +37,7 @@ class InMemoryBookRepository implements BookRepository
     /**
      * @return int
      */
-    public function count()
+    public function count() : int
     {
         return count($this->books);
     }
@@ -45,7 +46,7 @@ class InMemoryBookRepository implements BookRepository
      * @param BookID $id
      * @return null|Book
      */
-    public function find(BookID $id)
+    public function find(BookID $id) : ?Book
     {
         if (!isset($this->books[$id->id()])) {
             return null;
@@ -58,7 +59,7 @@ class InMemoryBookRepository implements BookRepository
      * @param ISBN $isbn
      * @return null|Book
      */
-    public function findOneByISBN(ISBN $isbn)
+    public function findOneByISBN(ISBN $isbn) : ?Book
     {
         foreach ($this->books as $book) {
             if ($book->isbn()->equals($isbn)) {
@@ -74,7 +75,7 @@ class InMemoryBookRepository implements BookRepository
      * @param Title $title
      * @return Book[]
      */
-    public function findByAuthorAndTitle(Author $author, Title $title)
+    public function findByAuthorAndTitle(Author $author, Title $title) : array
     {
         $books = [];
 

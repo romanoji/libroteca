@@ -3,7 +3,6 @@
 namespace spec\RJozwiak\Libroteca\Domain\Model;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use RJozwiak\Libroteca\Domain\Model\ID;
 
 class IDSpec extends ObjectBehavior

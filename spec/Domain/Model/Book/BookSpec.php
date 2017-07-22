@@ -3,7 +3,6 @@
 namespace spec\RJozwiak\Libroteca\Domain\Model\Book;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;

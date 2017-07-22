@@ -3,10 +3,10 @@
 namespace spec\RJozwiak\Libroteca\Infrastructure\Application\CommandBus;
 
 use RJozwiak\Libroteca\Application\Command;
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\SimpleCommandBus;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class SimpleCommandBusSpec extends ObjectBehavior
 {
@@ -37,7 +37,7 @@ class SomeAction implements Command
 {
 }
 
-class SomeActionHandler
+class SomeActionHandler implements CommandHandler
 {
     public function execute()
     {

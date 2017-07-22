@@ -1,14 +1,15 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator;
 
-use RJozwiak\Libroteca\Application\Command;
+use RJozwiak\Libroteca\Application\CommandHandler;
 
 interface HandlerLocator
 {
     /**
      * @param string $handlerName
-     * @return object
+     * @return CommandHandler
      */
-    public function getHandler($handlerName);
+    public function getHandler(string $handlerName) : CommandHandler;
 }

@@ -4,7 +4,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\Reader\Surname;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class SurnameSpec extends ObjectBehavior
 {

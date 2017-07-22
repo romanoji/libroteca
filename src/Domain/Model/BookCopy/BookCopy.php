@@ -22,7 +22,7 @@ class BookCopy
      * @param BookID $bookID
      * @param string $remarks
      */
-    public function __construct(BookCopyID $copyID, BookID $bookID, string $remarks)
+    public function __construct(BookCopyID $copyID, BookID $bookID, string $remarks = '')
     {
         $this->id = $copyID;
         $this->bookID = $bookID;

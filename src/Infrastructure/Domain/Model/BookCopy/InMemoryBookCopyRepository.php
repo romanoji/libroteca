@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy;
 
@@ -35,7 +36,7 @@ class InMemoryBookCopyRepository implements BookCopyRepository
      * @param BookCopyID $id
      * @return null|BookCopy
      */
-    public function find(BookCopyID $id)
+    public function find(BookCopyID $id) : ?BookCopy
     {
         if (!isset($this->booksCopies[$id->id()])) {
             return null;
@@ -48,7 +49,7 @@ class InMemoryBookCopyRepository implements BookCopyRepository
      * @param BookID $bookID
      * @return BookCopy[]
      */
-    public function findByBookID(BookID $bookID)
+    public function findByBookID(BookID $bookID) : array
     {
         $booksCopies = [];
 

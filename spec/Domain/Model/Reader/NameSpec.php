@@ -4,7 +4,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\Reader\Name;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class NameSpec extends ObjectBehavior
 {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
@@ -35,7 +36,7 @@ class InMemoryReaderRepository implements ReaderRepository
     /**
      * @return int
      */
-    public function count()
+    public function count() : int
     {
         return count($this->readers);
     }
@@ -44,7 +45,7 @@ class InMemoryReaderRepository implements ReaderRepository
      * @param ReaderID $id
      * @return null|Reader
      */
-    public function find(ReaderID $id)
+    public function find(ReaderID $id) : ?Reader
     {
         if (!isset($this->readers[$id->id()])) {
             return null;
@@ -57,7 +58,7 @@ class InMemoryReaderRepository implements ReaderRepository
      * @param Email $email
      * @return null|Reader
      */
-    public function findOneByEmail(Email $email)
+    public function findOneByEmail(Email $email) : ?Reader
     {
         foreach ($this->readers as $reader) {
             if ($reader->email()->equals($email)) {
@@ -72,7 +73,7 @@ class InMemoryReaderRepository implements ReaderRepository
      * @param Phone $phone
      * @return null|Reader
      */
-    public function findOneByPhone(Phone $phone)
+    public function findOneByPhone(Phone $phone) : ?Reader
     {
         foreach ($this->readers as $reader) {
             if ($reader->phone()->equals($phone)) {

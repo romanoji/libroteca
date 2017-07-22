@@ -4,7 +4,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Book;
 
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class AuthorSpec extends ObjectBehavior
 {

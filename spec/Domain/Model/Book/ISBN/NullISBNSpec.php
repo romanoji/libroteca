@@ -7,7 +7,6 @@ use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN10;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN13;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class NullISBNSpec extends ObjectBehavior
 {

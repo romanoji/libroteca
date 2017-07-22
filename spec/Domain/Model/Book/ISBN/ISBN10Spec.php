@@ -5,7 +5,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN10;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ISBN10Spec extends ObjectBehavior
 {

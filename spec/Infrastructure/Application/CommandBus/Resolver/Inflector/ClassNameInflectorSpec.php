@@ -5,7 +5,6 @@ namespace spec\RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver
 use RJozwiak\Libroteca\Application\Command;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\ClassNameInflector;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ClassNameInflectorSpec extends ObjectBehavior
 {

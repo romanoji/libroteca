@@ -6,7 +6,6 @@ use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN10;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN13;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 
 class ISBNFactorySpec extends ObjectBehavior

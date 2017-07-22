@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Command;
 
@@ -6,18 +7,18 @@ use RJozwiak\Libroteca\Application\Command;
 
 class RegisterBookCopy implements Command
 {
-    /** @var int|string */
+    /** @var string */
     public $bookCopyID;
 
-    /** @var int|string */
+    /** @var string */
     public $bookID;
 
     /**
      * RegisterBookCopy constructor.
-     * @param int|string $bookCopyID
-     * @param int|string $bookID
+     * @param string $bookCopyID
+     * @param string $bookID
      */
-    public function __construct($bookCopyID, $bookID)
+    public function __construct(string $bookCopyID, string $bookID)
     {
         $this->bookCopyID = $bookCopyID;
         $this->bookID = $bookID;

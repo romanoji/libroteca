@@ -4,7 +4,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class PhoneSpec extends ObjectBehavior
 {

@@ -3,9 +3,9 @@
 namespace spec\RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver;
 
 use RJozwiak\Libroteca\Application\Command;
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\HandlerInflector;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\HandlerLocator;
 
@@ -42,6 +42,6 @@ class SomeAction implements Command
 {
 }
 
-class SomeActionHandler
+class SomeActionHandler implements CommandHandler
 {
 }

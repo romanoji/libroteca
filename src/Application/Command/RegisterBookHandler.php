@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Command;
 
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
@@ -12,7 +14,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
-class RegisterBookHandler
+class RegisterBookHandler implements CommandHandler
 {
     /** @var ISBNFactory */
     private $isbnFactory;
@@ -37,7 +39,7 @@ class RegisterBookHandler
      * @throws ISBNAlreadyInUseException
      * @throws \InvalidArgumentException
      */
-    public function execute(RegisterBook $command)
+    public function execute(RegisterBook $command) : void
     {
         $bookID = new BookID($command->bookID);
         $isbn = $this->isbnFactory->create($command->isbn);

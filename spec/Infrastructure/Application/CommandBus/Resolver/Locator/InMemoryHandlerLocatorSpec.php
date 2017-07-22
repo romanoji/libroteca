@@ -3,7 +3,8 @@
 namespace spec\RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use RJozwiak\Libroteca\Application\Command;
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\InMemoryHandlerLocator;
 
 class InMemoryHandlerLocatorSpec extends ObjectBehavior
@@ -34,13 +35,6 @@ class InMemoryHandlerLocatorSpec extends ObjectBehavior
         $this->getHandler(SomeOtherHandler::class)->shouldReturn($someOtherHandler);
     }
 
-    function it_throws_exception_when_trying_to_add_not_an_handler_object()
-    {
-        $this
-            ->shouldThrow(new \RuntimeException('Passed argument is not an object.'))
-            ->during('addHandler', [null]);
-    }
-
     function it_throws_exception_when_trying_to_get_non_existing_handler()
     {
         $nonExistingHandler = 'SomeNonExistingHandler';
@@ -51,10 +45,10 @@ class InMemoryHandlerLocatorSpec extends ObjectBehavior
     }
 }
 
-class SomeHandler
+class SomeHandler implements CommandHandler
 {
 }
 
-class SomeOtherHandler
+class SomeOtherHandler implements CommandHandler
 {
 }

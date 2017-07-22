@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus;
 
 use RJozwiak\Libroteca\Application\Command;
 use RJozwiak\Libroteca\Application\CommandBus;
+use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
 
 class SimpleCommandBus implements CommandBus
@@ -22,20 +24,19 @@ class SimpleCommandBus implements CommandBus
 
     /**
      * @param Command $command
-     * @return void
      */
-    public function handle(Command $command)
+    public function handle(Command $command) : void
     {
         // TODO: typed Handler vs. MethodNotFoundException
 
-        $this->handler($command)->execute($command);
+        $this->handlerFor($command)->execute($command);
     }
 
     /**
      * @param Command $command
-     * @return object
+     * @return CommandHandler
      */
-    private function handler(Command $command)
+    private function handlerFor(Command $command) : CommandHandler
     {
         return $this->resolver->resolve($command);
     }

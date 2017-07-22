@@ -4,7 +4,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Book;
 
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class TitleSpec extends ObjectBehavior
 {
