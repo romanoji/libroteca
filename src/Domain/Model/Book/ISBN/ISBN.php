@@ -91,7 +91,7 @@ abstract class ISBN
      */
     public function __toString() : string
     {
-        return $this->isbn;
+        return (string) $this->isbn;
     }
 
     /**
