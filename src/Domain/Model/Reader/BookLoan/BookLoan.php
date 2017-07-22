@@ -153,6 +153,7 @@ class BookLoan
      * @param string|null $remarks
      * @throws EndingOverdueLoanWithoutRemarksException
      * @throws BookLoanAlreadyEndedException
+     * @internal
      */
     public function endLoan(\DateTimeImmutable $endDate, string $remarks = null) : void
     {
