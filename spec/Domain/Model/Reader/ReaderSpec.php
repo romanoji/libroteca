@@ -4,8 +4,6 @@ namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoan;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanFactory;
 use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\MaxNumberOfBookLoansExceededException;
@@ -59,77 +57,62 @@ class ReaderSpec extends ObjectBehavior
 
     function it_returns_null_if_loan_was_not_found(BookLoanID $bookLoanID)
     {
-        $this->bookLoan($bookLoanID)->shouldBeNull();
+        $this->ongoingBookLoan($bookLoanID)->shouldBeNull();
     }
 
     function it_can_borrow_a_book_copy_for_some_period_of_time(
-        ReaderID $readerID,
-        BookLoanFactory $bookLoanFactory,
         BookCopy $someBookCopy,
-        BookLoan $someBookLoan,
-        BookCopy $otherBookCopy,
-        BookLoan $otherBookLoan,
-        \DateTimeImmutable $dueDate
+        BookCopy $otherBookCopy
     ) {
         $someBookCopyID = new BookCopyID(1);
-        $someBookLoanID = new BookLoanID(1);
         $otherBookCopyID = new BookCopyID(2);
+        $someBookLoanID = new BookLoanID(1);
         $otherBookLoanID = new BookLoanID(2);
-
+        $dueDate = new \DateTimeImmutable();
         $someBookCopy->id()->willReturn($someBookCopyID);
-        $someBookLoan->id()->willReturn($someBookLoanID);
         $otherBookCopy->id()->willReturn($otherBookCopyID);
-        $otherBookLoan->id()->willReturn($otherBookLoanID);
-        $bookLoanFactory->create($someBookCopyID, $readerID, $dueDate)->willReturn($someBookLoan);
-        $bookLoanFactory->create($otherBookCopyID, $readerID, $dueDate)->willReturn($otherBookLoan);
 
-        $this->borrowBookCopy($bookLoanFactory, $someBookCopy, $dueDate);
-        $this->borrowBookCopy($bookLoanFactory, $otherBookCopy, $dueDate);
+        $this->borrowBookCopy($someBookLoanID, $someBookCopy, $dueDate);
+        $this->borrowBookCopy($otherBookLoanID, $otherBookCopy, $dueDate);
 
-        $this->bookLoan($someBookLoanID)->shouldReturn($someBookLoan);
-        $this->bookLoan($otherBookLoanID)->shouldReturn($otherBookLoan);
+        $someBookLoan = $this->ongoingBookLoan($someBookLoanID);
+        $otherBookLoan = $this->ongoingBookLoan($otherBookLoanID);
+        $someBookLoan->bookCopyID()->shouldReturn($someBookCopyID);
+        $otherBookLoan->bookCopyID()->shouldReturn($otherBookCopyID);
     }
 
     function it_throws_exception_when_borrowing_another_book_exceeds_max_loans_limit(
-        ReaderID $readerID,
-        BookLoanFactory $bookLoanFactory,
+        BookLoanID $bookLoanID,
         BookCopyID $bookCopyID,
-        BookCopy $bookCopy,
-        BookLoan $bookLoan,
-        \DateTimeImmutable $dueDate
+        BookCopy $bookCopy
     ) {
+        $dueDate = new \DateTimeImmutable();
         $bookCopy->id()->willReturn($bookCopyID);
-        $bookLoanFactory->create($bookCopyID, $readerID, $dueDate)->willReturn($bookLoan);
 
         for ($i = 0; $i < 5; $i++) {
-            $this->borrowBookCopy($bookLoanFactory, $bookCopy, $dueDate);
+            $this->borrowBookCopy($bookLoanID, $bookCopy, $dueDate);
         }
+
         $this
             ->shouldThrow(MaxNumberOfBookLoansExceededException::class)
-            ->during('borrowBookCopy', [$bookLoanFactory, $bookCopy, $dueDate]);
+            ->during('borrowBookCopy', [$bookLoanID, $bookCopy, $dueDate]);
     }
 
-    function it_can_return_borrowed_book_and_the_ongoing_loan_is_removed(
-        ReaderID $readerID,
-        BookLoanFactory $bookLoanFactory,
-        BookCopy $bookCopy,
-        BookLoan $bookLoan,
-        \DateTimeImmutable $dueDate,
-        \DateTimeImmutable $endDate
-    ) {
+    function it_can_end_ongoing_loan_by_returning_borrowed_book(BookCopy $bookCopy)
+    {
         $bookCopyID = new BookCopyID(1);
         $bookLoanID = new BookLoanID(1);
+        $dueDate = new \DateTimeImmutable();
+        $endDate = new \DateTimeImmutable();
         $bookCopy->id()->willReturn($bookCopyID);
-        $bookLoan->id()->willReturn($bookLoanID);
-        $bookLoan->bookCopyID()->willReturn($bookCopyID);
-        $bookLoanFactory->create($bookCopyID, $readerID, $dueDate)->willReturn($bookLoan);
-        $this->borrowBookCopy($bookLoanFactory, $bookCopy, $dueDate);
+        $this->borrowBookCopy($bookLoanID, $bookCopy, $dueDate);
+        $bookLoan = $this->ongoingBookLoan($bookLoanID);
 
         $remarks = '...';
-        $bookLoan->endLoan($endDate, $remarks)->shouldBeCalled();
         $this->returnBookCopy($bookCopyID, $endDate, $remarks);
 
-        $this->bookLoan($bookLoanID)->shouldBeNull();
+        $this->ongoingBookLoan($bookLoanID)->shouldBeNull();
+        $bookLoan->hasEnded()->shouldBe(true);
     }
 
     function it_cannot_return_not_borrowed_book()

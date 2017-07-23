@@ -5,7 +5,6 @@ namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanFactory;
 use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyEndedException;
 use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
@@ -33,7 +32,7 @@ class Reader
     private $phone;
 
     /** @var BookLoan[] */ // TODO: add ArrayCollection?
-    private $ongoingBookLoans;
+    private $ongoingLoans;
 
     /**
      * Reader constructor.
@@ -97,7 +96,7 @@ class Reader
      * @param BookLoanID $bookLoanID
      * @return null|BookLoan
      */
-    public function bookLoan(BookLoanID $bookLoanID) : ?BookLoan
+    public function ongoingBookLoan(BookLoanID $bookLoanID) : ?BookLoan
     {
         /** @var BookLoan $ongoingLoan */
         foreach ($this->ongoingLoans as $ongoingLoan) {
@@ -110,13 +109,13 @@ class Reader
     }
 
     /**
-     * @param BookLoanFactory $bookLoanFactory
+     * @param BookLoanID $bookLoanID
      * @param BookCopy $bookCopy
      * @param \DateTimeImmutable $dueDate
      * @throws MaxNumberOfBookLoansExceededException
      */
     public function borrowBookCopy(
-        BookLoanFactory $bookLoanFactory,
+        BookLoanID $bookLoanID,
         BookCopy $bookCopy,
         \DateTimeImmutable $dueDate
     ) : void {
@@ -124,9 +123,9 @@ class Reader
             throw new MaxNumberOfBookLoansExceededException();
         }
 
-        $loan = $bookLoanFactory->create($bookCopy->id(), $this->id(), $dueDate);
+        $loan = new BookLoan($bookLoanID, $bookCopy->id(), $this->id(), $dueDate);
 
-        $this->ongoingLoans[] = $loan; // TODO: filter out duplicates (if we get any?)
+        $this->ongoingLoans[] = $loan; // TODO: do we care about duplicates? (can get any?)
     }
 
     /**
@@ -147,7 +146,7 @@ class Reader
             if ($ongoingLoan->bookCopyID()->equals($bookCopyID)) {
                 $ongoingLoan->endLoan($endDate, $remarks);
                 unset($this->ongoingLoans[$index]);
-                return; // TODO: return loan?
+                return;
             }
         }
 
