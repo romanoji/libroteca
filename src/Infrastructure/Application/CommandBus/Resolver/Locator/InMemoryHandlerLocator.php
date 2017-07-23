@@ -20,7 +20,7 @@ class InMemoryHandlerLocator implements HandlerLocator
     public function __construct(array $handlers = [])
     {
         foreach ($handlers as $handler) {
-            $this->addHandler($handler);
+            $this->registerHandler($handler);
         }
     }
 
@@ -28,7 +28,7 @@ class InMemoryHandlerLocator implements HandlerLocator
      * @param CommandHandler $handler
      * @throws \RuntimeException
      */
-    public function addHandler(CommandHandler $handler)
+    public function registerHandler(CommandHandler $handler)
     {
         $this->handlers[get_class($handler)] = $handler;
     }
@@ -41,7 +41,7 @@ class InMemoryHandlerLocator implements HandlerLocator
     public function getHandler(string $handlerName) : CommandHandler
     {
         if (!isset($this->handlers[$handlerName])) {
-            throw new \RuntimeException("Handler $handlerName is not defined.");
+            throw new \RuntimeException("Handler $handlerName is not registered.");
         }
 
         return $this->handlers[$handlerName];

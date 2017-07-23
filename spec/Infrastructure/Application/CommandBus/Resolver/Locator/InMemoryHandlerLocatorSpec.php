@@ -19,9 +19,9 @@ class InMemoryHandlerLocatorSpec extends ObjectBehavior
         $this->shouldHaveType(InMemoryHandlerLocator::class);
     }
 
-    function it_add_handler_to_collection()
+    function it_registers_handler_to_collection()
     {
-        $this->addHandler(new SomeOtherHandler());
+        $this->registerHandler(new SomeOtherHandler());
     }
 
     function it_returns_handler_from_collection() {
@@ -29,7 +29,7 @@ class InMemoryHandlerLocatorSpec extends ObjectBehavior
         $someOtherHandler = new SomeOtherHandler();
 
         $this->beConstructedWith([$someHandler]);
-        $this->addHandler($someOtherHandler);
+        $this->registerHandler($someOtherHandler);
 
         $this->getHandler(SomeHandler::class)->shouldReturn($someHandler);
         $this->getHandler(SomeOtherHandler::class)->shouldReturn($someOtherHandler);
@@ -40,7 +40,7 @@ class InMemoryHandlerLocatorSpec extends ObjectBehavior
         $nonExistingHandler = 'SomeNonExistingHandler';
 
         $this
-            ->shouldThrow(new \RuntimeException("Handler $nonExistingHandler is not defined."))
+            ->shouldThrow(new \RuntimeException("Handler $nonExistingHandler is not registered."))
             ->during('getHandler', [$nonExistingHandler]);
     }
 }
