@@ -11,7 +11,7 @@ use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class BookLoan
 {
-    private const MAX_PERIOD_IN_DAYS = 60;
+    private const MAX_LOAN_PERIOD_IN_DAYS = 60;
     private const MAX_PROLONGATION_PERIOD_IN_DAYS = 30;
 
     /** @var BookLoanID */
@@ -73,7 +73,7 @@ class BookLoan
     private function assertValidDueDate(\DateTimeImmutable $dueDate)
     {
         $today = $this->clearTime(new \DateTimeImmutable());
-        $maxDueDate = $this->dateAfterDays(self::MAX_PERIOD_IN_DAYS);
+        $maxDueDate = $this->dateAfterDays(self::MAX_LOAN_PERIOD_IN_DAYS);
 
         if ($dueDate < $today) {
             throw new \InvalidArgumentException('Due date cannot be earlier than today.');
