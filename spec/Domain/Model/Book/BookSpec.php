@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
+use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN13;
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
@@ -44,5 +45,33 @@ class BookSpec extends ObjectBehavior
     function it_returns_authors()
     {
         $this->authors()->shouldBeLike([new Author('Larry Niven'), new Author('Jerry Pournelle')]);
+    }
+
+    function it_throws_exception_when_no_authors_provided()
+    {
+        $this->beConstructedWith(
+            new BookID(1),
+            new ISBN13('9781568650548'),
+            [],
+            new Title("The Mote in God's Eye")
+        );
+
+        $this
+            ->shouldThrow(new \InvalidArgumentException('No authors provided.'))
+            ->duringInstantiation();
+    }
+
+    function it_changes_book_data(
+        ISBN $isbn,
+        Author $author,
+        Title $title
+    ) {
+        $authors = [$author];
+
+        $this->setData($isbn, $authors, $title);
+
+        $this->isbn()->shouldReturn($isbn);
+        $this->authors()->shouldReturn($authors);
+        $this->title()->shouldReturn($title);
     }
 }

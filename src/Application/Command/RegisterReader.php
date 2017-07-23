@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Command;
 
@@ -6,7 +7,7 @@ use RJozwiak\Libroteca\Application\Command;
 
 class RegisterReader implements Command
 {
-    /** @var string */
+    /** @var int|string */
     public $readerID;
 
     /** @var string */
@@ -23,14 +24,14 @@ class RegisterReader implements Command
 
     /**
      * RegisterReader constructor.
-     * @param string $readerID
+     * @param int|string $readerID
      * @param string $name
      * @param string $surname
      * @param string $email
      * @param string $phone
      */
     public function __construct(
-        string $readerID,
+        $readerID,
         string $name,
         string $surname,
         string $email,

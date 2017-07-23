@@ -14,7 +14,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
-class RegisterBookHandler implements CommandHandler
+class UpdateBookHandler implements CommandHandler
 {
     /** @var ISBNFactory */
     private $isbnFactory;
@@ -35,12 +35,7 @@ class RegisterBookHandler implements CommandHandler
         $this->bookRepository = $bookRepository;
     }
 
-    /**
-     * @param RegisterBook $command
-     * @throws ISBNAlreadyInUseException
-     * @throws \InvalidArgumentException
-     */
-    public function execute(RegisterBook $command) : void
+    public function execute(UpdateBook $command) : void
     {
         $bookID = new BookID($command->bookID);
         $isbn = $this->isbnFactory->create($command->isbn);
@@ -54,8 +49,8 @@ class RegisterBookHandler implements CommandHandler
 
         $this->assertUniqueISBN($isbn);
 
-        $book = new Book($bookID, $isbn, $authors, $title);
-        $this->bookRepository->add($book);
+        $book = $this->bookRepository->find($bookID);
+        $book->setData($isbn, $authors, $title);
     }
 
     /**

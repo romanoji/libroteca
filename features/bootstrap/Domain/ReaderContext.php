@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Domain;
 
@@ -8,7 +9,6 @@ use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Command\RegisterReaderHandler;
 use RJozwiak\Libroteca\Application\CommandBus;
-use RJozwiak\Libroteca\Domain\Model\Book\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;

@@ -9,7 +9,7 @@ use Behat\Behat\Context\{
 use Behat\Gherkin\Node\TableNode;
 use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\{
-    RegisterBook, RegisterBookCopy, RegisterBookCopyHandler, RegisterBookHandler
+    RegisterBook, RegisterBookCopy, RegisterBookCopyHandler, RegisterBookHandler, UpdateBook, UpdateBookHandler
 };
 use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\Book\{
@@ -51,7 +51,8 @@ class BookContext implements Context, SnippetAcceptingContext
                 new ClassNameInflector(),
                 new InMemoryHandlerLocator([
                     new RegisterBookHandler($this->isbnFactory, $this->bookRepository),
-                    new RegisterBookCopyHandler($this->bookCopyRepository)
+                    new RegisterBookCopyHandler($this->bookCopyRepository),
+                    new UpdateBookHandler($this->isbnFactory, $this->bookRepository)
                 ])
             )
         );
@@ -67,6 +68,7 @@ class BookContext implements Context, SnippetAcceptingContext
 
     /**
      * @Given there is no book with ISBN :isbn registered in library
+     * @Then there is no book registered with ISBN :isbn in library
      */
     public function assertThereIsNoBookByISBN(string $isbn)
     {
@@ -80,7 +82,7 @@ class BookContext implements Context, SnippetAcceptingContext
     /**
      * @Given there is registered a book :title of :authors with ISBN :isbn
      */
-    public function createBookFromData(string $title, array $authors, ?string $isbn)
+    public function createBook(string $title, array $authors, ?string $isbn)
     {
         $this->currentBookID = $this->bookRepository->nextID();
         $this->commandBus->handle(
@@ -137,9 +139,9 @@ class BookContext implements Context, SnippetAcceptingContext
      * @When I register a book :title of :authors
      * @When I register a book :title of :authors with ISBN :isbn
      */
-    public function createBookFromDataWithException(string $title, array $authors, ?string $isbn = null)
+    public function createBookFromDataWithException(string $title, array $authors, string $isbn = null)
     {
-        $this->spyOnException([$this, 'createBookFromData'], [$title, $authors, $isbn]);
+        $this->spyOnException([$this, 'createBook'], [$title, $authors, $isbn]);
     }
 
     /**
@@ -160,10 +162,20 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I update book data - :title of :authors and ISBN :isbn
+     */
+    public function updateBookData(string $title, array $authors, string $isbn)
+    {
+        $this->commandBus->handle(
+            new UpdateBook($this->currentBookID->id(), $isbn, $authors, $title)
+        );
+    }
+
+    /**
      * @Then the book :title of :author with ISBN :isbn should be registered in library
      * @Then the book :title of :author should be registered in library
      */
-    public function assertBookWithDataIsRegisteredInLibrary(string $title, string $author, ?string $isbn = null)
+    public function assertBookWithDataIsRegisteredInLibrary(string $title, string $author, string $isbn = null)
     {
         if ($isbn) {
             $book = $this->bookRepository->findOneByISBN($this->isbnFactory->create($isbn));
@@ -196,6 +208,7 @@ class BookContext implements Context, SnippetAcceptingContext
 
     /**
      * @Then /^there should be (\d+) book cop(?:y|ies) with ISBN "([^"]*)" available for loan$/
+     * @Then there should be no book copies with ISBN :isbn available for loan
      */
     public function assertSomeNumberOfBookCopiesAvailableForLoan(int $copies = 0, string $isbn)
     {
@@ -203,13 +216,7 @@ class BookContext implements Context, SnippetAcceptingContext
             $this->isbnFactory->create($isbn)
         );
         $bookCopies = $this->bookCopyRepository->findByBookID($book->id());
-        $availableCopies = 0;
-
-        foreach ($bookCopies as $bookCopy) {
-            if (!$bookCopy->isLent()) {
-                $availableCopies++;
-            }
-        }
+        $availableCopies = count($bookCopies);
 
         Assert::eq($copies, $availableCopies);
     }
