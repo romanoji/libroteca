@@ -1,10 +1,10 @@
 Feature: Lending book copy
-  In order to give readers opportunity to read books from library
+  In order to let readers borrow book copies from the library
   As a librarian
   I need to be able to lend books copies to readers
 
   Remarks:
-#    - reader can borrow up to 5 books copies at the same time
+    - reader can borrow up to 5 books copies at the same time
     - loan period upper limit is 60 days (2 months)
     - loan period is 30 days by default.
 
@@ -19,44 +19,54 @@ Feature: Lending book copy
       |            A Feast for Crows             | George R.R. Martin |  0-00-224743-1  |    2   |
       |          A Dance with Dragons            | George R.R. Martin |  978-0553801477 |    3   |
 
-  Scenario: Lending a book copy to reader for a month
-    When I lend book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
-    Then reader with email "john.kowalsky@mail.com" should have that book copy lent for 30 days
-    And there should be 2 book copies of ISBN "978-0553801477" available for loan
+  Scenario: Lending a book copy to a reader for a month
+    When I lend a book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
+    Then there should be book loan for a reader with email "john.kowalsky@mail.com" for 30 days
+    And there should be 2 book copies with ISBN "978-0553801477" available for loan
 
   Scenario: Trying to lend already lent book copy
     Given there is reader with email "andy.novak@mail.com", name "Andy", surname "Novak" and phone "135792468"
-    And there is a loan for a book of ISBN "0-00-224743-1" to reader with email "andy.novak@mail.com" for 30 days
-    When I try to lend the same book copy to the reader with email "john.kowalsky@mail.com" for 30 days
+    And there is a loan for a book copy with ISBN "0-00-224743-1" to reader with email "andy.novak@mail.com" till "yesterday"
+    When I lend the same book copy to the reader with email "john.kowalsky@mail.com" for 30 days
     Then I should be notified that book copy is already lent
-    And the book loan should not be successful
-    And there should be 1 book copy of ISBN "0-00-224743-1" available for loan
+    And the loan attempt should not be successful
+    And there should be 1 book copy with ISBN "0-00-224743-1" available for loan
 
-  Scenario: Trying to lend a book copy to the reader with exceeded time to return previously lent books
-    Given there is a loan for a book of ISBN "0-00-224743-1" to reader with email "john.kowalsky@mail.com" till "yesterday"
-    When I lend book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
+  Scenario: Trying to lend a book copy to the reader, haven't returned previously borrowed books in time
+    Given there is a loan for a book copy with ISBN "0-00-224743-1" to reader with email "john.kowalsky@mail.com" till "yesterday"
+    When I lend a book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
     Then I should be notified that reader must return books first to proceed with loan attempt
-    And the book loan should not be successful
-    And there should be 3 book copies of ISBN "978-0553801477" available for loan
+    And the loan attempt should not be successful
+    And there should be 3 book copies with ISBN "978-0553801477" available for loan
 
   Scenario: Trying to lend a book copy to a reader for 3 months
-    When I lend book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 90 days
+    When I lend a book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 90 days
     Then I should be notified that loan period can last at most for 60 days
-    And the book loan should not be successful
-    And there should be 3 book copies of ISBN "978-0553801477" available for loan
+    And the loan attempt should not be successful
+    And there should be 3 book copies with ISBN "978-0553801477" available for loan
 
-#  Scenario: Trying to lend too many book copies to the reader
-#    When I lend books copies to reader with email "john.kowalsky@mail.com":
-#      |       isbn      |  for N days  |
-#      |  9788478886555  |      30      |
-#      |  0-7475-4624-X  |      60      |
-#      |    0553573403   |      60      |
-#      |    0553106635   |      60      |
-#      |  0-00-224743-1  |      60      |
-#      |  978-0553801477 |      60      |
+  Scenario: Trying to lend 6 book copies to the reader
+    When I lend books copies to reader with email "john.kowalsky@mail.com":
+      |       isbn      |  for N days  |
+      |  9788478886555  |      30      |
+      |  0-7475-4624-X  |      60      |
+      |    0553573403   |      60      |
+      |    0553106635   |      60      |
+      |  0-00-224743-1  |      60      |
+      |  978-0553801477 |      60      |
+    Then I should be notified that reader has reached limit of borrowed books
+    And loan attempt for book copy with ISBN "978-0553801477" should not be successful
+    And there should be 3 book copies with ISBN "978-0553801477" available for loan
+
+#  Scenario: Trying to lend another copy of the same book to the reader
+#    Given there is a loan for a book copy with ISBN "978-0553801477" to reader with email "john.kowalsky@mail.com" for 60 days
+#    When I lend a book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
+#    Then I should be notified that reader has that book borrowed
+#    And the loan attempt should not be successful
+#    And there should be 3 book copies with ISBN "978-0553801477" available for loan
 
 #  Scenario: Setting book copy as unavailable for loan
-#
+
 #  Scenario: Trying to lend a book copy unavailable for loan
-#
+
 #  Scenario: Trying to set already lent book copy as unavailable for loan
