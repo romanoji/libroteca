@@ -10,7 +10,7 @@ interface BookRepository
     /**
      * @return BookID
      */
-    public function nextID();
+    public function nextID() : BookID;
 
     /**
      * @param Book $book

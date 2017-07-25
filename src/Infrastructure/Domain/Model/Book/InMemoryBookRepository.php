@@ -21,7 +21,7 @@ class InMemoryBookRepository implements BookRepository
     /**
      * @return BookID
      */
-    public function nextID()
+    public function nextID() : BookID
     {
         return new BookID($this->nextID++);
     }

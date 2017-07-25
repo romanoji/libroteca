@@ -19,7 +19,7 @@ class InMemoryBookCopyRepository implements BookCopyRepository
     /**
      * @return BookCopyID
      */
-    public function nextID()
+    public function nextID() : BookCopyID
     {
         return new BookCopyID($this->nextID++);
     }

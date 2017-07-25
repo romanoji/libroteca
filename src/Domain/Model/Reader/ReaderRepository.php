@@ -8,7 +8,7 @@ interface ReaderRepository
     /**
      * @return ReaderID
      */
-    public function nextID();
+    public function nextID() : ReaderID;
 
     /**
      * @param Reader $reader

@@ -10,7 +10,7 @@ interface BookCopyRepository
     /**
      * @return BookCopyID
      */
-    public function nextID();
+    public function nextID() : BookCopyID;
 
     /**
      * @param BookCopy $bookCopy

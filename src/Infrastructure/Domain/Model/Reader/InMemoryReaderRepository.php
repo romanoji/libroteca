@@ -20,7 +20,7 @@ class InMemoryReaderRepository implements ReaderRepository
     /**
      * @return ReaderID
      */
-    public function nextID()
+    public function nextID() : ReaderID
     {
         return new ReaderID($this->nextID++);
     }
