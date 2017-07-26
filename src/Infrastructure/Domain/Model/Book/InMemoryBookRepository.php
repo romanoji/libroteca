@@ -7,6 +7,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
+use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
@@ -44,12 +45,13 @@ class InMemoryBookRepository implements BookRepository
 
     /**
      * @param BookID $id
-     * @return null|Book
+     * @return Book
+     * @throws BookNotFoundException
      */
-    public function find(BookID $id) : ?Book
+    public function get(BookID $id) : Book
     {
         if (!isset($this->books[$id->id()])) {
-            return null;
+            throw new BookNotFoundException();
         }
 
         return $this->books[$id->id()];

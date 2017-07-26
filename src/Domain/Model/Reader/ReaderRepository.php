@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
+use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
+
 interface ReaderRepository
 {
     /**
@@ -22,9 +24,10 @@ interface ReaderRepository
 
     /**
      * @param ReaderID $id
-     * @return null|Reader
+     * @return Reader
+     * @throws ReaderNotFoundException
      */
-    public function find(ReaderID $id) : ?Reader;
+    public function get(ReaderID $id) : Reader;
 
     /**
      * @param Email $email

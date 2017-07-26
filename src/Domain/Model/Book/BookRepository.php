@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Book;
 
+use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
 
 interface BookRepository
@@ -24,9 +25,10 @@ interface BookRepository
 
     /**
      * @param BookID $id
-     * @return null|Book
+     * @return Book
+     * @throws BookNotFoundException
      */
-    public function find(BookID $id) : ?Book;
+    public function get(BookID $id) : Book;
 
     /**
      * @param ISBN $isbn

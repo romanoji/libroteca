@@ -26,8 +26,12 @@ class RegisterBook implements Command
      * @param array $authors
      * @param string $title
      */
-    public function __construct($bookID, ?string $isbn, array $authors, string $title)
-    {
+    public function __construct(
+        $bookID,
+        ?string $isbn,
+        array $authors,
+        string $title
+    ) {
         $this->bookID = $bookID;
         $this->isbn = $isbn;
         $this->authors = $authors;

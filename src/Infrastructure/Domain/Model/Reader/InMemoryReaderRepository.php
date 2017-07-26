@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
+use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
@@ -43,12 +44,13 @@ class InMemoryReaderRepository implements ReaderRepository
     
     /**
      * @param ReaderID $id
-     * @return null|Reader
+     * @return Reader
+     * @throws ReaderNotFoundException
      */
-    public function find(ReaderID $id) : ?Reader
+    public function get(ReaderID $id) : Reader
     {
         if (!isset($this->readers[$id->id()])) {
-            return null;
+            throw new ReaderNotFoundException();
         }
 
         return $this->readers[$id->id()];

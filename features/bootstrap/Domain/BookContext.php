@@ -51,7 +51,7 @@ class BookContext implements Context, SnippetAcceptingContext
                 new ClassNameInflector(),
                 new InMemoryHandlerLocator([
                     new RegisterBookHandler($this->isbnFactory, $this->bookRepository),
-                    new RegisterBookCopyHandler($this->bookCopyRepository),
+                    new RegisterBookCopyHandler($this->bookRepository, $this->bookCopyRepository),
                     new UpdateBookHandler($this->isbnFactory, $this->bookRepository)
                 ])
             )
@@ -193,7 +193,7 @@ class BookContext implements Context, SnippetAcceptingContext
     public function assertBookIsRegisteredInLibrary()
     {
         Assert::isInstanceOf(
-            $this->bookRepository->find($this->currentBookID),
+            $this->bookRepository->get($this->currentBookID),
             Book::class
         );
     }

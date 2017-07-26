@@ -11,6 +11,7 @@ use RJozwiak\Libroteca\Application\Command\RegisterReaderHandler;
 use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
+use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
@@ -87,7 +88,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
     public function assertReaderIsRegistered()
     {
         Assert::isInstanceOf(
-            $this->readerRepository->find($this->currentReaderID),
+            $this->readerRepository->get($this->currentReaderID),
             Reader::class
         );
     }
@@ -97,7 +98,10 @@ class ReaderContext implements Context, SnippetAcceptingContext
      */
     public function assertCurrentReaderIsNotRegistered()
     {
-        Assert::null($this->readerRepository->find($this->currentReaderID));
+        Assert::throws(
+            function () { $this->readerRepository->get($this->currentReaderID); },
+            ReaderNotFoundException::class
+        );
     }
 
     /**

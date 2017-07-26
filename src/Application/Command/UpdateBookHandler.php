@@ -49,8 +49,10 @@ class UpdateBookHandler implements CommandHandler
 
         $this->assertUniqueISBN($isbn);
 
-        $book = $this->bookRepository->find($bookID);
+        $book = $this->bookRepository->get($bookID);
         $book->setData($isbn, $authors, $title);
+
+        // TODO: repo->save or let UoW do it?
     }
 
     /**

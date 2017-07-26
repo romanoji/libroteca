@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Domain\Model\BookCopy;
 
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
+use RJozwiak\Libroteca\Domain\Model\BookCopy\Exception\BookCopyNotFoundException;
 
 interface BookCopyRepository
 {
@@ -19,9 +20,10 @@ interface BookCopyRepository
 
     /**
      * @param BookCopyID $id
-     * @return null|BookCopy
+     * @return BookCopy
+     * @throws BookCopyNotFoundException
      */
-    public function find(BookCopyID $id) : ?BookCopy;
+    public function get(BookCopyID $id) : BookCopy;
 
     /**
      * @param BookID $bookID

@@ -7,6 +7,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
+use RJozwiak\Libroteca\Domain\Model\BookCopy\Exception\BookCopyNotFoundException;
 
 class InMemoryBookCopyRepository implements BookCopyRepository
 {
@@ -34,12 +35,13 @@ class InMemoryBookCopyRepository implements BookCopyRepository
 
     /**
      * @param BookCopyID $id
-     * @return null|BookCopy
+     * @return BookCopy
+     * @throws BookCopyNotFoundException
      */
-    public function find(BookCopyID $id) : ?BookCopy
+    public function get(BookCopyID $id) : BookCopy
     {
         if (!isset($this->booksCopies[$id->id()])) {
-            return null;
+            throw new BookCopyNotFoundException();
         }
 
         return $this->booksCopies[$id->id()];
