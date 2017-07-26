@@ -3,19 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanID;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Exception\MaxNumberOfBookLoansExceededException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoan;
-use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderCannotReturnNotBorrowedBook;
-
 class Reader
 {
-    private const MAX_ONGOING_LOANS = 5;
-
     /** @var ReaderID */
     private $id;
 
@@ -30,9 +19,6 @@ class Reader
 
     /** @var Phone */
     private $phone;
-
-    /** @var BookLoan[] */ // TODO: add ArrayCollection?
-    private $ongoingLoans;
 
     /**
      * Reader constructor.
@@ -90,66 +76,5 @@ class Reader
     public function phone() : Phone
     {
         return $this->phone;
-    }
-
-    /**
-     * @param BookLoanID $bookLoanID
-     * @return null|BookLoan
-     */
-    public function ongoingBookLoan(BookLoanID $bookLoanID) : ?BookLoan
-    {
-        /** @var BookLoan $ongoingLoan */
-        foreach ($this->ongoingLoans as $ongoingLoan) {
-            if ($ongoingLoan->id()->equals($bookLoanID)) {
-                return $ongoingLoan;
-            }
-        }
-
-        return null; // TODO: exception?
-    }
-
-    /**
-     * @param BookLoanID $bookLoanID
-     * @param BookCopy $bookCopy
-     * @param \DateTimeImmutable $dueDate
-     * @throws MaxNumberOfBookLoansExceededException
-     */
-    public function borrowBookCopy(
-        BookLoanID $bookLoanID,
-        BookCopy $bookCopy,
-        \DateTimeImmutable $dueDate
-    ) : void {
-        if (count($this->ongoingLoans) >= self::MAX_ONGOING_LOANS) {
-            throw new MaxNumberOfBookLoansExceededException();
-        }
-
-        $loan = new BookLoan($bookLoanID, $bookCopy->id(), $this->id(), $dueDate);
-
-        $this->ongoingLoans[] = $loan; // TODO: do we care about duplicates? (can get any?)
-    }
-
-    /**
-     * @param BookCopyID $bookCopyID
-     * @param \DateTimeImmutable $endDate
-     * @param string|null $remarks
-     * @throws BookLoanAlreadyEndedException
-     * @throws EndingOverdueLoanWithoutRemarksException
-     * @throws ReaderCannotReturnNotBorrowedBook
-     */
-    public function returnBookCopy(
-        BookCopyID $bookCopyID,
-        \DateTimeImmutable $endDate,
-        string $remarks = null
-    ) : void {
-        /** @var BookLoan $ongoingLoan */
-        foreach ($this->ongoingLoans as $index => $ongoingLoan) {
-            if ($ongoingLoan->bookCopyID()->equals($bookCopyID)) {
-                $ongoingLoan->endLoan($endDate, $remarks);
-                unset($this->ongoingLoans[$index]);
-                return;
-            }
-        }
-
-        throw new ReaderCannotReturnNotBorrowedBook();
     }
 }

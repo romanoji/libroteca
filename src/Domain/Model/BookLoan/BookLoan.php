@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Domain\Model\Reader\BookLoan;
+namespace RJozwiak\Libroteca\Domain\Model\BookLoan;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyProlongedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class BookLoan
@@ -38,7 +38,7 @@ class BookLoan
     /** @var string */
     private $remarks;
 
-    // TODO: Event sourcing here?
+    // TODO: Good example for event sourcing?
 
     /**
      * Loan constructor.

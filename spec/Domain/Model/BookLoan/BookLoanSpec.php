@@ -1,14 +1,14 @@
 <?php
 
-namespace spec\RJozwiak\Libroteca\Domain\Model\Reader\BookLoan;
+namespace spec\RJozwiak\Libroteca\Domain\Model\BookLoan;
 
 use PhpSpec\ObjectBehavior;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception\BookLoanAlreadyProlongedException;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoan;
-use RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\BookLoanID;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class BookLoanSpec extends ObjectBehavior

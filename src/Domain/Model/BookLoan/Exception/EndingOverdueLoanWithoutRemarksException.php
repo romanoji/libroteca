@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Domain\Model\Reader\BookLoan\Exception;
+namespace RJozwiak\Libroteca\Domain\Model\BookLoan\Exception;
 
 class EndingOverdueLoanWithoutRemarksException extends \DomainException
 {
