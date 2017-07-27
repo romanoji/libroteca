@@ -44,7 +44,7 @@ class RegisterBookCopyHandler implements CommandHandler
         $this->assertBookExists($bookID);
 
         $bookCopy = new BookCopy($bookCopyID, $bookID);
-        $this->bookCopyRepository->add($bookCopy);
+        $this->bookCopyRepository->save($bookCopy);
     }
 
     /**

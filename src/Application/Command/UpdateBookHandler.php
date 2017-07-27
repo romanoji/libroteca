@@ -52,7 +52,7 @@ class UpdateBookHandler implements CommandHandler
         $book = $this->bookRepository->get($bookID);
         $book->setData($isbn, $authors, $title);
 
-        // TODO: repo->save or let UoW do it?
+        $this->bookRepository->save($book);
     }
 
     /**

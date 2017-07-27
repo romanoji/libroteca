@@ -16,7 +16,7 @@ interface BookCopyRepository
     /**
      * @param BookCopy $bookCopy
      */
-    public function add(BookCopy $bookCopy);
+    public function save(BookCopy $bookCopy);
 
     /**
      * @param BookCopyID $id

@@ -13,14 +13,14 @@ interface ReaderRepository
     public function nextID() : ReaderID;
 
     /**
-     * @param Reader $reader
-     */
-    public function add(Reader $reader);
-
-    /**
      * @return int
      */
     public function count() : int;
+
+    /**
+     * @param Reader $reader
+     */
+    public function save(Reader $reader);
 
     /**
      * @param ReaderID $id

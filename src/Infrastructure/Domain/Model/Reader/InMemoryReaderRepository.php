@@ -27,19 +27,19 @@ class InMemoryReaderRepository implements ReaderRepository
     }
 
     /**
-     * @param Reader $reader
-     */
-    public function add(Reader $reader)
-    {
-        $this->readers[$reader->id()->id()] = $reader;
-    }
-
-    /**
      * @return int
      */
     public function count() : int
     {
         return count($this->readers);
+    }
+
+    /**
+     * @param Reader $reader
+     */
+    public function save(Reader $reader)
+    {
+        $this->readers[$reader->id()->id()] = $reader;
     }
     
     /**

@@ -45,7 +45,7 @@ class RegisterReaderHandler implements CommandHandler
         $this->assertUniquePhone($phone);
 
         $reader = new Reader($readerID, $name, $surname, $email, $phone);
-        $this->readerRepository->add($reader);
+        $this->readerRepository->save($reader);
     }
 
     /**

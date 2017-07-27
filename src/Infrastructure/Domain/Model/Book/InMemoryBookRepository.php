@@ -30,7 +30,7 @@ class InMemoryBookRepository implements BookRepository
     /**
      * @param Book $book
      */
-    public function add(Book $book)
+    public function save(Book $book)
     {
         $this->books[$book->id()->id()] = $book;
     }

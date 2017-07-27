@@ -55,7 +55,7 @@ class RegisterBookHandler implements CommandHandler
         $this->assertUniqueISBN($isbn);
 
         $book = new Book($bookID, $isbn, $authors, $title);
-        $this->bookRepository->add($book);
+        $this->bookRepository->save($book);
     }
 
     /**

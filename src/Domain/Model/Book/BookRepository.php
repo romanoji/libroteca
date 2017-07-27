@@ -14,14 +14,14 @@ interface BookRepository
     public function nextID() : BookID;
 
     /**
-     * @param Book $book
-     */
-    public function add(Book $book);
-
-    /**
      * @return int
      */
     public function count() : int;
+
+    /**
+     * @param Book $book
+     */
+    public function save(Book $book);
 
     /**
      * @param BookID $id
