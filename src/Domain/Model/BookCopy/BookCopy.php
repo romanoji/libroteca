@@ -26,7 +26,7 @@ class BookCopy
     {
         $this->id = $copyID;
         $this->bookID = $bookID;
-        $this->setRemarks($remarks);
+        $this->updateRemarks($remarks);
     }
 
     /**
@@ -56,7 +56,7 @@ class BookCopy
     /**
      * @param string $remarks
      */
-    public function setRemarks(string $remarks) : void
+    public function updateRemarks(string $remarks) : void
     {
         $this->remarks = $remarks;
     }

@@ -36,7 +36,7 @@ class BookCopySpec extends ObjectBehavior
     {
         $remarks = 'Lorem ipsum...';
 
-        $this->setRemarks($remarks);
+        $this->updateRemarks($remarks);
         $this->remarks()->shouldReturn($remarks);
     }
 
