@@ -5,6 +5,8 @@ namespace Domain;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Helper\ClearsBetweenScenarios;
+use Helper\SharedObjects;
 use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Command\RegisterReaderHandler;
@@ -24,7 +26,7 @@ use Webmozart\Assert\Assert;
 
 class ReaderContext implements Context, SnippetAcceptingContext
 {
-    use SpiesOnExceptions;
+    use SpiesOnExceptions, ClearsBetweenScenarios;
 
     /** @var CommandBus */
     private $commandBus;
@@ -37,7 +39,7 @@ class ReaderContext implements Context, SnippetAcceptingContext
 
     public function __construct()
     {
-        $this->readerRepository = new InMemoryReaderRepository();
+        $this->readerRepository = SharedObjects::loadOrCreate(InMemoryReaderRepository::class);
         $this->commandBus = new SimpleCommandBus(
             new CommandHandlerResolver(
                 new ClassNameInflector(),

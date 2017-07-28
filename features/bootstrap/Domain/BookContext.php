@@ -7,6 +7,8 @@ use Behat\Behat\Context\{
     Context, SnippetAcceptingContext
 };
 use Behat\Gherkin\Node\TableNode;
+use Helper\ClearsBetweenScenarios;
+use Helper\SharedObjects;
 use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\{
     RegisterBook, RegisterBookCopy, RegisterBookCopyHandler, RegisterBookHandler, UpdateBook, UpdateBookHandler
@@ -26,7 +28,7 @@ use Webmozart\Assert\Assert;
 
 class BookContext implements Context, SnippetAcceptingContext
 {
-    use SpiesOnExceptions;
+    use SpiesOnExceptions, ClearsBetweenScenarios;
 
     /** @var CommandBus */
     private $commandBus;
@@ -44,8 +46,8 @@ class BookContext implements Context, SnippetAcceptingContext
     public function __construct()
     {
         $this->isbnFactory = new ISBNFactory();
-        $this->bookRepository = new InMemoryBookRepository();
-        $this->bookCopyRepository = new InMemoryBookCopyRepository();
+        $this->bookRepository = SharedObjects::loadOrCreate(InMemoryBookRepository::class);
+        $this->bookCopyRepository = SharedObjects::loadOrCreate(InMemoryBookCopyRepository::class);
         $this->commandBus = new SimpleCommandBus(
             new CommandHandlerResolver(
                 new ClassNameInflector(),
