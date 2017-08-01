@@ -36,15 +36,15 @@ Feature: Book registration
 
   Scenario: Register a book copy without any copies of the book in a library
     Given there is registered a book "A Dance with Dragons" of "George R.R. Martin" with ISBN "978-0553801477"
-    But there are no book copies with ISBN "978-0553801477" available for loan
+    But there are no book copies with ISBN "978-0553801477" in the library
     When I register book copy by ISBN "978-0553801477"
-    Then there should be 1 book copy with ISBN "978-0553801477" available for loan
+    Then there should be 1 book copy with ISBN "978-0553801477" in the library
 
   Scenario: Register an another book copy in a library
     Given there is registered a book "A Dance with Dragons" of "George R.R. Martin" with ISBN "978-0553801477"
-    And there are 2 book copies with ISBN "978-0553801477" available for loan
+    And there are 2 book copies with ISBN "978-0553801477" in the library
     When I register book copy by ISBN "978-0553801477"
-    Then there should be 3 book copies with ISBN "978-0553801477" available for loan
+    Then there should be 3 book copies with ISBN "978-0553801477" in the library
 
   Scenario: Update book data
     Given there is registered a book "a dance with dragons" of "G.R.R. Martin" with ISBN "9781568650548"

@@ -32,7 +32,7 @@ Feature: Lending book copy
     And the loan attempt should not be successful
     And there should be 1 book copy with ISBN "0-00-224743-7" available for loan
 
-  Scenario: Trying to lend a book copy to the reader, haven't returned previously borrowed books in time
+  Scenario: Trying to lend a book copy to the reader, which haven't returned previously borrowed books in time
     Given there is a loan for a book copy with ISBN "0-00-224743-7" to reader with email "john.kowalsky@mail.com" till "yesterday"
     When I lend a book copy with ISBN "978-0553801477" to the reader with email "john.kowalsky@mail.com" for 30 days
     Then I should be notified that reader must return books first to proceed with loan attempt

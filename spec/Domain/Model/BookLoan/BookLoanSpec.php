@@ -19,6 +19,7 @@ class BookLoanSpec extends ObjectBehavior
             new BookLoanID(1),
             new BookCopyID(2),
             new ReaderID(3),
+            new \DateTimeImmutable(),
             new \DateTimeImmutable()
         );
     }
@@ -53,12 +54,34 @@ class BookLoanSpec extends ObjectBehavior
         $this->readerID()->id()->shouldBe(3);
     }
 
+    function it_returns_if_loan_is_overdue()
+    {
+        $today = (new \DateTimeImmutable())->setTime(0, 0, 0);
+
+        $this->beConstructedWith(
+            new BookLoanID(1),
+            new BookCopyID(2),
+            new ReaderID(3),
+            $today,
+            new \DateTimeImmutable()
+        );
+
+        $this->isOverdue($today->modify('- 1 days'))->shouldReturn(false);
+        $this->isOverdue($today->modify('+ 1 days'))->shouldReturn(true);
+    }
+
     function it_throws_exception_when_due_date_is_earlier_than_today(
         BookLoanID $loanID,
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
-        $this->beConstructedWith($loanID, $bookCopyID, $readerID, new \DateTimeImmutable('- 1 day'));
+        $this->beConstructedWith(
+            $loanID,
+            $bookCopyID,
+            $readerID,
+            new \DateTimeImmutable('- 1 day'),
+            new \DateTimeImmutable()
+        );
 
         $this
             ->shouldThrow(
@@ -72,7 +95,13 @@ class BookLoanSpec extends ObjectBehavior
         BookCopyID $bookCopyID,
         ReaderID $readerID
     ) {
-        $this->beConstructedWith($loanID, $bookCopyID, $readerID, new \DateTimeImmutable('+ 61 days'));
+        $this->beConstructedWith(
+            $loanID,
+            $bookCopyID,
+            $readerID,
+            new \DateTimeImmutable('+ 61 days'),
+            new \DateTimeImmutable()
+        );
 
         $this
             ->shouldThrow(new \InvalidArgumentException('Exceeded max. loan period.'))
@@ -88,7 +117,7 @@ class BookLoanSpec extends ObjectBehavior
         $dueDate = $today->modify('+ 30 days');
         $endDate = $today->modify('+ 15 days');
 
-        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate);
+        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate, $today);
 
         $this->endLoan($endDate);
 
@@ -105,7 +134,7 @@ class BookLoanSpec extends ObjectBehavior
         $dueDate = $today->modify('+ 30 days');
         $endDate = $today->modify('+ 15 days');
 
-        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate);
+        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate, $today);
 
         $this->endLoan($endDate);
         $this
@@ -122,7 +151,7 @@ class BookLoanSpec extends ObjectBehavior
         $dueDate = $today->modify('+ 30 days');
         $endDate = $today->modify('+ 31 days');
 
-        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate);
+        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate, $today);
 
         $this
             ->shouldThrow(new EndingOverdueLoanWithoutRemarksException('Ending overdue loan must have remarks.'))
@@ -139,7 +168,7 @@ class BookLoanSpec extends ObjectBehavior
         $prolongedDueDate = $dueDate->modify('+ 30 days');
         $resultDueDate = $today->modify('+ 60 days');
 
-        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate);
+        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate, $today);
 
         $this->prolongTo($prolongedDueDate);
 

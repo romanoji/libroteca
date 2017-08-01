@@ -11,6 +11,7 @@ use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class BookLoan
 {
+    public const MAX_ONGOING_LOANS = 5;
     private const MAX_LOAN_PERIOD_IN_DAYS = 60;
     private const MAX_PROLONGATION_PERIOD_IN_DAYS = 30;
 
@@ -46,17 +47,20 @@ class BookLoan
      * @param BookCopyID $bookCopyID
      * @param ReaderID $readerID
      * @param \DateTimeImmutable $dueDate
+     * @param \DateTimeImmutable $today
      * @throws \InvalidArgumentException
+     * @internal
      */
     public function __construct(
         BookLoanID $id,
         BookCopyID $bookCopyID,
         ReaderID $readerID,
-        \DateTimeImmutable $dueDate
+        \DateTimeImmutable $dueDate,
+        \DateTimeImmutable $today
     ) {
         $dueDate = $this->clearTime($dueDate);
 
-        $this->assertValidDueDate($dueDate);
+        $this->assertValidDueDate($dueDate, $today);
 
         $this->id = $id;
         $this->bookCopyID = $bookCopyID;
@@ -68,11 +72,12 @@ class BookLoan
 
     /**
      * @param \DateTimeImmutable $dueDate
+     * @param \DateTimeImmutable $today
      * @throws \InvalidArgumentException
      */
-    private function assertValidDueDate(\DateTimeImmutable $dueDate)
+    private function assertValidDueDate(\DateTimeImmutable $dueDate, \DateTimeImmutable $today)
     {
-        $today = $this->clearTime(new \DateTimeImmutable());
+        $today = $this->clearTime($today);
         $maxDueDate = $this->dateAfterDays(self::MAX_LOAN_PERIOD_IN_DAYS);
 
         if ($dueDate < $today) {
@@ -146,6 +151,15 @@ class BookLoan
     public function remarks() : string
     {
         return $this->remarks;
+    }
+
+    /**
+     * @param \DateTimeImmutable $today
+     * @return bool
+     */
+    public function isOverdue(\DateTimeImmutable $today)
+    {
+        return $this->dueDate < $today;
     }
 
     /**

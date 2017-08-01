@@ -93,8 +93,8 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given there is :copies book copy with ISBN :isbn available for loan
-     * @Given there are :copies book copies with ISBN :isbn available for loan
+     * @Given there is :copies book copy with ISBN :isbn in the library
+     * @Given there are :copies book copies with ISBN :isbn in the library
      */
     public function createBookCopiesByISBN($copies, string $isbn)
     {
@@ -209,10 +209,10 @@ class BookContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then /^there should be (\d+) book cop(?:y|ies) with ISBN "([^"]*)" available for loan$/
-     * @Then there should be no book copies with ISBN :isbn available for loan
+     * @Then /^there should be (\d+) book cop(?:y|ies) with ISBN "([^"]*)" in the library$/
+     * @Then there should be no book copies with ISBN :isbn in the library
      */
-    public function assertSomeNumberOfBookCopiesAvailableForLoan(int $copies = 0, string $isbn)
+    public function assertSomeNumberOfBookCopiesInTheLibrary(int $copies = 0, string $isbn)
     {
         $book = $this->bookRepository->findOneByISBN(
             $this->isbnFactory->create($isbn)
