@@ -9,6 +9,7 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class BookLoanSpec extends ObjectBehavior
@@ -170,7 +171,7 @@ class BookLoanSpec extends ObjectBehavior
 
         $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate, $today);
 
-        $this->prolongTo($prolongedDueDate);
+        $this->prolongTo($prolongedDueDate, $today);
 
         $this->isProlonged()->shouldBe(true);
         $this->dueDate()->shouldBeLike($resultDueDate);
@@ -184,34 +185,56 @@ class BookLoanSpec extends ObjectBehavior
         $this->endLoan($today);
         $this
             ->shouldThrow(new BookLoanAlreadyEndedException('Loan has already ended.'))
-            ->during('prolongTo', [$dueDate]);
+            ->during('prolongTo', [$dueDate, $today]);
     }
 
     function it_cannot_be_prolonged_twice()
     {
-        $dueDate = (new \DateTimeImmutable())
-            ->setTime(0, 0, 0)
-            ->modify('+ 30 days');
+        $today = (new \DateTimeImmutable())->setTime(0, 0, 0);
+        $dueDate = $today->modify('+ 30 days');
 
-        $this->prolongTo($dueDate);
+        $this->prolongTo($dueDate, $today);
         $this
             ->shouldThrow(new BookLoanAlreadyProlongedException('Loan is already prolonged.'))
-            ->during('prolongTo', [$dueDate]);
+            ->during('prolongTo', [$dueDate, $today]);
+    }
+
+    function it_cannot_be_prolonged_when_it_is_overdue(
+        BookLoanID $loanID,
+        BookCopyID $bookCopyID,
+        ReaderID $readerID
+    ) {
+        $loanDate = (new \DateTimeImmutable())->setTime(0, 0, 0);
+        $dueDate = (new \DateTimeImmutable())->setTime(0, 0, 0)->modify('+ 30 days');
+        $prolongationDate = $dueDate->modify('+ 14 days');
+        $today = $dueDate->modify('+ 1 day');
+
+        $this->beConstructedWith($loanID, $bookCopyID, $readerID, $dueDate, $loanDate);
+
+        $this
+            ->shouldThrow(new ProlongOverdueBookLoanException('Cannot prolong overdue book loan.'))
+            ->during('prolongTo', [$prolongationDate, $today]);
     }
 
     function it_throw_exception_when_prolonged_due_date_is_earlier_than_current_due_date()
     {
+        $today = new \DateTimeImmutable();
+        $yesterday = new \DateTimeImmutable('- 1 day');
+
         $this
             ->shouldThrow(
-                new \InvalidArgumentException('Prolonged due date cannot be earlier than current loan due date.')
+                new \InvalidArgumentException('Prolongation date cannot be earlier than current loan due date.')
             )
-            ->during('prolongTo', [new \DateTimeImmutable('- 1 day')]);
+            ->during('prolongTo', [$yesterday, $today]);
     }
 
     function it_throw_exception_when_prolonged_due_date_exceeds_max_prolongation_period()
     {
+        $today = new \DateTimeImmutable();
+        $datePastMaxProlongationPeriod = new \DateTimeImmutable('+ 31 days');
+
         $this
             ->shouldThrow(new \InvalidArgumentException('Exceeded max. prolongation period.'))
-            ->during('prolongTo', [new \DateTimeImmutable('+ 31 days')]);
+            ->during('prolongTo', [$datePastMaxProlongationPeriod, $today]);
     }
 }

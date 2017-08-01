@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Domain\Model\BookLoan\Exception;
 
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
-class BookLoanAttemptWhenHavingOverdueLoanException extends \RuntimeException
+class BookLoanAttemptWhenHavingOverdueLoanException extends \DomainException
 {
     /**
      * @param ReaderID $readerID

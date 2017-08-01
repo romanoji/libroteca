@@ -7,7 +7,7 @@ use RJozwiak\Libroteca\Application\Command;
 
 class LendBookCopy implements Command
 {
-    // TODO: rename to BorrowBookCopy
+    // TODO: rename to BorrowBookCopy ?
 
     /** @var int|string */
     public $bookLoanID;

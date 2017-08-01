@@ -11,7 +11,7 @@ use Behat\Gherkin\Node\TableNode;
 use Helper\ClearsBetweenScenarios;
 use Helper\SharedObjects;
 use Helper\SpiesOnExceptions;
-use RJozwiak\Libroteca\Application\Command\AcceptBookCopyHandler;
+use RJozwiak\Libroteca\Application\Command\ReturnBookCopyHandler;
 use RJozwiak\Libroteca\Application\Command\LendBookCopy;
 use RJozwiak\Libroteca\Application\Command\LendBookCopyHandler;
 use RJozwiak\Libroteca\Application\Command\ProlongBookLoan;
@@ -26,9 +26,12 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanFactory;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanRepository;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookCopyAlreadyBorrowedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAttemptWhenHavingOverdueLoanException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\MaxOngoingLoansExceededException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
@@ -93,9 +96,9 @@ class LoanContext implements Context, SnippetAcceptingContext
                         $this->bookLoanFactory
                     ),
                     new ProlongBookLoanHandler(
-                        $this->readerRepository
+                        $this->bookLoanRepository
                     ),
-                    new AcceptBookCopyHandler(
+                    new ReturnBookCopyHandler(
                         $this->readerRepository
                     )
                 ])
@@ -132,7 +135,7 @@ class LoanContext implements Context, SnippetAcceptingContext
     {
         $this->spyOnException(
             [$this, 'createBookLoanFromISBN'],
-            [$isbn, $email, $this->today->modify("+ $days day"), $this->today]
+            [$isbn, $email, $this->today->modify("+ $days days"), $this->today]
         );
     }
 
@@ -148,7 +151,7 @@ class LoanContext implements Context, SnippetAcceptingContext
                 $this->createBookLoanFromISBN(
                     $bookLoan['isbn'],
                     $email,
-                    $this->today->modify("+ {$bookLoan['for N days']} day"),
+                    $this->today->modify("+ {$bookLoan['for N days']} days"),
                     $this->today
                 );
             }
@@ -203,7 +206,7 @@ class LoanContext implements Context, SnippetAcceptingContext
                     $this->currentBookLoanID->id(),
                     $this->currentReaderID->id(),
                     $this->currentBookCopyID->id(),
-                    $this->today->modify("+ $days day"),
+                    $this->today->modify("+ $days days"),
                     $this->today
                 )
             );
@@ -222,7 +225,7 @@ class LoanContext implements Context, SnippetAcceptingContext
         Assert::allIsInstanceOf($bookLoan, BookLoan::class);
         Assert::eq(
             $bookLoan[0]->dueDate(),
-            $this->today->modify("+ $days day")
+            $this->today->modify("+ $days days")
         );
     }
 
@@ -285,7 +288,7 @@ class LoanContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that loan period can last at most for :days days
      */
-    public function assertBookLoanPeriodOutOfLimitExceptionHasBeenThrown(int $days)
+    public function assertBookLoanPeriodOutOfLimitExceptionHasBeenThrown(int $days) // TODO: pass info. in exception
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
         Assert::eq('Exceeded max. loan period.', $this->catchedException->getMessage());
@@ -319,14 +322,81 @@ class LoanContext implements Context, SnippetAcceptingContext
         Assert::null($this->bookLoanRepository->findOngoingByBookCopyID($this->currentBookCopyID));
     }
 
-//    /**
-//     * @When I prolong loan period on this book copy by :days days
-//     */
-//    public function iProlongLoanPeriodOnThisBookCopyByDays($days)
-//    {
-//        throw new PendingException();
-//    }
-//
+    /**
+     * @Given this loan has already been prolonged for :days days
+     * @When I prolong loan period on this book copy by :days days
+     */
+    public function prolongBookLoanByDays(int $days)
+    {
+        $this->spyOnException(function () use ($days) {
+            $this->commandBus->handle(
+                new ProlongBookLoan(
+                    $this->currentBookLoanID->id(),
+                    $this->today->modify("+ $days days"),
+                    $this->today
+                )
+            );
+        });
+    }
+
+    /**
+     * @Then this loan should be prolonged by :days days
+     */
+    public function assertLoanProlongedByDays(int $days)
+    {
+        $bookLoan = $this->bookLoanRepository->get($this->currentBookLoanID);
+
+        Assert::true($bookLoan->isProlonged());
+        Assert::eq($bookLoan->dueDate(), $this->today->modify("+ {$days} days"));
+    }
+
+    /**
+     * @Then this loan should expire :days days later
+     */
+    public function assertBookLoanExpiration(int $days)
+    {
+        $dayBeforeExpiration = $days - 1;
+        $bookLoan = $this->bookLoanRepository->get($this->currentBookLoanID);
+
+        Assert::false($bookLoan->isOverdue($this->today->modify("+ {$dayBeforeExpiration} days")));
+        Assert::true($bookLoan->isOverdue($this->today->modify("+ {$days} days")));
+    }
+
+    /**
+     * @Then this loan period should not be prolonged
+     */
+    public function assertLoanNotProlonged()
+    {
+        $bookLoan = $this->bookLoanRepository->get($this->currentBookLoanID);
+
+        Assert::false($bookLoan->isProlonged());
+    }
+
+    /**
+     * @Then I should be notified that the loan period has been already prolonged
+     */
+    public function assertBookLoanAlreadyProlongedExceptionHasBeenThrown()
+    {
+        Assert::isInstanceOf($this->catchedException, BookLoanAlreadyProlongedException::class);
+    }
+
+    /**
+     * @Then I should be notified that the loan period has already expired
+     */
+    public function assertCannotProlongPeriodOfOverdueBookLoan()
+    {
+        Assert::isInstanceOf($this->catchedException, ProlongOverdueBookLoanException::class);
+    }
+
+    /**
+     * @Then I should be notified that the loan prolongation is at most :days days
+     */
+    public function iShouldBeNotifiedThatTheLoanProlongationIsAtMostDays(int $days) // TODO: pass info. in exception
+    {
+        Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
+        Assert::eq("Exceeded max. prolongation period.", $this->catchedException->getMessage());
+    }
+
 //    /**
 //     * @When I accept a book copy identified by ISBN :isbn from a reader with email :email without remarks
 //     */
@@ -343,22 +413,6 @@ class LoanContext implements Context, SnippetAcceptingContext
 //        $email,
 //        PyStringNode $remarks
 //    ) {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then this loan should expire :days days later
-//     */
-//    public function thisLoanShouldExpireDaysLater($days)
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then this loan period should not be prolonged
-//     */
-//    public function thisLoanPeriodShouldNotBeProlonged()
-//    {
 //        throw new PendingException();
 //    }
 //
@@ -389,41 +443,9 @@ class LoanContext implements Context, SnippetAcceptingContext
 //    }
 //
 //    /**
-//     * @Then I should be notified that the loan period has been already prolonged
-//     */
-//    public function iShouldBeNotifiedThatTheLoanPeriodHasBeenAlreadyProlonged()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then I should be notified that the loan period has already expired
-//     */
-//    public function iShouldBeNotifiedThatTheLoanPeriodHasAlreadyExpired()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then I should be notified that the loan prolongation is at most :days days
-//     */
-//    public function iShouldBeNotifiedThatTheLoanProlongationIsAtMostDays($days)
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
 //     * @Then I should be notified that adding remarks to overdue loan is required
 //     */
 //    public function iShouldBeNotifiedThatAddingRemarksToOverdueLoanIsRequired()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Given this loan has already been prolonged
-//     */
-//    public function thisLoanHasAlreadyBeenProlonged()
 //    {
 //        throw new PendingException();
 //    }

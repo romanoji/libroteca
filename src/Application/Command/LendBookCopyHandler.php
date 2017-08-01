@@ -75,7 +75,6 @@ class LendBookCopyHandler implements CommandHandler
                 $command->dueDate,
                 $command->today
             );
-
         $this->bookLoanRepository->save($bookLoan);
     }
 

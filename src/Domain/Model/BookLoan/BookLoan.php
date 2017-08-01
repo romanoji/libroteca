@@ -7,6 +7,7 @@ use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 class BookLoan
@@ -188,11 +189,13 @@ class BookLoan
 
     /**
      * @param \DateTimeImmutable $newDueDate
+     * @param \DateTimeImmutable $today
      * @throws BookLoanAlreadyEndedException
      * @throws BookLoanAlreadyProlongedException
+     * @throws ProlongOverdueBookLoanException
      * @throws \InvalidArgumentException
      */
-    public function prolongTo(\DateTimeImmutable $newDueDate) : void
+    public function prolongTo(\DateTimeImmutable $newDueDate, \DateTimeImmutable $today) : void
     {
         if ($this->hasEnded()) {
             throw new BookLoanAlreadyEndedException('Loan has already ended.');
@@ -201,14 +204,18 @@ class BookLoan
             throw new BookLoanAlreadyProlongedException('Loan is already prolonged.');
         }
 
+        $today = $this->clearTime($today);
         $newDueDate = $this->clearTime($newDueDate);
         $maxProlongedDueDate = $this->dateAfterDays(
             self::MAX_PROLONGATION_PERIOD_IN_DAYS,
             $this->dueDate
         );
 
+        if ($this->isOverdue($today)) {
+            throw new ProlongOverdueBookLoanException('Cannot prolong overdue book loan.');
+        }
         if ($newDueDate < $this->dueDate) {
-            throw new \InvalidArgumentException('Prolonged due date cannot be earlier than current loan due date.');
+            throw new \InvalidArgumentException('Prolongation date cannot be earlier than current loan due date.');
         }
         if ($newDueDate > $maxProlongedDueDate) {
             throw new \InvalidArgumentException('Exceeded max. prolongation period.');
