@@ -12,8 +12,8 @@
         "php": "^7.1"
     },
     "require-dev": {
-        "phpspec/phpspec": "^3.0",
-        "Behat/Behat": "^3.1",
+        "phpspec/phpspec": "^3.4",
+        "Behat/Behat": "^3.3",
         "squizlabs/php_codesniffer": "2.*",
         "webmozart/assert": "^1.2.0"
     },
