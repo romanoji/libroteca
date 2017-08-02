@@ -5,9 +5,9 @@ Feature: Sending notifications to readers before loan expiration
   Scenario: Send notification on 2 days before an loan expiration date
     Given there is reader with email "john.kowalsky@mail.com", name "John", surname "Kowalsky" and phone "123456789"
     And there is registered a book "A Feast for Crows" of "George R.R. Martin" with ISBN "0-00-224743-7"
-    And there is 1 book copy with ISBN "0-00-224743-7" available for loan
+    And there is 1 book copy with ISBN "0-00-224743-7" in the library
     And there is registered a book "A Dance with Dragons" of "George R.R. Martin" with ISBN "978-0553801477"
-    And there is 1 book copy with ISBN "978-0553801477" available for loan
+    And there is 1 book copy with ISBN "978-0553801477" in the library
     And there is a loan for a book copy with ISBN "978-0553801477" to reader with email "john.kowalsky@mail.com" till "day after tomorrow"
     And there is a loan for a book copy with ISBN "0-00-224743-7" to reader with email "john.kowalsky@mail.com" till "day after tomorrow"
     Then the reader should be notified on email "john.kowalsky@mail.com" about loan expiration with message:

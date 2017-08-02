@@ -27,7 +27,6 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanFactory;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanRepository;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookCopyAlreadyBorrowedException;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAttemptWhenHavingOverdueLoanException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
@@ -445,13 +444,13 @@ class LoanContext implements Context, SnippetAcceptingContext
         Assert::eq('Ending overdue loan must have remarks.', $this->catchedException->getMessage());
     }
 
-//    /**
-//     * @Then the reader should be notified on email :email about loan expiration with message:
-//     */
-//    public function theReaderShouldBeNotifiedOnEmailAboutLoanExpirationWithMessage(
-//        $email,
-//        PyStringNode $message
-//    ) {
-//        throw new PendingException();
-//    }
+    /**
+     * @Then the reader should be notified on email :email about loan expiration with message:
+     */
+    public function theReaderShouldBeNotifiedOnEmailAboutLoanExpirationWithMessage(
+        $email,
+        PyStringNode $message
+    ) {
+        throw new PendingException(); // TODO:
+    }
 }
