@@ -20,6 +20,8 @@ class Reader
     /** @var Phone */
     private $phone;
 
+    // TODO: Account type + use it to determine how to send notification (via SMS/Email)
+
     /**
      * Reader constructor.
      * @param ReaderID $id
