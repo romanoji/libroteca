@@ -20,7 +20,7 @@ class UpdateBook implements Command
     public $title;
 
     /**
-     * RegisterBook constructor.
+     * UpdateBook constructor.
      * @param int|string $bookID
      * @param string $isbn
      * @param array $authors

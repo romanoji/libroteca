@@ -5,30 +5,30 @@ namespace RJozwiak\Libroteca\Application\Command;
 
 use RJozwiak\Libroteca\Application\Command;
 
-class ProlongBookLoan implements Command
+class ReturnBookCopy implements Command
 {
     /** @var int|string */
     public $bookLoanID;
 
-    /** @var string */
-    public $newDueDate;
-
     /** @var \DateTimeImmutable */
-    public $today;
+    public $endDate;
+
+    /** @var null|string */
+    public $remarks;
 
     /**
-     * ProlongBookLoan constructor.
+     * ReturnBookCopy constructor.
      * @param int|string $bookLoanID
-     * @param \DateTimeImmutable $newDueDate
-     * @param \DateTimeImmutable $today
+     * @param \DateTimeImmutable $endDate
+     * @param null|string $remarks
      */
     public function __construct(
         $bookLoanID,
-        \DateTimeImmutable $newDueDate,
-        \DateTimeImmutable $today
+        \DateTimeImmutable $endDate,
+        string $remarks = null
     ) {
         $this->bookLoanID = $bookLoanID;
-        $this->newDueDate = $newDueDate;
-        $this->today = $today;
+        $this->endDate = $endDate;
+        $this->remarks = $remarks;
     }
 }

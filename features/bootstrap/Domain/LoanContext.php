@@ -11,6 +11,7 @@ use Behat\Gherkin\Node\TableNode;
 use Helper\ClearsBetweenScenarios;
 use Helper\SharedObjects;
 use Helper\SpiesOnExceptions;
+use RJozwiak\Libroteca\Application\Command\ReturnBookCopy;
 use RJozwiak\Libroteca\Application\Command\ReturnBookCopyHandler;
 use RJozwiak\Libroteca\Application\Command\LendBookCopy;
 use RJozwiak\Libroteca\Application\Command\LendBookCopyHandler;
@@ -30,6 +31,7 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedExcep
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAttemptWhenHavingOverdueLoanException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\MaxOngoingLoansExceededException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
@@ -99,7 +101,7 @@ class LoanContext implements Context, SnippetAcceptingContext
                         $this->bookLoanRepository
                     ),
                     new ReturnBookCopyHandler(
-                        $this->readerRepository
+                        $this->bookLoanRepository
                     )
                 ])
             )
@@ -391,47 +393,58 @@ class LoanContext implements Context, SnippetAcceptingContext
     /**
      * @Then I should be notified that the loan prolongation is at most :days days
      */
-    public function iShouldBeNotifiedThatTheLoanProlongationIsAtMostDays(int $days) // TODO: pass info. in exception
+    public function assertLoanProlongationWithinRange(int $days) // TODO: pass info. in exception
     {
         Assert::isInstanceOf($this->catchedException, \InvalidArgumentException::class);
         Assert::eq("Exceeded max. prolongation period.", $this->catchedException->getMessage());
     }
 
-//    /**
-//     * @When I accept a book copy identified by ISBN :isbn from a reader with email :email without remarks
-//     */
-//    public function iAcceptABookCopyIdentifiedByIsbnFromAReaderWithEmailWithoutRemarks($isbn, $email)
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @When I accept a book copy identified by ISBN :isbn from a reader with email :email with remarks:
-//     */
-//    public function iAcceptABookCopyIdentifiedByIsbnFromAReaderWithEmailWithRemarks(
-//        $isbn,
-//        $email,
-//        PyStringNode $remarks
-//    ) {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then this book copy should be returned
-//     */
-//    public function thisBookCopyShouldBeReturned()
-//    {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then this book copy should not be returned
-//     */
-//    public function thisBookCopyShouldNotBeReturned()
-//    {
-//        throw new PendingException();
-//    }
-//
+    /**
+     * @When I accept this book copy without remarks
+     * @When I accept this book copy with remarks:
+     */
+    public function returnBookCopyOfReader(PyStringNode $remarks = null)
+    {
+        $this->spyOnException(function () use ($remarks) {
+            $this->commandBus->handle(
+                new ReturnBookCopy(
+                    $this->currentBookLoanID->id(),
+                    $this->today,
+                    $remarks ? $remarks->getRaw() : null
+                )
+            );
+        });
+    }
+
+    /**
+     * @Then the book loan should has ended
+     */
+    public function assertBookLoanEnded()
+    {
+        $bookLoan = $this->bookLoanRepository->get($this->currentBookLoanID);
+
+        Assert::true($bookLoan->hasEnded());
+    }
+
+    /**
+     * @Then the book loan should has not ended
+     */
+    public function assertBookLoanNotEnded()
+    {
+        $bookLoan = $this->bookLoanRepository->get($this->currentBookLoanID);
+
+        Assert::false($bookLoan->hasEnded());
+    }
+
+    /**
+     * @Then I should be notified that adding remarks to overdue loan is required
+     */
+    public function iShouldBeNotifiedThatAddingRemarksToOverdueLoanIsRequired()
+    {
+        Assert::isInstanceOf($this->catchedException, EndingOverdueLoanWithoutRemarksException::class);
+        Assert::eq('Ending overdue loan must have remarks.', $this->catchedException->getMessage());
+    }
+
 //    /**
 //     * @Then the reader should be notified on email :email about loan expiration with message:
 //     */
@@ -439,14 +452,6 @@ class LoanContext implements Context, SnippetAcceptingContext
 //        $email,
 //        PyStringNode $message
 //    ) {
-//        throw new PendingException();
-//    }
-//
-//    /**
-//     * @Then I should be notified that adding remarks to overdue loan is required
-//     */
-//    public function iShouldBeNotifiedThatAddingRemarksToOverdueLoanIsRequired()
-//    {
 //        throw new PendingException();
 //    }
 }

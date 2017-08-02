@@ -23,7 +23,7 @@ class UpdateBookHandler implements CommandHandler
     private $bookRepository;
 
     /**
-     * RegisterBookHandler constructor.
+     * UpdateBookHandler constructor.
      * @param ISBNFactory $isbnFactory
      * @param BookRepository $bookRepository
      */

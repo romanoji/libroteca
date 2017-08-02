@@ -4,19 +4,22 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Application\Command;
 
 use RJozwiak\Libroteca\Application\CommandHandler;
+use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanRepository;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderCannotReturnNotBorrowedBook;
+use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
+use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
 
-class ProlongBookLoanHandler implements CommandHandler
+class ReturnBookCopyHandler implements CommandHandler
 {
     /** @var BookLoanRepository */
     private $bookLoanRepository;
 
     /**
-     * ProlongBookLoanHandler constructor.
+     * ReturnBookCopyHandler constructor.
      * @param BookLoanRepository $bookLoanRepository
      */
     public function __construct(BookLoanRepository $bookLoanRepository) {
@@ -24,19 +27,17 @@ class ProlongBookLoanHandler implements CommandHandler
     }
 
     /**
-     * @param ProlongBookLoan $command
+     * @param ReturnBookCopy $command
      * @throws BookLoanAlreadyEndedException
-     * @throws BookLoanAlreadyProlongedException
-     * @throws \InvalidArgumentException
-     * @throws ProlongOverdueBookLoanException
+     * @throws EndingOverdueLoanWithoutRemarksException
      */
-    public function execute(ProlongBookLoan $command) : void
+    public function execute(ReturnBookCopy $command) : void
     {
         $bookLoanID = new BookLoanID($command->bookLoanID);
 
         $bookLoan = $this->bookLoanRepository->get($bookLoanID);
 
-        $bookLoan->prolongTo($command->newDueDate, $command->today);
+        $bookLoan->endLoan($command->endDate, $command->remarks);
         $this->bookLoanRepository->save($bookLoan);
     }
 }

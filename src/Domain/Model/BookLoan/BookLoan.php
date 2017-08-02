@@ -155,12 +155,12 @@ class BookLoan
     }
 
     /**
-     * @param \DateTimeImmutable $today
+     * @param \DateTimeImmutable $date
      * @return bool
      */
-    public function isOverdue(\DateTimeImmutable $today)
+    public function isOverdue(\DateTimeImmutable $date)
     {
-        return $this->dueDate < $today;
+        return $this->dueDate < $date;
     }
 
     /**
@@ -168,7 +168,6 @@ class BookLoan
      * @param string|null $remarks
      * @throws EndingOverdueLoanWithoutRemarksException
      * @throws BookLoanAlreadyEndedException
-     * @internal
      */
     public function endLoan(\DateTimeImmutable $endDate, string $remarks = null) : void
     {
@@ -178,7 +177,7 @@ class BookLoan
 
         $endDate = $this->clearTime($endDate);
 
-        if ($endDate > $this->dueDate && empty($remarks)) {
+        if ($this->isOverdue($endDate) && empty($remarks)) {
             throw new EndingOverdueLoanWithoutRemarksException('Ending overdue loan must have remarks.');
         }
 
