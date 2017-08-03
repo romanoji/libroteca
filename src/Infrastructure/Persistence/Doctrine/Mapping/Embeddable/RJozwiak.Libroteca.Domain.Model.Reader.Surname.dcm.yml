@@ -1,0 +1,4 @@
+RJozwiak\Libroteca\Domain\Model\Reader\Surname:
+  type: embeddable
+  fields:
+    surname: { type: string }

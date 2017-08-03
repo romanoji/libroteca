@@ -1,0 +1,4 @@
+RJozwiak\Libroteca\Domain\Model\Reader\Email:
+  type: embeddable
+  fields:
+    email: { type: string }

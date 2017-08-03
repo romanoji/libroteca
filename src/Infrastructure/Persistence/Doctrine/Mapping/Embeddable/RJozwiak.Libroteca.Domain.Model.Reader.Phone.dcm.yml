@@ -1,0 +1,4 @@
+RJozwiak\Libroteca\Domain\Model\Reader\Phone:
+  type: embeddable
+  fields:
+    phone: { type: string }

@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy;
 
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\Exception\BookCopyNotFoundException;
+use RJozwiak\Libroteca\Domain\Model\BookCopy\{
+    BookCopy, BookCopyID, BookCopyRepository, Exception\BookCopyNotFoundException
+};
 
 class InMemoryBookCopyRepository implements BookCopyRepository
 {

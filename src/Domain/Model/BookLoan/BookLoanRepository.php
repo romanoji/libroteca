@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Domain\Model\BookLoan;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
 interface BookLoanRepository
@@ -19,11 +20,11 @@ interface BookLoanRepository
     public function save(BookLoan $bookLoan);
 
     /**
-     * @param BookLoanID $bookLoanID
+     * @param BookLoanID $id
      * @return BookLoan
-     * @throws
+     * @throws BookLoanNotFoundException
      */
-    public function get(BookLoanID $bookLoanID) : BookLoan;
+    public function get(BookLoanID $id) : BookLoan;
 
     /**
      * @param BookCopyID $bookCopyID

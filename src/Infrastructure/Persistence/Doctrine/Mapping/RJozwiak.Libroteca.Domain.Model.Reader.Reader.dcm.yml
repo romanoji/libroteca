@@ -1,0 +1,21 @@
+RJozwiak\Libroteca\Domain\Model\Reader\Reader:
+  type: entity
+  table: readers
+  repositoryClass: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\DoctrineReaderRepository
+  id:
+    id:
+      column: id
+      type: RJozwiak\Libroteca\Domain\Model\Reader\ReaderID
+  embedded:
+    name:
+      class: RJozwiak\Libroteca\Domain\Model\Reader\Name
+      columnPrefix: false
+    surname:
+      class: RJozwiak\Libroteca\Domain\Model\Reader\Surname
+      columnPrefix: false
+    email:
+      class: RJozwiak\Libroteca\Domain\Model\Reader\Email
+      columnPrefix: false
+    phone:
+      class: RJozwiak\Libroteca\Domain\Model\Reader\Phone
+      columnPrefix: false

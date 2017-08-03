@@ -3,13 +3,9 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Book;
 
-use RJozwiak\Libroteca\Domain\Model\Book\Author;
-use RJozwiak\Libroteca\Domain\Model\Book\Book;
-use RJozwiak\Libroteca\Domain\Model\Book\BookID;
-use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
-use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
-use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
-use RJozwiak\Libroteca\Domain\Model\Book\Title;
+use RJozwiak\Libroteca\Domain\Model\Book\{
+    Author, Book, BookID, BookRepository, Exception\BookNotFoundException, ISBN\ISBN, Title
+};
 
 class InMemoryBookRepository implements BookRepository
 {

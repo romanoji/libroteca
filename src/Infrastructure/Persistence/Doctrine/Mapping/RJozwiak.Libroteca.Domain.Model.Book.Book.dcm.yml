@@ -1,0 +1,20 @@
+RJozwiak\Libroteca\Domain\Model\Book\Book:
+  type: entity
+  table: books
+  repositoryClass: RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\DoctrineBookRepository
+  id:
+    id:
+      column: id
+      type: RJozwiak\Libroteca\Domain\Model\Book\BookID
+  embedded:
+    title:
+      class: RJozwiak\Libroteca\Domain\Model\Book\Title
+      columnPrefix: false
+  fields:
+    isbn:
+      column: isbn
+      type: ISBN
+    authors:
+      column: authors
+      type: _text
+

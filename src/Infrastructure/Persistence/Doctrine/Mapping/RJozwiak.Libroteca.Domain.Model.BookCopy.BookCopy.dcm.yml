@@ -1,0 +1,15 @@
+RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy:
+  type: entity
+  table: book_copies
+  repositoryClass: RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy\DoctrineBookCopyRepository
+  id:
+    id:
+      column: id
+      type: RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID
+  fields:
+    bookID:
+      column: book_id
+      type: RJozwiak\Libroteca\Domain\Model\Book\BookID
+    remarks:
+      column: remarks
+      type: string

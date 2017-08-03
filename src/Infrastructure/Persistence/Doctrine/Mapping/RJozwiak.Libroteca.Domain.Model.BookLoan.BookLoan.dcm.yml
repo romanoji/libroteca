@@ -1,0 +1,30 @@
+RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan:
+  type: entity
+  table: books_loans
+  repositoryClass: RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan\DoctrineBookLoanRepository
+  id:
+    id:
+      column: id
+      type: RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID
+  fields:
+    bookCopyID:
+      column: book_copy_id
+      type: RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID
+    readerID:
+      column: reader_id
+      type: RJozwiak\Libroteca\Domain\Model\Reader\ReaderID
+    dueDate:
+      column: due_date
+      type: date
+    ended:
+      column: has_ended
+      type: boolean
+    endDate:
+      column: end_date
+      type: date
+    prolonged:
+      column: prolonged
+      type: boolean
+    remarks:
+      column: remarks
+      type: string
