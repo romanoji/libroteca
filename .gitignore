@@ -1,4 +1,9 @@
 .idea
-/bin/*
+
+bin/*
 !bin/.gitkeep
-/vendor/
+
+var/*
+!var/**/.gitkeep
+
+vendor/
