@@ -12,7 +12,13 @@
         "php": "^7.1",
         "doctrine/orm": "^2.5.6",
         "ramsey/uuid": "^3.6.1",
-        "martin-georgiev/postgresql-for-doctrine": "^0.10"
+        "martin-georgiev/postgresql-for-doctrine": "^0.10",
+        "symfony/config": "^3.3",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/event-dispatcher": "^3.3",
+        "symfony/http-foundation": "^3.3",
+        "symfony/http-kernel": "^3.3",
+        "symfony/routing": "^3.3"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.4",
