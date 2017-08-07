@@ -1,0 +1,17 @@
+parameters:
+  request.class: Symfony\Component\HttpFoundation\Request
+  request_stack.class: Symfony\Component\HttpFoundation\RequestStack
+  request_context.class: Symfony\Component\Routing\RequestContext
+
+services:
+  request:
+    factory: ['%request.class%', createFromGlobals]
+  request_stack:
+    class: '%request_stack.class%'
+  request_context:
+    class: '%request_context.class%'
+
+
+# TODO:
+# - add repositories/services definitions and inject them
+# - command bus + middlewares?

@@ -18,13 +18,15 @@
         "symfony/event-dispatcher": "^3.3",
         "symfony/http-foundation": "^3.3",
         "symfony/http-kernel": "^3.3",
-        "symfony/routing": "^3.3"
+        "symfony/routing": "^3.3",
+        "symfony/framework-bundle": "^3.3"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.4",
         "Behat/Behat": "^3.3",
         "squizlabs/php_codesniffer": "2.*",
-        "webmozart/assert": "^1.2.0"
+        "webmozart/assert": "^1.2.0",
+        "symfony/var-dumper": "^3.3"
     },
     "config": {
         "bin-dir": "bin"

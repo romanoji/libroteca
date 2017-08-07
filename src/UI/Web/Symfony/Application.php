@@ -3,49 +3,113 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\UI\Web\Symfony;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\HttpFoundation\{
-    Request, RequestStack, Response
+use Doctrine\Common\Annotations\{
+    AnnotationReader, AnnotationRegistry
 };
+use RJozwiak\Libroteca\Infrastructure\DependencyInjection\DependencyInjectionContainerFactory;
+use RJozwiak\Libroteca\UI\Web\Symfony\HttpKernel\ContainerAwareControllerResolver;
+use RJozwiak\Libroteca\UI\Web\Symfony\Routing\AnnotationRouteControllerLoader;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\{
-    Controller\ArgumentResolver, Controller\ControllerResolver, EventListener\RouterListener, HttpKernel
+    Controller\ArgumentResolver, EventListener\RouterListener, HttpKernel
 };
 use Symfony\Component\Routing\{
-    Matcher\UrlMatcher, RequestContext, Route, RouteCollection
+    Exception\ResourceNotFoundException, Loader\AnnotationDirectoryLoader, Matcher\UrlMatcher, RouteCollection
 };
 
 class Application
 {
-    public static function run() : void
+    private const CONTROLLERS_DIR = __DIR__ . '/Controller';
+
+    /** @var ContainerBuilder */
+    private $container;
+
+    private function __construct()
     {
-        // TODO: replace with routes config (+ controllers)
-        $routes = new RouteCollection();
-        $routes->add('hello', new Route('/hello/{name}', [
-            '_controller' => function (Request $request) {
-                return new Response(
-                    sprintf("Hello %s", $request->get('name'))
-                );
-            }]
-        ));
+        $this->container = DependencyInjectionContainerFactory::create();
 
-        // TODO: setup dependency injection, load config
+        $this->registerAnnotations();
+    }
 
-        $request = Request::createFromGlobals();
+    public static function run()
+    {
+        (new self())->bootstrap();
+    }
 
-        $matcher = new UrlMatcher($routes, new RequestContext());
+    private function bootstrap(): void
+    {
+        // TODO: load app config
+        // TODO: setup cache for annotations, di container, etc.
 
-        $dispatcher = new EventDispatcher();
-        $dispatcher->addSubscriber(new RouterListener($matcher, new RequestStack()));
+        $request = $this->get('request');
 
-        $controllerResolver = new ControllerResolver();
-        $argumentResolver = new ArgumentResolver();
+        $kernel = $this->createKernel();
 
-        $kernel = new HttpKernel($dispatcher, $controllerResolver, new RequestStack(), $argumentResolver);
-
-        $response = $kernel->handle($request);
-
+        try {
+            $response = $kernel->handle($request);
+        } catch (ResourceNotFoundException $e) {
+            $response = new Response(null, 404);
+        } catch (\Exception $e) {
+            $response = new Response(null, 500);
+        }
         $response->send();
 
         $kernel->terminate($request, $response);
+    }
+
+    private function registerAnnotations()
+    {
+        AnnotationRegistry::registerLoader(array(require __DIR__ . '/../../../../vendor/autoload.php', 'loadClass'));
+    }
+
+    /**
+     * @return HttpKernel
+     * @throws \Exception
+     * @throws \InvalidArgumentException
+     */
+    private function createKernel(): HttpKernel
+    {
+        $requestStack = $this->get('request_stack');
+
+        $context = $this->get('request_context');
+        $matcher = new UrlMatcher($this->routes(), $context);
+
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
+
+        $controllerResolver = new ContainerAwareControllerResolver(null, $this->container);
+        $argumentResolver = new ArgumentResolver();
+
+        return new HttpKernel($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
+    }
+
+    /**
+     * @return \Symfony\Component\Routing\RouteCollection
+     * @throws \InvalidArgumentException
+     */
+    private function routes(): RouteCollection
+    {
+        $routesAnnotationsLoader = new AnnotationDirectoryLoader(
+            new FileLocator(),
+            new AnnotationRouteControllerLoader(new AnnotationReader())
+        );
+
+        return $routesAnnotationsLoader->load(self::CONTROLLERS_DIR);
+    }
+
+    /**
+     * @param string $serviceName
+     * @return mixed
+     * @throws \Exception
+     * @throws \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     */
+    private function get(string $serviceName)
+    {
+        return $this->container->get($serviceName);
     }
 }
