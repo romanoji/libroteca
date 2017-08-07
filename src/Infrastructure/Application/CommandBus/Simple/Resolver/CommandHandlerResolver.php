@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver;
+namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver;
 
 use RJozwiak\Libroteca\Application\Command;
 use RJozwiak\Libroteca\Application\CommandHandler;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\HandlerInflector;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\HandlerLocator;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\Inflector\HandlerInflector;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\Locator\HandlerLocator;
 
 class CommandHandlerResolver
 {

@@ -14,10 +14,10 @@ use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\Reader\{
     Exception\EmailAlreadyInUseException, Exception\PhoneAlreadyInUseException, Exception\ReaderNotFoundException, Reader, ReaderID, ReaderRepository
 };
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\{
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\{
     CommandHandlerResolver, Inflector\ClassNameInflector, Locator\InMemoryHandlerLocator
 };
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\SimpleCommandBus;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\SimpleCommandBus;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\InMemoryReaderRepository;
 use Webmozart\Assert\Assert;
 

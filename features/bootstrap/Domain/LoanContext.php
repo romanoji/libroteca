@@ -11,17 +11,15 @@ use Behat\Gherkin\Node\TableNode;
 use Helper\ClearsBetweenScenarios;
 use Helper\SharedObjects;
 use Helper\SpiesOnExceptions;
-use RJozwiak\Libroteca\Application\Command\ReturnBookCopy;
-use RJozwiak\Libroteca\Application\Command\ReturnBookCopyHandler;
-use RJozwiak\Libroteca\Application\Command\LendBookCopy;
-use RJozwiak\Libroteca\Application\Command\LendBookCopyHandler;
-use RJozwiak\Libroteca\Application\Command\ProlongBookLoan;
-use RJozwiak\Libroteca\Application\Command\ProlongBookLoanHandler;
+use RJozwiak\Libroteca\Application\Command\{
+    LendBookCopy, LendBookCopyHandler, ProlongBookLoan, ProlongBookLoanHandler, ReturnBookCopy, ReturnBookCopyHandler
+};
 use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
+use RJozwiak\Libroteca\Domain\Model\BookCopy\{
+    BookCopyID, BookCopyRepository
+};
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanFactory;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
@@ -33,13 +31,13 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\MaxOngoingLoansExceededException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Email;
-use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
-use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector\ClassNameInflector;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Locator\InMemoryHandlerLocator;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\SimpleCommandBus;
+use RJozwiak\Libroteca\Domain\Model\Reader\{
+    Email, ReaderID, ReaderRepository
+};
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\{
+    CommandHandlerResolver, Inflector\ClassNameInflector, Locator\InMemoryHandlerLocator
+};
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\SimpleCommandBus;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\InMemoryBookRepository;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy\InMemoryBookCopyRepository;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan\InMemoryBookLoanRepository;

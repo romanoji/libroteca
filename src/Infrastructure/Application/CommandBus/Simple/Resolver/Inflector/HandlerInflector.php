@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\Inflector;
+namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\Inflector;
 
 use RJozwiak\Libroteca\Application\Command;
 

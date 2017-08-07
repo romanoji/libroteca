@@ -18,10 +18,10 @@ use RJozwiak\Libroteca\Domain\Model\Book\{
     Author, Book, BookID, BookRepository, ISBN\Exception\ISBNAlreadyInUseException, ISBN\ISBNFactory, Title
 };
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\{
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\{
     CommandHandlerResolver, Inflector\ClassNameInflector, Locator\InMemoryHandlerLocator
 };
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\SimpleCommandBus;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\SimpleCommandBus;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\InMemoryBookRepository;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy\InMemoryBookCopyRepository;
 use Webmozart\Assert\Assert;

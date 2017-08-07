@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus;
+namespace RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple;
 
 use RJozwiak\Libroteca\Application\Command;
 use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Application\CommandHandler;
-use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Resolver\CommandHandlerResolver;
+use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\CommandHandlerResolver;
 
 class SimpleCommandBus implements CommandBus
 {
