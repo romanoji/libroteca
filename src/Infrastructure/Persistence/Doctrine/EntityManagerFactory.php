@@ -21,7 +21,7 @@ class EntityManagerFactory
         'BookLoanID' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan\DoctrineBookLoanID',
         'ReaderID' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\DoctrineReaderID',
         'ISBN' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\ISBN\DoctrineISBN',
-        'text[]', 'MartinGeorgiev\Doctrine\DBAL\Types\TextArray'
+        'text[]' => 'MartinGeorgiev\Doctrine\DBAL\Types\TextArray'
     ];
 
     /** @var bool */
