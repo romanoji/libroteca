@@ -63,7 +63,7 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
      */
     public function findOneByISBN(ISBN $isbn): ?Book
     {
-        return $this->findOneBy(['isbn.isbn' => $isbn->isbn()]);
+        return $this->findOneBy(['isbn' => $isbn]);
     }
 
     /**
@@ -73,7 +73,14 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
      */
     public function findByAuthorAndTitle(Author $author, Title $title): array
     {
-        // TODO: access authors array
-        return $this->findBy(['authors' => $author->name(), 'title.title' => $title->title()]);
+        return $this->createQueryBuilder('b')
+            ->where("in_array(:author, b.authors) = true")
+            ->andWhere('b.title.title = :title')
+            ->setParameters([
+                'author' => $author,
+                'title' => $title->title()
+            ])
+            ->getQuery()
+            ->getResult();
     }
 }

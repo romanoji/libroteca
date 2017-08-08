@@ -53,7 +53,7 @@ class DoctrineBookLoanRepository extends EntityRepository implements BookLoanRep
      */
     public function findOngoingByBookCopyID(BookCopyID $bookCopyID): ?BookLoan
     {
-        return $this->findOneBy(['bookCopyID.id' => $bookCopyID->id(), 'ended' => false]);
+        return $this->findOneBy(['bookCopyID' => $bookCopyID->id(), 'ended' => false]);
     }
 
     /**
@@ -62,6 +62,6 @@ class DoctrineBookLoanRepository extends EntityRepository implements BookLoanRep
      */
     public function findOngoingByReaderID(ReaderID $readerID): array
     {
-        return $this->findBy(['readerID.id' => $readerID->id(), 'ended' => false]);
+        return $this->findBy(['readerID' => $readerID->id(), 'ended' => false]);
     }
 }
