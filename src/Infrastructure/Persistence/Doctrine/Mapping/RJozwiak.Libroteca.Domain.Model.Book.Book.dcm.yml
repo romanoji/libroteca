@@ -17,4 +17,3 @@ RJozwiak\Libroteca\Domain\Model\Book\Book:
     authors:
       column: authors
       type: text[]
-
