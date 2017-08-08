@@ -1,7 +1,41 @@
+imports:
+  - { resource: database.yml }
+
 parameters:
   request.class: Symfony\Component\HttpFoundation\Request
   request_stack.class: Symfony\Component\HttpFoundation\RequestStack
   request_context.class: Symfony\Component\Routing\RequestContext
+
+  doctrine.book_repository.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\DoctrineBookRepository
+  doctrine.book_copy_repository.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\BookCopy\DoctrineBookCopyRepository
+  doctrine.book_loan_repository.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan\DoctrineBookLoanRepository
+  doctrine.reader_repository.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\DoctrineReaderRepository
+
+  book.class: RJozwiak\Libroteca\Domain\Model\Book\Book
+  book_copy.class: RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy
+  book_loan.class: RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan
+  reader.class: RJozwiak\Libroteca\Domain\Model\Reader\Reader
+
+  isbn_factory.class: RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory
+  book_loan_factory.class: RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanFactory
+
+  lend_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\LendBookCopyHandler
+  prolong_book_loan_handler.class: RJozwiak\Libroteca\Application\Command\ProlongBookLoanHandler
+  register_book_handler.class: RJozwiak\Libroteca\Application\Command\RegisterBookHandler
+  register_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\RegisterBookCopyHandler
+  register_reader_handler.class: RJozwiak\Libroteca\Application\Command\RegisterReaderHandler
+  return_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\ReturnBookCopyHandler
+  update_book_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookHandler
+  update_book_copy_remarks_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarksHandler
+
+  tactician.command_bus.class: League\Tactician\CommandBus
+  tactician.method_name_inflector.class: RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\MethodNameInflector\ExecuteInflector
+  tactician.in_memory_locator.class: RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\Locator\InMemoryHandlerLocator
+  tactician.command_class_name_extractor.class: League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor
+  tactician.command_handler_middleware.class: League\Tactician\Handler\CommandHandlerMiddleware
+  tactician.doctrine_transaction_middleware.class: League\Tactician\Doctrine\ORM\TransactionMiddleware
+
+  entity_manager_factory.class: RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine\EntityManagerFactory
 
 services:
   request:
@@ -11,7 +45,114 @@ services:
   request_context:
     class: '%request_context.class%'
 
+  book_repository:
+    class: '%doctrine.book_repository.class%'
+    factory: ['@entity_manager', getRepository]
+    arguments:
+      - '%book.class%'
+  book_copy_repository:
+    class: '%doctrine.book_copy_repository.class%'
+    factory: ['@entity_manager', getRepository]
+    arguments:
+      - '%book_copy.class%'
+  book_loan_repository:
+    class: '%doctrine.book_loan_repository.class%'
+    factory: ['@entity_manager', getRepository]
+    arguments:
+      - '%book_loan.class%'
+  reader_repository:
+    class: '%doctrine.reader_repository.class%'
+    factory: ['@entity_manager', getRepository]
+    arguments:
+      - '%reader.class%'
 
-# TODO:
-# - add repositories/services definitions and inject them
-# - command bus + middlewares?
+  isbn_factory:
+    class: '%isbn_factory.class%'
+  book_loan_factory:
+    class: '%book_loan_factory.class%'
+    arguments:
+      - '@book_loan_repository'
+
+  lend_book_copy_handler:
+    class: '%lend_book_copy_handler.class%'
+    arguments:
+      - '@reader_repository'
+      - '@book_copy_repository'
+      - '@book_loan_repository'
+      - '@book_loan_factory'
+  prolong_book_loan_handler:
+    class: '%prolong_book_loan_handler.class%'
+    arguments:
+      - '@book_loan_repository'
+  register_book_handler:
+    class: '%register_book_handler.class%'
+    arguments:
+      - '@isbn_factory'
+      - '@book_repository'
+  register_book_copy_handler:
+    class: '%register_book_copy_handler.class%'
+    arguments:
+      - '@book_repository'
+      - '@book_copy_repository'
+  register_reader_handler:
+    class: '%register_reader_handler.class%'
+    arguments:
+      - '@reader_repository'
+  return_book_copy_handler:
+    class: '%return_book_copy_handler.class%'
+    arguments:
+      - '@book_loan_repository'
+  update_book_handler:
+    class: '%update_book_handler.class%'
+    arguments:
+      - '@isbn_factory'
+      - '@book_repository'
+  update_book_copy_remarks_handler:
+    class: '%update_book_copy_remarks_handler.class%'
+    arguments:
+      - '@book_copy_repository'
+
+  tactician.method_name_inflector:
+    class: '%tactician.method_name_inflector.class%'
+  tactician.in_memory_locator:
+    class: '%tactician.in_memory_locator.class%'
+    calls:
+      - method: addHandlers
+        arguments:
+          -
+            - '@lend_book_copy_handler'
+            - '@prolong_book_loan_handler'
+            - '@register_book_handler'
+            - '@register_book_copy_handler'
+            - '@register_reader_handler'
+            - '@return_book_copy_handler'
+            - '@update_book_handler'
+            - '@update_book_copy_remarks_handler'
+  tactician.command_class_name_extractor:
+    class: '%tactician.command_class_name_extractor.class%'
+  tactician.command_handler_middleware:
+    class: '%tactician.command_handler_middleware.class%'
+    arguments:
+      - '@tactician.command_class_name_extractor'
+      - '@tactician.in_memory_locator'
+      - '@tactician.method_name_inflector'
+  tactician.doctrine_transaction_middleware:
+    class: '%tactician.doctrine_transaction_middleware.class%'
+    arguments:
+      - '@entity_manager'
+  command_bus:
+    class: '%tactician.command_bus.class%'
+    arguments:
+      -
+        - '@tactician.doctrine_transaction_middleware'
+        - '@tactician.command_handler_middleware'
+
+  entity_manager:
+    # TODO: add entity manager class option?
+    factory: ['%entity_manager_factory.class%', create]
+    arguments:
+      - driver: '%database_driver%'
+        host: '%database_host%'
+        user: '%database_username%'
+        password: '%database_password%'
+        dbname: '%database_name%'

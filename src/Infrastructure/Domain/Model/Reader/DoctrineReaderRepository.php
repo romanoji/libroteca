@@ -66,7 +66,7 @@ class DoctrineReaderRepository extends EntityRepository implements ReaderReposit
      */
     public function findOneByEmail(Email $email): ?Reader
     {
-        return $this->findOneBy(['email' => $email->email()]);
+        return $this->findOneBy(['email.email' => $email->email()]);
     }
 
     /**
@@ -75,6 +75,6 @@ class DoctrineReaderRepository extends EntityRepository implements ReaderReposit
      */
     public function findOneByPhone(Phone $phone): ?Reader
     {
-        return $this->findOneBy(['phone' => $phone->phone()]);
+        return $this->findOneBy(['phone.phone' => $phone->phone()]);
     }
 }

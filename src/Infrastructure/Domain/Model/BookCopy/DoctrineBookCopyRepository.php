@@ -52,6 +52,6 @@ class DoctrineBookCopyRepository extends EntityRepository implements BookCopyRep
      */
     public function findByBookID(BookID $bookID): array
     {
-        return $this->findBy(['bookID' => $bookID->id()]);
+        return $this->findBy(['bookID.id' => $bookID->id()]);
     }
 }

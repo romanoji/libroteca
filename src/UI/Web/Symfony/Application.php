@@ -22,7 +22,8 @@ use Symfony\Component\Routing\{
 
 class Application
 {
-    private const CONTROLLERS_DIR = __DIR__ . '/Controller';
+    private const COMPOSER_AUTOLOADER_PATH = __DIR__.'/../../../../vendor/autoload.php';
+    private const CONTROLLERS_PATH = __DIR__.'/Controller';
 
     /** @var ContainerBuilder */
     private $container;
@@ -41,8 +42,7 @@ class Application
 
     private function bootstrap(): void
     {
-        // TODO: load app config
-        // TODO: setup cache for annotations, di container, etc.
+        // TODO: setup cache for annotations, di container, config, etc.
 
         $request = $this->get('request');
 
@@ -52,8 +52,8 @@ class Application
             $response = $kernel->handle($request);
         } catch (ResourceNotFoundException $e) {
             $response = new Response(null, 404);
-        } catch (\Exception $e) {
-            $response = new Response(null, 500);
+//        } catch (\Exception $e) {
+//            $response = new Response(null, 500);
         }
         $response->send();
 
@@ -62,7 +62,7 @@ class Application
 
     private function registerAnnotations()
     {
-        AnnotationRegistry::registerLoader(array(require __DIR__ . '/../../../../vendor/autoload.php', 'loadClass'));
+        AnnotationRegistry::registerLoader(array(require self::COMPOSER_AUTOLOADER_PATH, 'loadClass'));
     }
 
     /**
@@ -97,7 +97,7 @@ class Application
             new AnnotationRouteControllerLoader(new AnnotationReader())
         );
 
-        return $routesAnnotationsLoader->load(self::CONTROLLERS_DIR);
+        return $routesAnnotationsLoader->load(self::CONTROLLERS_PATH);
     }
 
     /**

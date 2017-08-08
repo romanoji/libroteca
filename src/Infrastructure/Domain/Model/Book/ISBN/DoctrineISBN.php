@@ -13,11 +13,6 @@ class DoctrineISBN extends StringType
     /** @var ISBNFactory */
     private $isbnFactory;
 
-    public function __construct()
-    {
-        $this->isbnFactory = new ISBNFactory();
-    }
-
     public function getName()
     {
         return 'ISBN';
@@ -31,7 +26,7 @@ class DoctrineISBN extends StringType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return $this->isbnFactory->create($value);
+        return $this->isbnFactory()->create($value);
     }
 
     /**
@@ -42,5 +37,17 @@ class DoctrineISBN extends StringType
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         return $value->isbn();
+    }
+
+    /**
+     * @return ISBNFactory
+     */
+    private function isbnFactory()
+    {
+        if ($this->isbnFactory === null) {
+            $this->isbnFactory = new ISBNFactory();
+        }
+
+        return $this->isbnFactory;
     }
 }

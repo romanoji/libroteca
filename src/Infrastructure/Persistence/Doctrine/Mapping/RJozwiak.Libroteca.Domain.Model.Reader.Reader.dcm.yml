@@ -5,7 +5,7 @@ RJozwiak\Libroteca\Domain\Model\Reader\Reader:
   id:
     id:
       column: id
-      type: RJozwiak\Libroteca\Domain\Model\Reader\ReaderID
+      type: ReaderID
   embedded:
     name:
       class: RJozwiak\Libroteca\Domain\Model\Reader\Name

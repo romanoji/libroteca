@@ -14,7 +14,7 @@ class BookCopy
     private $bookID;
 
     /** @var string */
-    private $remarks;
+    private $remarks; // TODO: length limit
 
     /**
      * BookCopy constructor.

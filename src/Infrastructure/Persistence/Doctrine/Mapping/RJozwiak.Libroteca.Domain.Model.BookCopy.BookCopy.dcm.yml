@@ -5,11 +5,11 @@ RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy:
   id:
     id:
       column: id
-      type: RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID
+      type: BookCopyID
   fields:
     bookID:
       column: book_id
-      type: RJozwiak\Libroteca\Domain\Model\Book\BookID
+      type: BookID
     remarks:
       column: remarks
       type: string

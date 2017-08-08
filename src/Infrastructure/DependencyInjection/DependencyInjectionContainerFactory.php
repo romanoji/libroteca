@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class DependencyInjectionContainerFactory
 {
-    private const CONFIG_DIR = __DIR__.'/Resources';
+    private const CONFIG_PATH = __DIR__.'/Resources';
     private const CONFIG_FILE = 'config.yml';
 
     /**
@@ -20,7 +20,7 @@ class DependencyInjectionContainerFactory
     {
         $container = new ContainerBuilder();
 
-        $loader = new YamlFileLoader($container, new FileLocator(self::CONFIG_DIR));
+        $loader = new YamlFileLoader($container, new FileLocator(self::CONFIG_PATH));
         $loader->load(self::CONFIG_FILE);
 
         return $container;

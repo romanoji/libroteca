@@ -38,9 +38,9 @@ class BookLoan
     private $prolonged;
 
     /** @var string */
-    private $remarks;
+    private $remarks; // TODO: length limit
 
-    // TODO: Good example for event sourcing?
+    // TODO: not so bad example for event sourcing?
 
     /**
      * Loan constructor.

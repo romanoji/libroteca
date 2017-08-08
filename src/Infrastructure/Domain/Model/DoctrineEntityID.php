@@ -26,13 +26,13 @@ abstract class DoctrineEntityID extends GuidType
     }
 
     /**
-     * @param ID $value
+     * @param $value
      * @param AbstractPlatform $platform
      * @return int|string
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value->id();
+        return $value;
     }
 
     /**
