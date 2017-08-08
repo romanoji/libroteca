@@ -1,4 +1,0 @@
-RJozwiak\Libroteca\Domain\Model\Book\Author:
-  type: embeddable
-  fields:
-    name: { type: string }

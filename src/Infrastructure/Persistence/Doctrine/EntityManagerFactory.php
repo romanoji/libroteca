@@ -5,6 +5,7 @@ namespace RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Setup;
@@ -22,6 +23,15 @@ class EntityManagerFactory
         'ReaderID' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\DoctrineReaderID',
         'ISBN' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\ISBN\DoctrineISBN',
         'text[]' => 'MartinGeorgiev\Doctrine\DBAL\Types\TextArray'
+    ];
+
+    private static $customStringFunctions = [
+        'ALL_OF' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\All',
+        'ANY_OF' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Any',
+        'IN_ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\InArray',
+        'ARRAY' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Arr',
+        'CONTAINS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Contains',
+        'OVERLAPS' => 'MartinGeorgiev\Doctrine\ORM\Query\AST\Functions\Overlaps',
     ];
 
     /** @var bool */
@@ -54,14 +64,16 @@ class EntityManagerFactory
         }
 
         foreach (self::$dbalTypes as $name => $class) {
-            Type::addType($name, $class);
+            if (!Type::hasType($name)) {
+                Type::addType($name, $class);
+            }
         }
 
         self::$dbalTypesRegistered = true;
     }
 
     /**
-     * @return \Doctrine\ORM\Configuration
+     * @return Configuration
      */
     private static function configuration()
     {
@@ -69,8 +81,18 @@ class EntityManagerFactory
             [self::MAPPINGS_PATH, self::EMBEDDABLE_PATH], true
         );
 
+        self::registerCustomFunctions($config);
+
         $config->setAutoGenerateProxyClasses(false);
 
         return $config;
+    }
+
+    /**
+     * @param Configuration $config
+     */
+    private static function registerCustomFunctions(Configuration $config)
+    {
+        $config->setCustomStringFunctions(self::$customStringFunctions);
     }
 }
