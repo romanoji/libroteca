@@ -20,7 +20,7 @@ abstract class DoctrineEntityID extends GuidType
         return $platform->getBinaryTypeDeclarationSQL(
             array(
                 'length' => '16',
-                'fixed' => true,
+                'fixed' => true
             )
         );
     }
@@ -44,7 +44,7 @@ abstract class DoctrineEntityID extends GuidType
     {
         $className = $this->getNamespace();
 
-        return new $className($value);
+        return new $className(stream_get_contents($value, 32));
     }
 
     /**

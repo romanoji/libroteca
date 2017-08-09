@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
+use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\DoctrineEntityID;
 
 class DoctrineReaderID extends DoctrineEntityID
@@ -20,6 +21,6 @@ class DoctrineReaderID extends DoctrineEntityID
      */
     protected function getNamespace() : string
     {
-        return 'RJozwiak\Libroteca\Domain\Model\Reader\ReaderID';
+        return ReaderID::class;
     }
 }
