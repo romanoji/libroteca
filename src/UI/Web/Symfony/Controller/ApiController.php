@@ -49,13 +49,13 @@ abstract class ApiController extends Controller
                 Response::HTTP_NOT_FOUND
             );
         } catch (HttpException $e) {
-            return $this->serverErrorResponse(
+            return $this->errorResponse(
                 $e->getMessage(),
                 $e->getStatusCode()
             );
         } catch (\Exception $e) {
             // TODO: log these errors
-            return $this->serverErrorResponse();
+            return $this->errorResponse();
         }
     }
 
@@ -107,7 +107,7 @@ abstract class ApiController extends Controller
      * @param int $statusCode
      * @return JsonResponse
      */
-    protected function serverErrorResponse(
+    protected function errorResponse(
         string $message = null,
         int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ) : JsonResponse {
