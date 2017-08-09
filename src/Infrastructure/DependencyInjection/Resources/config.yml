@@ -158,3 +158,8 @@ services:
         user: '%database_username%'
         password: '%database_password%'
         dbname: '%database_name%'
+
+  doctrine_reader_query_service:
+    class: '%doctrine_reader_query_service.class%'
+    arguments:
+      - '@entity_manager'

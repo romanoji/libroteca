@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -18,7 +18,9 @@ class ReaderController extends ApiController
      */
     public function indexAction()
     {
-        return new JsonResponse([]);
+        return $this->wrapRequest(function () {
+            return $this->readers()->getAll();
+        });
     }
 
     /**
@@ -26,7 +28,9 @@ class ReaderController extends ApiController
      */
     public function getAction(string $id)
     {
-        return new JsonResponse([]);
+        return $this->wrapRequest(function () use ($id) {
+            return $this->readers()->getOne(Uuid::fromString($id));
+        });
     }
 
     /**
@@ -34,22 +38,28 @@ class ReaderController extends ApiController
      */
     public function createAction()
     {
-        $uuid = Uuid::uuid4();
+        return $this->wrapRequest(function () {
+            $uuid = Uuid::uuid4();
 
-        try {
             $this->handle(
                 new RegisterReader(
                     $uuid,
-                    $this->request()->get('name'),
-                    $this->request()->get('surname'),
-                    $this->request()->get('email'),
-                    $this->request()->get('phone')
+                    $this->requestParam('name'),
+                    $this->requestParam('surname'),
+                    $this->requestParam('email'),
+                    $this->requestParam('phone')
                 )
             );
-        } catch (\InvalidArgumentException | \DomainException $e) {
-            return new JsonResponse($this->errorResponse($e->getMessage()));
-        }
 
-        return new JsonResponse($this->successResponse(['id' => $uuid]));
+            return ['id' => $uuid];
+        });
+    }
+
+    /**
+     * @return ReaderQueryService
+     */
+    private function readers() : ReaderQueryService
+    {
+        return $this->get('doctrine_reader_query_service');
     }
 }
