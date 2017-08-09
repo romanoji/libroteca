@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
-class Reader
+use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
+
+class Reader extends AggregateRoot
 {
     /** @var ReaderID */
     private $id;

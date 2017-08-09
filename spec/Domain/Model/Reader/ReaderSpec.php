@@ -2,6 +2,7 @@
 
 namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
+use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Name;
 use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
@@ -28,6 +29,11 @@ class ReaderSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(Reader::class);
+    }
+
+    function it_is_aggregate_root()
+    {
+        $this->shouldBeAnInstanceOf(AggregateRoot::class);
     }
 
     function it_returns_identifier()

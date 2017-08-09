@@ -2,6 +2,7 @@
 
 namespace spec\RJozwiak\Libroteca\Domain\Model\BookCopy;
 
+use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
 use PhpSpec\ObjectBehavior;
@@ -20,6 +21,11 @@ class BookCopySpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(BookCopy::class);
+    }
+
+    function it_is_aggregate_root()
+    {
+        $this->shouldBeAnInstanceOf(AggregateRoot::class);
     }
 
     function it_returns_identifier()

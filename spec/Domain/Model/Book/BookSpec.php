@@ -3,6 +3,7 @@
 namespace spec\RJozwiak\Libroteca\Domain\Model\Book;
 
 use PhpSpec\ObjectBehavior;
+use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
@@ -25,6 +26,11 @@ class BookSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(Book::class);
+    }
+
+    function it_is_aggregate_root()
+    {
+        $this->shouldBeAnInstanceOf(AggregateRoot::class);
     }
 
     function it_returns_identifier()

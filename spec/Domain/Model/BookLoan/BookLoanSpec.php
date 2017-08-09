@@ -3,6 +3,7 @@
 namespace spec\RJozwiak\Libroteca\Domain\Model\BookLoan;
 
 use PhpSpec\ObjectBehavior;
+use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
@@ -28,6 +29,11 @@ class BookLoanSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(BookLoan::class);
+    }
+
+    function it_is_aggregate_root()
+    {
+        $this->shouldBeAnInstanceOf(AggregateRoot::class);
     }
 
     function it_has_not_ended_by_default()

@@ -11,8 +11,9 @@ abstract class AggregateRoot
     /**
      * @return ID
      */
-    abstract public function id() : ID;
+    abstract public function id();
 
+    // TODO: handle concurrent saves
     /**
      * @return int
      */

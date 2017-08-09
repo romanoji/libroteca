@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\BookCopy;
 
+use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 
-class BookCopy
+class BookCopy extends AggregateRoot
 {
     /** @var BookCopyID */
     private $id;
