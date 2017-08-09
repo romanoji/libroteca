@@ -1,28 +1,28 @@
-CREATE TABLE books(
-  id BYTEA PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS books(
+  id UUID PRIMARY KEY,
   title VARCHAR NOT NULL,
   isbn VARCHAR(13) NOT NULL,
   authors TEXT[] NOT NULL
 );
 
-CREATE TABLE readers(
-  id BYTEA PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS readers(
+  id UUID PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   surname VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE book_copies(
-  id BYTEA PRIMARY KEY,
-  book_id BYTEA REFERENCES books(id) NOT NULL,
+CREATE TABLE IF NOT EXISTS book_copies(
+  id UUID PRIMARY KEY,
+  book_id UUID REFERENCES books(id) NOT NULL,
   remarks VARCHAR(1024)
 );
 
-CREATE TABLE book_loans(
-  id BYTEA PRIMARY KEY,
-  book_copy_id BYTEA REFERENCES book_copies(id) NOT NULL,
-  reader_id BYTEA REFERENCES readers(id) NOT NULL,
+CREATE TABLE IF NOT EXISTS book_loans(
+  id UUID PRIMARY KEY,
+  book_copy_id UUID REFERENCES book_copies(id) NOT NULL,
+  reader_id UUID REFERENCES readers(id) NOT NULL,
   due_date TIMESTAMP NOT NULL,
   has_ended BOOLEAN NOT NULL,
   end_date TIMESTAMP NOT NULL,

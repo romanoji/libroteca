@@ -5,34 +5,20 @@ namespace RJozwiak\Libroteca\Infrastructure\Domain\Model;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\GuidType;
+use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Domain\Model\ID;
 
 abstract class DoctrineEntityID extends GuidType
 {
     /**
-     * {@inheritdoc}
-     *
-     * @param array $fieldDeclaration
-     * @param AbstractPlatform $platform
-     */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
-    {
-        return $platform->getBinaryTypeDeclarationSQL(
-            array(
-                'length' => '16',
-                'fixed' => true
-            )
-        );
-    }
-
-    /**
-     * @param $value
+     * @param mixed $value
      * @param AbstractPlatform $platform
      * @return int|string
+     * @throws \InvalidArgumentException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value;
+        return Uuid::fromString($value);
     }
 
     /**
@@ -44,7 +30,7 @@ abstract class DoctrineEntityID extends GuidType
     {
         $className = $this->getNamespace();
 
-        return new $className(stream_get_contents($value, 32));
+        return new $className($value);
     }
 
     /**
