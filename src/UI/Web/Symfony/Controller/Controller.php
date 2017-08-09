@@ -5,6 +5,8 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * (Almost) clean copy of Symfony\Bundle\FrameworkBundle\Controller\Controller.
@@ -53,4 +55,49 @@ abstract class Controller implements ContainerAwareInterface
         return $this->container->getParameter($name);
     }
 
+
+    /**
+     * It returns value for requested parameter by $name.
+     *
+     * When parameter isn't found, it checks if it's $required:
+     * - if it's $required it throws an UnprocessableEntityHttpException.
+     * - if it's not $required, then it returns $default value.
+     *
+     * There's no need to specify $default value, when parameter is $required.
+     * When it's both $required and have specified $default value
+     * it will still return an exception, when requested parameter doesn't exist.
+     *
+     * @param string $name
+     * @param bool $required
+     * @param null|mixed $default
+     * @return mixed
+     * @throws UnprocessableEntityHttpException
+     */
+    protected function requestParam(
+        string $name,
+        $required = true,
+        $default = null
+    ) {
+        $value = $this->request()->get($name);
+
+        if ($value === null) {
+            if ($required) {
+                throw new UnprocessableEntityHttpException(
+                    sprintf('Parameter `%s` is required.', $name)
+                );
+            } else {
+                return $default;
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * @return Request
+     */
+    protected function request() : Request
+    {
+        return $this->get('request');
+    }
 }
