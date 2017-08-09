@@ -2,6 +2,7 @@ imports:
   - { resource: database.yml }
 
 parameters:
+  # TOOD: group & split into files
   request.class: Symfony\Component\HttpFoundation\Request
   request_stack.class: Symfony\Component\HttpFoundation\RequestStack
   request_context.class: Symfony\Component\Routing\RequestContext
@@ -35,7 +36,10 @@ parameters:
   tactician.command_handler_middleware.class: League\Tactician\Handler\CommandHandlerMiddleware
   tactician.doctrine_transaction_middleware.class: League\Tactician\Doctrine\ORM\TransactionMiddleware
 
+  entity_manager.class: Doctrine\ORM\EntityManager
   entity_manager_factory.class: RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine\EntityManagerFactory
+
+  doctrine_reader_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineReaderQueryService
 
 services:
   request:
@@ -116,18 +120,16 @@ services:
     class: '%tactician.method_name_inflector.class%'
   tactician.in_memory_locator:
     class: '%tactician.in_memory_locator.class%'
-    calls:
-      - method: addHandlers
-        arguments:
-          -
-            - '@lend_book_copy_handler'
-            - '@prolong_book_loan_handler'
-            - '@register_book_handler'
-            - '@register_book_copy_handler'
-            - '@register_reader_handler'
-            - '@return_book_copy_handler'
-            - '@update_book_handler'
-            - '@update_book_copy_remarks_handler'
+    arguments:
+      -
+        - '@lend_book_copy_handler'
+        - '@prolong_book_loan_handler'
+        - '@register_book_handler'
+        - '@register_book_copy_handler'
+        - '@register_reader_handler'
+        - '@return_book_copy_handler'
+        - '@update_book_handler'
+        - '@update_book_copy_remarks_handler'
   tactician.command_class_name_extractor:
     class: '%tactician.command_class_name_extractor.class%'
   tactician.command_handler_middleware:
@@ -148,7 +150,7 @@ services:
         - '@tactician.command_handler_middleware'
 
   entity_manager:
-    # TODO: add entity manager class option?
+    class: '%entity_manager.class%'
     factory: ['%entity_manager_factory.class%', create]
     arguments:
       - driver: '%database_driver%'
