@@ -7,7 +7,8 @@ use Doctrine\Common\Annotations\{
     AnnotationReader, AnnotationRegistry
 };
 use RJozwiak\Libroteca\Infrastructure\DependencyInjection\DependencyInjectionContainerFactory;
-use RJozwiak\Libroteca\UI\Web\Symfony\HttpKernel\ContainerAwareControllerResolver;
+use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\AppKernel;
+use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\ContainerAwareControllerResolver;
 use RJozwiak\Libroteca\UI\Web\Symfony\Routing\AnnotationRouteControllerLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -31,8 +32,16 @@ class Application
     private function __construct()
     {
         $this->container = DependencyInjectionContainerFactory::create();
+        $this->registerAppDirsInContainer();
 
         $this->registerAnnotations();
+    }
+
+    private function registerAppDirsInContainer()
+    {
+        $this->container->setParameter('kernel.root_dir', realpath(AppKernel::appRootDir()));
+        $this->container->setParameter('kernel.cache_dir', realpath(AppKernel::appCacheDir()));
+        $this->container->setParameter('kernel.logs_dir', realpath(AppKernel::appLogsDir()));
     }
 
     public static function run()
@@ -43,6 +52,7 @@ class Application
     private function bootstrap(): void
     {
         // TODO: setup cache for annotations, di container, config, etc.
+        // TODO: register session in di container
 
         $request = $this->get('request');
 
@@ -79,11 +89,12 @@ class Application
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
+        // TODO: add ExceptionListener for MethodNotAllowed/NotFound/... + base HttpException
 
         $controllerResolver = new ContainerAwareControllerResolver(null, $this->container);
         $argumentResolver = new ArgumentResolver();
 
-        return new HttpKernel($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
+        return new AppKernel($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
     }
 
     /**

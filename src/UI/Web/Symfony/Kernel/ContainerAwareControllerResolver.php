@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\UI\Web\Symfony\HttpKernel;
+namespace RJozwiak\Libroteca\UI\Web\Symfony\Kernel;
 
 use Psr\Log\LoggerInterface;
 use RJozwiak\Libroteca\UI\Web\Symfony\Controller\Controller;
