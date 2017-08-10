@@ -14,7 +14,7 @@ class DoctrineReaderQueryService extends BaseDoctrineQueryService implements Rea
         return 'readers';
     }
 
-    protected function notFoundException(): AggregateNotFoundException
+    protected function throwNotFoundException(): AggregateNotFoundException
     {
         return new ReaderNotFoundException();
     }
