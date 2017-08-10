@@ -22,6 +22,7 @@ class EntityManagerFactory
         'BookLoanID' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan\DoctrineBookLoanID',
         'ReaderID' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\DoctrineReaderID',
         'ISBN' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\ISBN\DoctrineISBN',
+        'Authors' => 'RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine\Type\AuthorsType',
         'text[]' => 'MartinGeorgiev\Doctrine\DBAL\Types\TextArray'
     ];
 
@@ -48,10 +49,14 @@ class EntityManagerFactory
     {
         self::registerDBALTypes();
 
-        return EntityManager::create(
+        $em = EntityManager::create(
             $connectionConfig,
             self::configuration()
         );
+
+        self::registerDoctrineTypeMappings($em->getConnection());
+
+        return $em;
     }
 
     /**
@@ -70,6 +75,16 @@ class EntityManagerFactory
         }
 
         self::$dbalTypesRegistered = true;
+    }
+
+    /**
+     * @param Connection $connection
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    private static function registerDoctrineTypeMappings(Connection $connection)
+    {
+        $connection->getDatabasePlatform()->registerDoctrineTypeMapping('text[]', 'text[]');
+        $connection->getDatabasePlatform()->registerDoctrineTypeMapping('_text', 'text[]');
     }
 
     /**
