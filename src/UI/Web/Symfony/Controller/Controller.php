@@ -7,6 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
  * (Almost) clean copy of Symfony\Bundle\FrameworkBundle\Controller\Controller.
@@ -88,6 +89,38 @@ abstract class Controller implements ContainerAwareInterface
             } else {
                 return $default;
             }
+        }
+
+        return $value;
+    }
+
+    // TODO: validate request params via Symfony Validator
+    /**
+     * @param string $name
+     * @param bool $required
+     * @param array $default
+     * @return mixed
+     * @throws InvalidParameterException
+     * @throws UnprocessableEntityHttpException
+     */
+    protected function requestArrayParam(
+        string $name,
+        $required = true,
+        $default = []
+    ) {
+        return $this->assertArrayParam($name, $this->requestParam($name, $required, $default));
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return mixed
+     * @throws InvalidParameterException
+     */
+    private function assertArrayParam(string $name, $value)
+    {
+        if (!is_array($value)) {
+            throw new InvalidParameterException("`{$name}` parameter must be an array.");
         }
 
         return $value;
