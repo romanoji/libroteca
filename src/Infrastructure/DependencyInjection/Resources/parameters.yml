@@ -1,5 +1,3 @@
 parameters:
-  kernel.debug: true
-
   jms_serializer_cache_dir: '%kernel.cache_dir%/jms_serializer'
   jms_serializer.metadata_dir: '%kernel.root_dir%/src/Infrastructure/Serialization/JMSSerializer/config'
