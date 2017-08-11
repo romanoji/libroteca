@@ -29,24 +29,25 @@ class Application
     /** @var ContainerBuilder */
     private $container;
 
-    private function __construct()
+    private function __construct(bool $debugMode)
     {
         $this->container = DependencyInjectionContainerFactory::create();
-        $this->registerAppDirsInContainer();
+        $this->registerKernelParams($debugMode);
 
         $this->registerAnnotations();
     }
 
-    private function registerAppDirsInContainer()
+    private function registerKernelParams(bool $debugMode)
     {
         $this->container->setParameter('kernel.root_dir', realpath(AppKernel::appRootDir()));
         $this->container->setParameter('kernel.cache_dir', realpath(AppKernel::appCacheDir()));
         $this->container->setParameter('kernel.logs_dir', realpath(AppKernel::appLogsDir()));
+        $this->container->setParameter('kernel.debug', $debugMode);
     }
 
-    public static function run()
+    public static function run(bool $debugMode)
     {
-        (new self())->bootstrap();
+        (new self($debugMode))->bootstrap();
     }
 
     private function bootstrap(): void
@@ -94,7 +95,12 @@ class Application
         $controllerResolver = new ContainerAwareControllerResolver(null, $this->container);
         $argumentResolver = new ArgumentResolver();
 
-        return new AppKernel($dispatcher, $controllerResolver, $requestStack, $argumentResolver);
+        return new AppKernel(
+            $dispatcher,
+            $controllerResolver,
+            $requestStack,
+            $argumentResolver
+        );
     }
 
     /**

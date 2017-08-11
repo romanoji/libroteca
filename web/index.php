@@ -8,7 +8,8 @@ require_once __DIR__.'/../vendor/autoload.php';
 /* Choose your framework: */
 
 // Symfony //
-Symfony\Application::run();
+$debugMode = true;
+Symfony\Application::run($debugMode);
 
 // Phalcon //
 //Phalcon\Application::run();
