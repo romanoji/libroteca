@@ -25,7 +25,8 @@ RUN pecl install xdebug-2.5.5 \
 COPY php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh && /usr/local/bin/setup.sh && rm /usr/local/bin/setup.sh
 
 # Enabled rewrite module
 RUN a2enmod rewrite
