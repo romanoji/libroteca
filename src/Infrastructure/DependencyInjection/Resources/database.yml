@@ -1,4 +1,4 @@
-parameters: # TODO: determine by app environment
+parameters: # TODO: resolve by app environment
   database_driver: pdo_pgsql
   database_host: libroteca-db
   database_username: libroteca

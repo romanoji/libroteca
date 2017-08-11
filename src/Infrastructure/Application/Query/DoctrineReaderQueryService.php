@@ -7,14 +7,20 @@ use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
 use RJozwiak\Libroteca\Domain\Model\AggregateNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
 
-class DoctrineReaderQueryService extends BaseDoctrineQueryService implements ReaderQueryService
+class DoctrineReaderQueryService extends BaseDoctrineDBALQueryService implements ReaderQueryService
 {
+    /**
+     * @return string
+     */
     protected function tableName(): string
     {
         return 'readers';
     }
 
-    protected function throwNotFoundException(): AggregateNotFoundException
+    /**
+     * @return AggregateNotFoundException
+     */
+    protected function notFoundException(): AggregateNotFoundException
     {
         return new ReaderNotFoundException();
     }

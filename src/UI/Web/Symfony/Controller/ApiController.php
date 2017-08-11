@@ -55,6 +55,10 @@ abstract class ApiController extends Controller
             );
         } catch (\Exception $e) {
             // TODO: log these errors
+            if ($this->container->getParameter('kernel.debug')) {
+                return $this->errorResponse($e->getMessage());
+            }
+
             return $this->errorResponse();
         }
     }

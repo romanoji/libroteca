@@ -21,7 +21,8 @@
         "symfony/routing": "^3.3",
         "symfony/framework-bundle": "^3.3",
         "league/tactician": "^1.0.2",
-        "league/tactician-doctrine": "^1.1"
+        "league/tactician-doctrine": "^1.1",
+        "jms/serializer": "^1.8.1"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.4",

@@ -1,8 +1,10 @@
 imports:
   - { resource: database.yml }
+  - { resource: parameters.yml }
 
 parameters:
-  # TOOD: group & split into files
+  # TODO: group & split into files
+
   request.class: Symfony\Component\HttpFoundation\Request
   request_stack.class: Symfony\Component\HttpFoundation\RequestStack
   request_context.class: Symfony\Component\Routing\RequestContext
@@ -39,7 +41,13 @@ parameters:
   entity_manager.class: Doctrine\ORM\EntityManager
   entity_manager_factory.class: RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine\EntityManagerFactory
 
+  jms_serializer.class: JMS\Serializer\Serializer
+  jms_serializer_builder.class: JMS\Serializer\SerializerBuilder
+
+  # TODO: cache services to allow `abstract` service definition
+  base_doctrine_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\BaseDoctrineQueryService
   doctrine_reader_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineReaderQueryService
+  doctrine_book_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookQueryService
 
 services:
   request:
@@ -159,7 +167,28 @@ services:
         password: '%database_password%'
         dbname: '%database_name%'
 
+  jms_serializer_builder:
+    class: '%jms_serializer_builder.class%'
+    factory: ['%jms_serializer_builder.class%', create]
+    calls:
+      - method: setCacheDir
+        arguments:
+          - '%jms_serializer_cache_dir%'
+      - method: addMetadataDir
+        arguments:
+          - '%jms_serializer.metadata_dir%'
+      - method: setDebug
+        arguments: ['%kernel.debug%']
+  jms_serializer:
+    class: '%jms_serializer.class%'
+    factory: ['@jms_serializer_builder', build]
+
   doctrine_reader_query_service:
     class: '%doctrine_reader_query_service.class%'
     arguments:
       - '@entity_manager'
+  doctrine_book_query_service:
+    class: '%doctrine_book_query_service.class%'
+    arguments:
+      - '@entity_manager'
+      - '@jms_serializer'

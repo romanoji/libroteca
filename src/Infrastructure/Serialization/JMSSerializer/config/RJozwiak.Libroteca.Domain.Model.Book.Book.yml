@@ -1,0 +1,11 @@
+RJozwiak\Libroteca\Domain\Model\Book\Book:
+  read_only: true
+  properties:
+    id:
+      type: string
+    isbn:
+      type: string
+    authors:
+      type: array<string>
+    title:
+      type: string
