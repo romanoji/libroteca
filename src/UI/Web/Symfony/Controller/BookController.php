@@ -6,6 +6,7 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterBook;
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
@@ -20,7 +21,9 @@ class BookController extends ApiController
     public function indexAction()
     {
         return $this->wrapRequest(function () {
-            return $this->books()->getAll();
+            return $this->successResponse(
+                $this->books()->getAll()
+            );
         });
     }
 
@@ -30,7 +33,9 @@ class BookController extends ApiController
     public function getAction(string $id)
     {
         return $this->wrapRequest(function () use ($id) {
-            return $this->books()->getOne(Uuid::fromString($id)->toString());
+            return $this->successResponse(
+                $this->books()->getOne(Uuid::fromString($id)->toString())
+            );
         });
     }
 
@@ -51,7 +56,7 @@ class BookController extends ApiController
                 )
             );
 
-            return ['id' => $uuid];
+            return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
         });
     }
 

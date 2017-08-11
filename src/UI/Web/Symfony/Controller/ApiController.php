@@ -39,7 +39,7 @@ abstract class ApiController extends Controller
     protected function wrapRequest(callable $responseFn) : JsonResponse
     {
         try {
-            return $this->successResponse($responseFn());
+            return $responseFn();
         } catch (\InvalidArgumentException | \DomainException | UnprocessableEntityHttpException $e) {
             return $this->clientErrorResponse($e->getMessage());
         } catch (ResourceNotFoundException | AggregateNotFoundException $e) {
@@ -66,16 +66,19 @@ abstract class ApiController extends Controller
     // TODO: create ResponseBuilder
     /**
      * @param array $data
+     * @param int $statusCode
      * @return JsonResponse
      */
-    protected function successResponse(array $data) : JsonResponse
-    {
+    protected function successResponse(
+        array $data,
+        int $statusCode = Response::HTTP_OK
+    ) : JsonResponse {
         $responseData = [
             'success' => true,
             'data' => $data
         ];
 
-        return new JsonResponse($responseData, Response::HTTP_OK);
+        return new JsonResponse($responseData, $statusCode);
     }
 
     /**

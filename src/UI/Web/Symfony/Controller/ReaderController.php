@@ -6,6 +6,7 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,7 +20,9 @@ class ReaderController extends ApiController
     public function indexAction()
     {
         return $this->wrapRequest(function () {
-            return $this->readers()->getAll();
+            return $this->successResponse(
+                $this->readers()->getAll()
+            );
         });
     }
 
@@ -29,7 +32,9 @@ class ReaderController extends ApiController
     public function getAction(string $id)
     {
         return $this->wrapRequest(function () use ($id) {
-            return $this->readers()->getOne(Uuid::fromString($id)->toString());
+            return $this->successResponse(
+                $this->readers()->getOne(Uuid::fromString($id)->toString())
+            );
         });
     }
 
@@ -51,7 +56,7 @@ class ReaderController extends ApiController
                 )
             );
 
-            return ['id' => $uuid];
+            return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
         });
     }
 
