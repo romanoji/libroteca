@@ -9,7 +9,7 @@ use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/reader", name="reader")
+ * @Route("/readers", name="readers")
  */
 class ReaderController extends ApiController
 {
@@ -29,7 +29,7 @@ class ReaderController extends ApiController
     public function getAction(string $id)
     {
         return $this->wrapRequest(function () use ($id) {
-            return $this->readers()->getOne(Uuid::fromString($id));
+            return $this->readers()->getOne(Uuid::fromString($id)->toString());
         });
     }
 
@@ -43,7 +43,7 @@ class ReaderController extends ApiController
 
             $this->handle(
                 new RegisterReader(
-                    $uuid,
+                    $uuid->toString(),
                     $this->requestParam('name'),
                     $this->requestParam('surname'),
                     $this->requestParam('email'),
