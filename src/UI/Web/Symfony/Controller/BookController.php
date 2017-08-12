@@ -82,6 +82,7 @@ class BookController extends ApiController
     }
 
     /**
+     * TODO: replace with `PATCH { op: "remove", path: "/isbn" }`
      * @Route("/{id}/isbn", methods={"DELETE"})
      */
     public function deleteISBNAction(string $id)
