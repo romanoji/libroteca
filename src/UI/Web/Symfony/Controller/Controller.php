@@ -56,7 +56,6 @@ abstract class Controller implements ContainerAwareInterface
         return $this->container->getParameter($name);
     }
 
-
     /**
      * It returns value for requested parameter by $name.
      *
@@ -121,6 +120,36 @@ abstract class Controller implements ContainerAwareInterface
     {
         if (!is_array($value)) {
             throw new InvalidParameterException("`{$name}` parameter must be an array.");
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $name
+     * @param string $format
+     * @param bool $required
+     * @param \DateTimeImmutable|null $default
+     * @return \DateTimeImmutable
+     * @throws InvalidParameterException
+     * @throws UnprocessableEntityHttpException
+     */
+    protected function requestDateTimeParam(
+        string $name,
+        string $format = 'Y-m-d H:i:s',
+        $required = true,
+        \DateTimeImmutable $default = null
+    ) {
+        $paramValue = $this->requestParam($name, $required);
+
+        if ($paramValue === null && !$required) {
+            return $default;
+        }
+
+        $value = \DateTimeImmutable::createFromFormat($format, $paramValue);
+
+        if (!$value) {
+            throw new InvalidParameterException("`{$name}` has invalid date/time format. Requested format {$format}.");
         }
 
         return $value;

@@ -21,7 +21,7 @@ RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan:
       type: boolean
     endDate:
       column: end_date
-      type: date
+      type: datetime
     prolonged:
       column: is_prolonged
       type: boolean

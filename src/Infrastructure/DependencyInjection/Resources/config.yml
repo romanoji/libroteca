@@ -49,6 +49,7 @@ parameters:
   doctrine_reader_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineReaderQueryService
   doctrine_book_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookQueryService
   doctrine_book_copy_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookCopyQueryService
+  doctrine_book_loan_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookLoanQueryService
 
 services:
   request:
@@ -195,6 +196,11 @@ services:
       - '@jms_serializer'
   doctrine_book_copy_query_service:
     class: '%doctrine_book_copy_query_service.class%'
+    arguments:
+      - '@entity_manager'
+      - '@jms_serializer'
+  doctrine_book_loan_query_service:
+    class: '%doctrine_book_loan_query_service.class%'
     arguments:
       - '@entity_manager'
       - '@jms_serializer'

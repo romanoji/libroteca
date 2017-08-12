@@ -24,6 +24,8 @@ class DoctrineBookCopyQueryService extends DoctrineQueryService implements BookC
             ->getQuery()
             ->getResult();
 
+        // TODO: throw not found exception when book with this id does not exist
+
         return $this->serializer->toArray($bookCopies);
     }
 

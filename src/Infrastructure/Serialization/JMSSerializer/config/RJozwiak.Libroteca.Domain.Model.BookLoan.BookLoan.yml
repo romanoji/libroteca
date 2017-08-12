@@ -1,0 +1,21 @@
+RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan:
+  read_only: true
+  properties:
+    id:
+      type: string
+    bookCopyID:
+      type: string
+      serialized_name: book_copy_id
+    readerID:
+      type: string
+      serialized_name: reader_id
+    dueDate:
+      type: DateTime<'Y-m-d'>
+    ended:
+      type: boolean
+    endDate:
+      type: DateTime
+    prolonged:
+      type: boolean
+    remarks:
+      type: string

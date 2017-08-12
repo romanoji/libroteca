@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS book_loans(
   id UUID PRIMARY KEY,
   book_copy_id UUID REFERENCES book_copies(id) NOT NULL,
   reader_id UUID REFERENCES readers(id) NOT NULL,
-  due_date TIMESTAMP NOT NULL,
+  due_date DATE NOT NULL,
   has_ended BOOLEAN NOT NULL,
-  end_date TIMESTAMP NOT NULL,
+  end_date TIMESTAMP(0),
   is_prolonged BOOLEAN NOT NULL,
   remarks VARCHAR(1024)
 );
