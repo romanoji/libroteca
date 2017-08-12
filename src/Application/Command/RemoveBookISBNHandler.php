@@ -6,11 +6,7 @@ namespace RJozwiak\Libroteca\Application\Command;
 use RJozwiak\Libroteca\Application\CommandHandler;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanRepository;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
-use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
+use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
 
 class RemoveBookISBNHandler implements CommandHandler
 {
@@ -26,7 +22,7 @@ class RemoveBookISBNHandler implements CommandHandler
 
     /**
      * @param RemoveBookISBN $command
-     * @throws \RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException
+     * @throws BookNotFoundException
      */
     public function execute(RemoveBookISBN $command) : void
     {
