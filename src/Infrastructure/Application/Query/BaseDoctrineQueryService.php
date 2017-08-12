@@ -3,31 +3,11 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\Query;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
-use JMS\Serializer\Serializer;
+use Doctrine\ORM\NoResultException;
 use RJozwiak\Libroteca\Domain\Model\AggregateNotFoundException;
 
-abstract class BaseDoctrineQueryService
+abstract class BaseDoctrineQueryService extends DoctrineQueryService
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    /** @var Serializer */
-    private $serializer;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     * @param Serializer $serializer
-     */
-    public function __construct(
-        EntityManagerInterface $entityManager,
-        Serializer $serializer
-    ) {
-        $this->entityManager = $entityManager;
-        $this->serializer = $serializer;
-    }
-
     /**
      * @return array
      */
@@ -64,14 +44,6 @@ abstract class BaseDoctrineQueryService
         }
 
         return $this->serializer->toArray($object);
-    }
-
-    /**
-     * @return QueryBuilder
-     */
-    protected function queryBuilder()
-    {
-        return $this->entityManager->createQueryBuilder();
     }
 
     /**
