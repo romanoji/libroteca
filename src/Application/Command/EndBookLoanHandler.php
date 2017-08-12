@@ -10,13 +10,13 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedExcep
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
 
-class ReturnBookCopyHandler implements CommandHandler
+class EndBookLoanHandler implements CommandHandler
 {
     /** @var BookLoanRepository */
     private $bookLoanRepository;
 
     /**
-     * ReturnBookCopyHandler constructor.
+     * EndBookLoanHandler constructor.
      * @param BookLoanRepository $bookLoanRepository
      */
     public function __construct(BookLoanRepository $bookLoanRepository) {
@@ -24,12 +24,12 @@ class ReturnBookCopyHandler implements CommandHandler
     }
 
     /**
-     * @param ReturnBookCopy $command
+     * @param EndBookLoan $command
      * @throws BookLoanAlreadyEndedException
      * @throws EndingOverdueLoanWithoutRemarksException
      * @throws BookLoanNotFoundException
      */
-    public function execute(ReturnBookCopy $command) : void
+    public function execute(EndBookLoan $command) : void
     {
         $bookLoanID = new BookLoanID($command->bookLoanID);
 

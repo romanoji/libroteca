@@ -24,10 +24,10 @@ parameters:
 
   lend_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\LendBookCopyHandler
   prolong_book_loan_handler.class: RJozwiak\Libroteca\Application\Command\ProlongBookLoanHandler
+  end_book_loan_handler.class: RJozwiak\Libroteca\Application\Command\EndBookLoanHandler
   register_book_handler.class: RJozwiak\Libroteca\Application\Command\RegisterBookHandler
   register_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\RegisterBookCopyHandler
   register_reader_handler.class: RJozwiak\Libroteca\Application\Command\RegisterReaderHandler
-  return_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\ReturnBookCopyHandler
   update_book_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookHandler
   update_book_copy_remarks_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarksHandler
 
@@ -98,6 +98,10 @@ services:
     class: '%prolong_book_loan_handler.class%'
     arguments:
       - '@book_loan_repository'
+  end_book_loan_handler:
+    class: '%end_book_loan_handler.class%'
+    arguments:
+      - '@book_loan_repository'
   register_book_handler:
     class: '%register_book_handler.class%'
     arguments:
@@ -112,10 +116,6 @@ services:
     class: '%register_reader_handler.class%'
     arguments:
       - '@reader_repository'
-  return_book_copy_handler:
-    class: '%return_book_copy_handler.class%'
-    arguments:
-      - '@book_loan_repository'
   update_book_handler:
     class: '%update_book_handler.class%'
     arguments:
@@ -137,7 +137,7 @@ services:
         - '@register_book_handler'
         - '@register_book_copy_handler'
         - '@register_reader_handler'
-        - '@return_book_copy_handler'
+        - '@end_book_loan_handler'
         - '@update_book_handler'
         - '@update_book_copy_remarks_handler'
   tactician.command_class_name_extractor:

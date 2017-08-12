@@ -12,7 +12,7 @@ use Helper\ClearsBetweenScenarios;
 use Helper\SharedObjects;
 use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\{
-    LendBookCopy, LendBookCopyHandler, ProlongBookLoan, ProlongBookLoanHandler, ReturnBookCopy, ReturnBookCopyHandler
+    LendBookCopy, LendBookCopyHandler, ProlongBookLoan, ProlongBookLoanHandler, EndBookLoan, EndBookLoanHandler
 };
 use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\Book\BookRepository;
@@ -97,7 +97,7 @@ class LoanContext implements Context, SnippetAcceptingContext
                     new ProlongBookLoanHandler(
                         $this->bookLoanRepository
                     ),
-                    new ReturnBookCopyHandler(
+                    new EndBookLoanHandler(
                         $this->bookLoanRepository
                     )
                 ])
@@ -400,11 +400,11 @@ class LoanContext implements Context, SnippetAcceptingContext
      * @When I accept this book copy without remarks
      * @When I accept this book copy with remarks:
      */
-    public function returnBookCopyOfReader(PyStringNode $remarks = null)
+    public function endBookLoanOfReader(PyStringNode $remarks = null)
     {
         $this->spyOnException(function () use ($remarks) {
             $this->commandBus->handle(
-                new ReturnBookCopy(
+                new EndBookLoan(
                     $this->currentBookLoanID->id(),
                     $this->today,
                     $remarks ? $remarks->getRaw() : null

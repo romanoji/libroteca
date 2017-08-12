@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Application\Command;
 
 use RJozwiak\Libroteca\Application\Command;
 
-class ReturnBookCopy implements Command
+class EndBookLoan implements Command
 {
     /** @var int|string */
     public $bookLoanID;
@@ -17,7 +17,7 @@ class ReturnBookCopy implements Command
     public $remarks;
 
     /**
-     * ReturnBookCopy constructor.
+     * EndBookLoan constructor.
      * @param int|string $bookLoanID
      * @param \DateTimeImmutable $endDate
      * @param null|string $remarks
