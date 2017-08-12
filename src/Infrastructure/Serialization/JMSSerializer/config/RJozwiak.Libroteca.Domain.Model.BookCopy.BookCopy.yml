@@ -5,7 +5,6 @@ RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy:
       type: string
     bookID:
       type: string
-      field_name: bookID
       serialized_name: book_id
     remarks:
       type: string
