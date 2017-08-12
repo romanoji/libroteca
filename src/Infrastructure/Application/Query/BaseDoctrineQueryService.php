@@ -46,6 +46,8 @@ abstract class BaseDoctrineQueryService
      * @param int|string $objectID
      * @return array
      * @throws AggregateNotFoundException
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getOne($objectID) : array
     {
@@ -55,7 +57,7 @@ abstract class BaseDoctrineQueryService
             ->where('t.id = :id')
             ->setParameter('id', $this->createID($objectID))
             ->getQuery()
-            ->getResult();
+            ->getSingleResult();
 
         if (!$object) {
             throw $this->notFoundException();
