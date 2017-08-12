@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS books(
   id UUID PRIMARY KEY,
   title VARCHAR NOT NULL,
-  isbn VARCHAR(13) NOT NULL,
+  isbn VARCHAR(13) UNIQUE NOT NULL,
   authors TEXT[] NOT NULL
 );
 
@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS readers(
   id UUID PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   surname VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  phone VARCHAR(255) NOT NULL
+  email VARCHAR(255) UNIQUE NOT NULL,
+  phone VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS book_copies(
@@ -29,3 +29,7 @@ CREATE TABLE IF NOT EXISTS book_loans(
   is_prolonged BOOLEAN NOT NULL,
   remarks VARCHAR(1024)
 );
+
+CREATE UNIQUE INDEX CONCURRENTLY index_unique_unfinished_book_loans_on_book_copy_id
+  ON book_loans (book_copy_id)
+  WHERE has_ended = FALSE;
