@@ -26,7 +26,6 @@ abstract class BaseDoctrineQueryService extends DoctrineQueryService
      * @param int|string $objectID
      * @return array
      * @throws AggregateNotFoundException
-     * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getOne($objectID) : array
