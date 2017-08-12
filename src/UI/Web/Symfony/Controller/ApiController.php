@@ -32,6 +32,7 @@ abstract class ApiController extends Controller
         return $this->get('command_bus');
     }
 
+    // TODO: wrap *Action methods dynamically with this
     /**
      * @param callable $responseFn
      * @return JsonResponse
@@ -65,18 +66,19 @@ abstract class ApiController extends Controller
 
     // TODO: create ResponseBuilder
     /**
-     * @param array $data
+     * @param null|array $data
      * @param int $statusCode
      * @return JsonResponse
      */
     protected function successResponse(
-        array $data,
+        array $data = null,
         int $statusCode = Response::HTTP_OK
     ) : JsonResponse {
-        $responseData = [
-            'success' => true,
-            'data' => $data
-        ];
+        $responseData = ['success' => true];
+
+        if ($data !== null) {
+            $responseData['data'] = $data;
+        }
 
         return new JsonResponse($responseData, $statusCode);
     }
