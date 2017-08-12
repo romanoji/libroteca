@@ -17,6 +17,8 @@ class BookCopy extends AggregateRoot
     /** @var string */
     private $remarks; // TODO: length limit
 
+    // TODO: maybe embed BookLoan here?
+
     /**
      * BookCopy constructor.
      * @param BookCopyID $copyID

@@ -3,30 +3,77 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\Query;
 
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use RJozwiak\Libroteca\Application\Query\BookCopyQueryService;
+use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
+use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan;
 
 class DoctrineBookCopyQueryService extends DoctrineQueryService implements BookCopyQueryService
 {
     /**
      * @param int|string $bookID
+     * @param bool $includeOngoingLoans
      * @return array
+     * @throws BookNotFoundException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getAllByBook($bookID): array
+    public function getAllByBook($bookID, bool $includeOngoingLoans = false): array
     {
+        $this->assertBookExists($bookID);
+
         $bookCopies = $this->queryBuilder()
             ->select('bc')
-            ->from(BookCopy::class, 'bc')
+            ->from(BookCopy::class, 'bc', 'bc.id')
             ->where('bc.bookID = :bookID')
             ->setParameter('bookID', new BookID($bookID))
             ->getQuery()
             ->getResult();
 
-        // TODO: throw not found exception when book with this id does not exist
+        $serializedBookCopies = $this->serializer->toArray($bookCopies);
 
-        return $this->serializer->toArray($bookCopies);
+        if ($includeOngoingLoans) {
+            /** @var BookLoan[] $booksLoans */
+            $booksLoans = $this->queryBuilder()
+                ->select('bl')
+                ->from(BookLoan::class, 'bl')
+                ->where('bl.bookCopyID IN (:bookCopiesIDs)')
+                ->setParameter('bookCopiesIDs', array_keys($bookCopies))
+                ->getQuery()
+                ->getResult();
+
+            foreach ($booksLoans as $bookLoan) {
+                $bookCopyID = $bookLoan->bookCopyID()->id();
+
+                $serializedBookCopies[$bookCopyID]['ongoing_loan'] = $this->serializer->toArray($bookLoan);
+            }
+        }
+
+        return array_values($serializedBookCopies);
+    }
+
+    /**
+     * @param $bookID
+     * @throws BookNotFoundException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function assertBookExists($bookID)
+    {
+        try {
+            $this
+                ->queryBuilder()
+                ->select('b')
+                ->from(Book::class, 'b')
+                ->where('b.id = :id')
+                ->setParameter('id', $bookID)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            throw new BookNotFoundException();
+        }
     }
 
     /**

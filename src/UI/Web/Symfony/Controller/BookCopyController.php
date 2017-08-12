@@ -21,8 +21,13 @@ class BookCopyController extends ApiController
     public function getByBookAction(string $bookID)
     {
         return $this->wrapRequest(function () use ($bookID) {
+            $embedOngoingLoans = $this->requestParam('embed', false) == 'ongoing_loans';
+
             return $this->successResponse(
-                $this->booksCopies()->getAllByBook(Uuid::fromString($bookID)->toString())
+                $this->booksCopies()->getAllByBook(
+                    Uuid::fromString($bookID)->toString(),
+                    $embedOngoingLoans
+                )
             );
         });
     }
