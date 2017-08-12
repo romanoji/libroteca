@@ -5,6 +5,8 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterBook;
+use RJozwiak\Libroteca\Application\Command\RemoveBookISBN;
+use RJozwiak\Libroteca\Application\Command\UpdateBook;
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,6 +59,39 @@ class BookController extends ApiController
             );
 
             return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
+        });
+    }
+
+    /**
+     * @Route("/{id}", methods={"PUT"})
+     */
+    public function updateAction(string $id)
+    {
+        return $this->wrapRequest(function () use ($id) {
+            $this->handle(
+                new UpdateBook(
+                    Uuid::fromString($id)->toString(),
+                    $this->requestParam('isbn', false),
+                    $this->requestArrayParam('authors'),
+                    $this->requestParam('title')
+                )
+            );
+
+            return $this->successResponse();
+        });
+    }
+
+    /**
+     * @Route("/{id}/isbn", methods={"DELETE"})
+     */
+    public function deleteISBNAction(string $id)
+    {
+        return $this->wrapRequest(function () use ($id) {
+            $this->handle(
+                new RemoveBookISBN(Uuid::fromString($id)->toString())
+            );
+
+            return $this->successResponse();
         });
     }
 

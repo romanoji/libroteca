@@ -9,6 +9,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\Book;
 use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN13;
+use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
 class BookSpec extends ObjectBehavior
@@ -79,5 +80,12 @@ class BookSpec extends ObjectBehavior
         $this->isbn()->shouldReturn($isbn);
         $this->authors()->shouldReturn($authors);
         $this->title()->shouldReturn($title);
+    }
+
+    function it_removes_isbn()
+    {
+        $this->removeISBN();
+
+        $this->isbn()->shouldReturnAnInstanceOf(NullISBN::class);
     }
 }
