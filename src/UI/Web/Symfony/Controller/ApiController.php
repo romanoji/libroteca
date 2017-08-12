@@ -57,7 +57,11 @@ abstract class ApiController extends Controller
         } catch (\Exception $e) {
             // TODO: log these errors
             if ($this->container->getParameter('kernel.debug')) {
-                return $this->errorResponse($e->getMessage());
+                return $this->errorResponse([
+                    'exception' => get_class($e),
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTrace()
+                ]);
             }
 
             return $this->errorResponse();
@@ -112,12 +116,12 @@ abstract class ApiController extends Controller
     }
 
     /**
-     * @param string|null $message
+     * @param string|array|null $message
      * @param int $statusCode
      * @return JsonResponse
      */
     protected function errorResponse(
-        string $message = null,
+        $message = null,
         int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ) : JsonResponse {
         return new JsonResponse($message, $statusCode);
