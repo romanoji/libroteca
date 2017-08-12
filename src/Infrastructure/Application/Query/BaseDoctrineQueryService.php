@@ -31,15 +31,15 @@ abstract class BaseDoctrineQueryService extends DoctrineQueryService
      */
     public function getOne($objectID) : array
     {
-        $object = $this->queryBuilder()
-            ->select('t')
-            ->from($this->resourceClassName(), 't')
-            ->where('t.id = :id')
-            ->setParameter('id', $this->createID($objectID))
-            ->getQuery()
-            ->getSingleResult();
-
-        if (!$object) {
+        try {
+            $object = $this->queryBuilder()
+                ->select('t')
+                ->from($this->resourceClassName(), 't')
+                ->where('t.id = :id')
+                ->setParameter('id', $this->createID($objectID))
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
             throw $this->notFoundException();
         }
 
