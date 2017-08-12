@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
- * @Route("/book", name="books")
+ * @Route("/books", name="books")
  */
 class BookController extends ApiController
 {
