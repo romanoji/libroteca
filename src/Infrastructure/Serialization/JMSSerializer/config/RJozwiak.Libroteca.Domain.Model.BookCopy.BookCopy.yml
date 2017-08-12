@@ -1,0 +1,11 @@
+RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy:
+  read_only: true
+  properties:
+    id:
+      type: string
+    bookID:
+      type: string
+      field_name: bookID
+      serialized_name: book_id
+    remarks:
+      type: string

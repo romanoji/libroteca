@@ -5,8 +5,8 @@ namespace RJozwiak\Libroteca\Infrastructure\Application\Query;
 
 use Doctrine\ORM\QueryBuilder;
 use RJozwiak\Libroteca\Application\Query\BookCopyQueryService;
+use RJozwiak\Libroteca\Domain\Model\Book\BookID;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
-use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 
 class DoctrineBookCopyQueryService extends DoctrineQueryService implements BookCopyQueryService
 {
@@ -19,8 +19,8 @@ class DoctrineBookCopyQueryService extends DoctrineQueryService implements BookC
         $bookCopies = $this->queryBuilder()
             ->select('bc')
             ->from(BookCopy::class, 'bc')
-            ->where('bc.bookID = :id')
-            ->setParameter('id', new BookCopyID($bookID))
+            ->where('bc.bookID = :bookID')
+            ->setParameter('bookID', new BookID($bookID))
             ->getQuery()
             ->getResult();
 
