@@ -8,6 +8,7 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanRepository;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyEndedException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanAlreadyProlongedException;
+use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
 
 class ProlongBookLoanHandler implements CommandHandler
@@ -27,8 +28,9 @@ class ProlongBookLoanHandler implements CommandHandler
      * @param ProlongBookLoan $command
      * @throws BookLoanAlreadyEndedException
      * @throws BookLoanAlreadyProlongedException
-     * @throws \InvalidArgumentException
+     * @throws BookLoanNotFoundException
      * @throws ProlongOverdueBookLoanException
+     * @throws \InvalidArgumentException
      */
     public function execute(ProlongBookLoan $command) : void
     {
