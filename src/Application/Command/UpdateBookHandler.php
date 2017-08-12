@@ -47,7 +47,7 @@ class UpdateBookHandler implements CommandHandler
         );
         $title = new Title($command->title);
 
-        $this->assertUniqueISBN($isbn);
+        $this->assertUniqueISBN($isbn, $bookID);
 
         $book = $this->bookRepository->get($bookID);
         $book->setData($isbn, $authors, $title);
@@ -57,14 +57,15 @@ class UpdateBookHandler implements CommandHandler
 
     /**
      * @param ISBN $isbn
+     * @param BookID $bookID
      * @throws ISBNAlreadyInUseException
      */
-    private function assertUniqueISBN(ISBN $isbn)
+    private function assertUniqueISBN(ISBN $isbn, BookID $bookID)
     {
         if (!$isbn instanceof NullISBN) {
             $book = $this->bookRepository->findOneByISBN($isbn);
 
-            if ($book instanceof Book) {
+            if ($book instanceof Book && !$book->id()->equals($bookID)) {
                 throw new ISBNAlreadyInUseException('ISBN is already in use.');
             }
         }
