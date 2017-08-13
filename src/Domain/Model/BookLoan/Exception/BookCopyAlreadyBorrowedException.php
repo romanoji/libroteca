@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Domain\Model\BookLoan\Exception;
 
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
 
-class BookCopyAlreadyBorrowedException extends \RuntimeException
+class BookCopyAlreadyBorrowedException extends DomainLogicException
 {
     /**
      * @param BookCopyID $bookCopyID

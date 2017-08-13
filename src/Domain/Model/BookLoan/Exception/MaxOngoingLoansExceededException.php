@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\BookLoan\Exception;
 
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 
-class MaxOngoingLoansExceededException extends \RuntimeException
+class MaxOngoingLoansExceededException extends DomainLogicException
 {
     /**
      * @param ReaderID $readerID

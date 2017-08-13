@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\BookLoan\Exception;
 
-class BookLoanAlreadyEndedException extends \DomainException
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
+
+class BookLoanAlreadyEndedException extends DomainLogicException
 {
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader\Exception;
 
-class EmailAlreadyInUseException extends \DomainException
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
+
+class EmailAlreadyInUseException extends DomainLogicException
 {
 }

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\BookLoan\Exception;
 
-class ProlongOverdueBookLoanException extends \DomainException
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
+
+class ProlongOverdueBookLoanException extends DomainLogicException
 {
 }

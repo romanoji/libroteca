@@ -6,6 +6,7 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 use RJozwiak\Libroteca\Application\Command;
 use RJozwiak\Libroteca\Application\CommandBus;
 use RJozwiak\Libroteca\Domain\Model\AggregateNotFoundException;
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -41,7 +42,7 @@ abstract class ApiController extends Controller
     {
         try {
             return $responseFn();
-        } catch (\InvalidArgumentException | \DomainException | UnprocessableEntityHttpException $e) {
+        } catch (\InvalidArgumentException | DomainLogicException | UnprocessableEntityHttpException $e) {
             return $this->clientErrorResponse($e->getMessage());
         } catch (ResourceNotFoundException | AggregateNotFoundException $e) {
             return $this->clientErrorResponse(
