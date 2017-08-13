@@ -92,14 +92,14 @@
 							"name": "localhost:8080/books/:id/copies",
 							"request": {
 								"url": {
-									"raw": "localhost:8080/books/31ff27b8-00d1-49a8-a18e-f18e4df3684d/copies?embed=ongoing_loans",
+									"raw": "localhost:8080/books/5086c2e1-c607-4a02-91f9-f437f894c380/copies?embed=ongoing_loans",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"books",
-										"31ff27b8-00d1-49a8-a18e-f18e4df3684d",
+										"5086c2e1-c607-4a02-91f9-f437f894c380",
 										"copies"
 									],
 									"query": [
@@ -290,6 +290,59 @@
 			"name": "/book_loans",
 			"description": "",
 			"item": [
+				{
+					"name": "localhost:8080/book_loans",
+					"request": {
+						"url": {
+							"raw": "localhost:8080/book_loans?filters[ended]=false&filters[prolonged]=false&filters[reader_id]=1bcd787c-9bd6-4354-a098-9a42ccff176f&filters[book_copy_id]=c42ab2c5-4456-432a-8e31-7162af36741e",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book_loans"
+							],
+							"query": [
+								{
+									"key": "filters[ended]",
+									"value": "false",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "filters[prolonged]",
+									"value": "false",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "filters[reader_id]",
+									"value": "1bcd787c-9bd6-4354-a098-9a42ccff176f",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "filters[book_copy_id]",
+									"value": "c42ab2c5-4456-432a-8e31-7162af36741e",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
 				{
 					"name": "localhost:8080/book_loans/:id",
 					"request": {

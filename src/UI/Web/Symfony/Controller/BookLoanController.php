@@ -29,6 +29,20 @@ class BookLoanController extends ApiController
     }
 
     /**
+     * @Route(methods={"GET"})
+     */
+    public function getAllAction()
+    {
+        return $this->wrapRequest(function () {
+            return $this->successResponse(
+                $this->bookLoans()->getAll(
+                    $this->requestArrayParam('filters', false)
+                )
+            );
+        });
+    }
+
+    /**
      * @Route(methods={"POST"})
      */
     public function createAction()

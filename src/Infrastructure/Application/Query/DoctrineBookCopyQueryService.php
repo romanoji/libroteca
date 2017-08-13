@@ -56,7 +56,7 @@ class DoctrineBookCopyQueryService extends DoctrineQueryService implements BookC
     }
 
     /**
-     * @param $bookID
+     * @param int|string $bookID
      * @throws BookNotFoundException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

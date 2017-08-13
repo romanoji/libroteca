@@ -36,6 +36,33 @@ class DoctrineBookLoanQueryService extends DoctrineQueryService implements BookL
     }
 
     /**
+     * @param array $filters
+     * @return array
+     */
+    public function getAll(array $filters): array
+    {
+        $allowedFields = [
+            'book_copy_id' => 'bookCopyID',
+            'reader_id' => 'readerID',
+            'ended' => 'ended',
+            'prolonged' => 'prolonged'
+        ];
+
+        $qb = $this->queryBuilder()
+            ->select('bl')
+            ->from(BookLoan::class, 'bl');
+        foreach ($filters as $field => $value) {
+            if (array_key_exists($field, $allowedFields)) {
+                $qb
+                    ->andWhere("bl.{$allowedFields[$field]} = :{$field}")
+                    ->setParameter($field, $value);
+            }
+        }
+        $bookLoans = $qb->getQuery()->getResult();
+
+        return $this->serializer->toArray($bookLoans);
+    }
+    /**
      * @return QueryBuilder
      */
     protected function queryBuilder()
