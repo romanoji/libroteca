@@ -68,7 +68,7 @@ class DoctrineBookCopyQueryService extends DoctrineQueryService implements BookC
                 ->select('b')
                 ->from(Book::class, 'b')
                 ->where('b.id = :id')
-                ->setParameter('id', $bookID)
+                ->setParameter('id', new BookID($bookID))
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException $e) {

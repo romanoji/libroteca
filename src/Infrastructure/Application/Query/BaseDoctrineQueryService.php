@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Application\Query;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use RJozwiak\Libroteca\Domain\Model\AggregateNotFoundException;
 
@@ -26,7 +27,7 @@ abstract class BaseDoctrineQueryService extends DoctrineQueryService
      * @param int|string $objectID
      * @return array
      * @throws AggregateNotFoundException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function getOne($objectID) : array
     {
