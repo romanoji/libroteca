@@ -1,0 +1,396 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Libroteca",
+		"_postman_id": "770db50b-56ad-2d90-7d7c-09f052ca61c6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/readers",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:8080/readers",
+					"request": {
+						"url": "localhost:8080/readers",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/readers/:id",
+					"request": {
+						"url": "localhost:8080/readers/583e6eb1-25f5-4a2e-a739-06fce5a853dd",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/readers",
+					"request": {
+						"url": "localhost:8080/readers",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Adam",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Mickiewicz",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "adam.mickiewicz@example.com",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "123456789",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/books",
+			"description": "",
+			"item": [
+				{
+					"name": "/copies",
+					"description": "",
+					"item": [
+						{
+							"name": "localhost:8080/books/:id/copies",
+							"request": {
+								"url": {
+									"raw": "localhost:8080/books/31ff27b8-00d1-49a8-a18e-f18e4df3684d/copies?embed=ongoing_loans",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"books",
+										"31ff27b8-00d1-49a8-a18e-f18e4df3684d",
+										"copies"
+									],
+									"query": [
+										{
+											"key": "embed",
+											"value": "ongoing_loans",
+											"equals": true,
+											"description": ""
+										}
+									],
+									"variable": []
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "localhost:8080/books/:id/copies",
+							"request": {
+								"url": "localhost:8080/books/5086c2e1-c607-4a02-91f9-f437f894c380/copies",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"description": ""
+									}
+								],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "localhost:8080/books/:id/copies",
+							"request": {
+								"url": "localhost:8080/books/5086c2e1-c607-4a02-91f9-f437f894c380/copies/31ff27b8-00d1-49a8-a18e-f18e4df3684d",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "remarks",
+											"value": "Huehuehue :)",
+											"description": "",
+											"type": "text"
+										}
+									]
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "localhost:8080/books",
+					"request": {
+						"url": "localhost:8080/books",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/books/:id",
+					"request": {
+						"url": "localhost:8080/books/5086c2e1-c607-4a02-91f9-f437f894c380",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/books",
+					"request": {
+						"url": "localhost:8080/books",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "isbn",
+									"value": "074754624X",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "authors[]",
+									"value": "Adam Mickiewicz",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Pan Tadeusz",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/books/:id",
+					"request": {
+						"url": "localhost:8080/books/5086c2e1-c607-4a02-91f9-f437f894c380",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "isbn",
+									"value": "9783928444002",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "authors[]",
+									"value": "Adam Mickiewicz",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "authors[]",
+									"value": "George R.R. Martin",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Gra o tron Tadeusza",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/book_loans",
+			"description": "",
+			"item": [
+				{
+					"name": "localhost:8080/book_loans/:id",
+					"request": {
+						"url": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/book_loans",
+					"request": {
+						"url": "localhost:8080/book_loans",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "reader_id",
+									"value": "583e6eb1-25f5-4a2e-a739-06fce5a853dd",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "book_copy_id",
+									"value": "67f0444f-bf51-4730-a514-d13a050c7771",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "due_date",
+									"value": "2017-08-13",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/book_loans",
+					"request": {
+						"url": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "prolong_to",
+									"value": "2017-08-13",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/book_loans",
+					"request": {
+						"url": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
