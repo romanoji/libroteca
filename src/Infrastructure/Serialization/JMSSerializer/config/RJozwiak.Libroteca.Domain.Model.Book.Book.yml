@@ -5,6 +5,7 @@ RJozwiak\Libroteca\Domain\Model\Book\Book:
       type: string
     isbn:
       type: string
+      exclude_if: 'object.isbn().isbn() == null'
     authors:
       type: array<string>
     title:
