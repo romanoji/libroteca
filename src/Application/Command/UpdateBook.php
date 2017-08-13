@@ -10,7 +10,7 @@ class UpdateBook implements Command
     /** @var int|string */
     public $bookID;
 
-    /** @var string */
+    /** @var null|string */
     public $isbn;
 
     /** @var array */
@@ -22,13 +22,13 @@ class UpdateBook implements Command
     /**
      * UpdateBook constructor.
      * @param int|string $bookID
-     * @param string $isbn
+     * @param null|string $isbn
      * @param array $authors
      * @param string $title
      */
     public function __construct(
         $bookID,
-        string $isbn,
+        ?string $isbn,
         array $authors,
         string $title
     ) {

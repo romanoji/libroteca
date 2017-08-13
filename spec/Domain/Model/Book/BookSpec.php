@@ -81,11 +81,4 @@ class BookSpec extends ObjectBehavior
         $this->authors()->shouldReturn($authors);
         $this->title()->shouldReturn($title);
     }
-
-    function it_removes_isbn()
-    {
-        $this->removeISBN();
-
-        $this->isbn()->shouldReturnAnInstanceOf(NullISBN::class);
-    }
 }

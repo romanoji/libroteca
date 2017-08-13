@@ -5,12 +5,10 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterBook;
-use RJozwiak\Libroteca\Application\Command\RemoveBookISBN;
 use RJozwiak\Libroteca\Application\Command\UpdateBook;
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
  * @Route("/books", name="books")
@@ -75,21 +73,6 @@ class BookController extends ApiController
                     $this->requestArrayParam('authors'),
                     $this->requestParam('title')
                 )
-            );
-
-            return $this->successResponse();
-        });
-    }
-
-    /**
-     * TODO: replace with `PATCH { op: "remove", path: "/isbn" }`
-     * @Route("/{id}/isbn", methods={"DELETE"})
-     */
-    public function deleteISBNAction(string $id)
-    {
-        return $this->wrapRequest(function () use ($id) {
-            $this->handle(
-                new RemoveBookISBN(Uuid::fromString($id)->toString())
             );
 
             return $this->successResponse();

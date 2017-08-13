@@ -60,11 +60,6 @@ class Book extends AggregateRoot
         }
     }
 
-    public function removeISBN() : void
-    {
-        $this->isbn = new NullISBN();
-    }
-
     /**
      * @param array $authors
      * @throws \InvalidArgumentException
