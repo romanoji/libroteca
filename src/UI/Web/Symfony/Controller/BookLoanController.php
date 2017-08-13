@@ -67,36 +67,40 @@ class BookLoanController extends ApiController
     /**
      * @Route("/{id}", methods={"PUT"})
      */
-    public function prolongAction(string $id)
+    public function updateAction(string $id)
     {
         return $this->wrapRequest(function () use ($id) {
+            $parameter = 'action';
+            $action = $this->requestParam($parameter);
 
-            $this->handle(
-                new ProlongBookLoan(
-                    Uuid::fromString($id)->toString(),
-                    $this->requestDateTimeParam('prolong_to', 'Y-m-d'),
-                    new \DateTimeImmutable()
-                )
-            );
-
-            return $this->successResponse();
-        });
-    }
-
-    /**
-     * @Route("/{id}", methods={"DELETE"})
-     */
-    public function deleteAction(string $id)
-    {
-        return $this->wrapRequest(function () use ($id) {
-
-            $this->handle(
-                new EndBookLoan(
-                    Uuid::fromString($id)->toString(),
-                    new \DateTimeImmutable(),
-                    $this->requestParam('remarks', false)
-                )
-            );
+            switch ($action) {
+                case 'prolong':
+                    $this->handle(
+                        new ProlongBookLoan(
+                            Uuid::fromString($id)->toString(),
+                            $this->requestDateTimeParam('prolong_to', 'Y-m-d'),
+                            new \DateTimeImmutable()
+                        )
+                    );
+                    break;
+                case 'end':
+                    $this->handle(
+                        new EndBookLoan(
+                            Uuid::fromString($id)->toString(),
+                            new \DateTimeImmutable(),
+                            $this->requestParam('remarks', false)
+                        )
+                    );
+                    break;
+                default:
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            "Allowed values for `%s` parameter are: [%s].",
+                            $parameter,
+                            implode(', ', ['prolong', 'end'])
+                        )
+                    );
+            }
 
             return $this->successResponse();
         });

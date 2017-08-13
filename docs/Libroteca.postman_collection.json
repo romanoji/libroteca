@@ -400,9 +400,28 @@
 					"response": []
 				},
 				{
-					"name": "localhost:8080/book_loans",
+					"name": "localhost:8080/book_loans (prolong)",
 					"request": {
-						"url": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df",
+						"url": {
+							"raw": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df?action=prolong",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book_loans",
+								"8323b04f-ed76-4813-9f1a-3ce04f21e1df"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "prolong",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -427,10 +446,29 @@
 					"response": []
 				},
 				{
-					"name": "localhost:8080/book_loans",
+					"name": "localhost:8080/book_loans (end)",
 					"request": {
-						"url": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df",
-						"method": "DELETE",
+						"url": {
+							"raw": "localhost:8080/book_loans/8323b04f-ed76-4813-9f1a-3ce04f21e1df?action=end",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book_loans",
+								"8323b04f-ed76-4813-9f1a-3ce04f21e1df"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "end",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -438,7 +476,17 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "remarks",
+									"value": "Heheszki :)",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
 						"description": ""
 					},
 					"response": []
