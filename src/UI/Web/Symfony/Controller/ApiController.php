@@ -34,6 +34,7 @@ abstract class ApiController extends Controller
     }
 
     // TODO: wrap *Action methods dynamically with this
+
     /**
      * @param callable $responseFn
      * @return JsonResponse
@@ -42,14 +43,14 @@ abstract class ApiController extends Controller
     {
         try {
             return $responseFn();
-        } catch (\InvalidArgumentException | DomainLogicException | UnprocessableEntityHttpException $e) {
-            return $this->clientErrorResponse($e->getMessage());
         } catch (ResourceNotFoundException | AggregateNotFoundException $e) {
             return $this->clientErrorResponse(
                 self::RESOURCE_NOT_FOUND_MSG,
                 null,
                 Response::HTTP_NOT_FOUND
             );
+        } catch (\InvalidArgumentException | DomainLogicException | UnprocessableEntityHttpException $e) {
+            return $this->clientErrorResponse($e->getMessage());
         } catch (HttpException $e) {
             return $this->errorResponse(
                 $e->getMessage(),
