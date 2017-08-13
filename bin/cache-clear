@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+function removeAllFiles($dir, $exceptFiles = [], $exceptDirs = [])
+{
+    $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST
+    );
+
+    /**
+     * @var SplFileInfo[] $files
+     */
+    foreach ($files as $path) {
+        $filename = $path->getFilename();
+        $realpath = $path->getRealPath();
+
+        if ($path->isDir() && !in_array($filename, $exceptDirs)) {
+            rmdir($path->getRealPath());
+            echo sprintf('Removing "%s" dir.'.PHP_EOL, $realpath);
+        } elseif ($path->isFile() && !in_array($filename, $exceptFiles)) {
+            unlink($path->getRealPath());
+            echo sprintf('Removing "%s" file.'.PHP_EOL, $realpath);
+        }
+    }
+
+}
+
+removeAllFiles(__DIR__.'/../var/cache', ['.gitkeep'], ['dependency_injection', 'jms_serializer']);
