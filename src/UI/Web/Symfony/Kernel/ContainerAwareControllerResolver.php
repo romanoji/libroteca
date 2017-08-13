@@ -5,15 +5,19 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Kernel;
 
 use Psr\Log\LoggerInterface;
 use RJozwiak\Libroteca\UI\Web\Symfony\Controller\Controller;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 
 class ContainerAwareControllerResolver extends ControllerResolver
 {
-    /** @var ContainerBuilder */
+    /** @var Container */
     private $container;
 
-    public function __construct(LoggerInterface $logger = null, ContainerBuilder $container)
+    /**
+     * @param LoggerInterface|null $logger
+     * @param Container $container
+     */
+    public function __construct(LoggerInterface $logger = null, Container $container)
     {
         parent::__construct($logger);
 

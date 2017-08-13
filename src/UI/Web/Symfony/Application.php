@@ -11,7 +11,9 @@ use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\AppKernel;
 use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\ContainerAwareControllerResolver;
 use RJozwiak\Libroteca\UI\Web\Symfony\Routing\AnnotationRouteControllerLoader;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\{
+    Container, ParameterBag\ParameterBag, ParameterBag\ParameterBagInterface
+};
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\{
@@ -26,23 +28,31 @@ class Application
     private const COMPOSER_AUTOLOADER_PATH = __DIR__.'/../../../../vendor/autoload.php';
     private const CONTROLLERS_PATH = __DIR__.'/Controller';
 
-    /** @var ContainerBuilder */
+    /** @var Container */
     private $container;
 
     private function __construct(bool $debugMode)
     {
-        $this->container = DependencyInjectionContainerFactory::create();
-        $this->registerKernelParams($debugMode);
+        $this->container = DependencyInjectionContainerFactory::create(
+            $this->initialContainerParams($debugMode),
+            $debugMode
+        );
 
         $this->registerAnnotations();
     }
 
-    private function registerKernelParams(bool $debugMode)
+    /**
+     * @param bool $debugMode
+     * @return ParameterBagInterface
+     */
+    private function initialContainerParams(bool $debugMode) : ParameterBagInterface
     {
-        $this->container->setParameter('kernel.root_dir', realpath(AppKernel::appRootDir()));
-        $this->container->setParameter('kernel.cache_dir', realpath(AppKernel::appCacheDir()));
-        $this->container->setParameter('kernel.logs_dir', realpath(AppKernel::appLogsDir()));
-        $this->container->setParameter('kernel.debug', $debugMode);
+        return new ParameterBag([
+            'kernel.root_dir' => realpath(AppKernel::appRootDir()),
+            'kernel.cache_dir' => realpath(AppKernel::appCacheDir()),
+            'kernel.logs_dir' => realpath(AppKernel::appLogsDir()),
+            'kernel.debug' => $debugMode
+        ]);
     }
 
     public static function run(bool $debugMode)
@@ -52,7 +62,7 @@ class Application
 
     private function bootstrap(): void
     {
-        // TODO: setup cache for annotations, di container, config, etc.
+        // TODO: setup cache for annotations, etc.
         // TODO: register session in di container
 
         $request = $this->get('request');
@@ -73,7 +83,7 @@ class Application
 
     private function registerAnnotations()
     {
-        AnnotationRegistry::registerLoader(array(require self::COMPOSER_AUTOLOADER_PATH, 'loadClass'));
+        AnnotationRegistry::registerLoader([require self::COMPOSER_AUTOLOADER_PATH, 'loadClass']);
     }
 
     /**
