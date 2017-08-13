@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Ramsey\Uuid\Uuid;
+use RJozwiak\Libroteca\Application\Command\EndBookLoan;
 use RJozwiak\Libroteca\Application\Command\LendBookCopy;
-use RJozwiak\Libroteca\Application\Command\RegisterBookCopy;
-use RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarks;
-use RJozwiak\Libroteca\Application\Query\BookCopyQueryService;
+use RJozwiak\Libroteca\Application\Command\ProlongBookLoan;
 use RJozwiak\Libroteca\Application\Query\BookLoanQueryService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +26,6 @@ class BookLoanController extends ApiController
                 $this->bookLoans()->getOne(Uuid::fromString($id)->toString())
             );
         });
-        // TODO: add info about loans?
     }
 
     /**
@@ -52,17 +50,42 @@ class BookLoanController extends ApiController
         });
     }
 
-    public function prolongAction()
+    /**
+     * @Route("/{id}", methods={"PUT"})
+     */
+    public function prolongAction(string $id)
     {
+        return $this->wrapRequest(function () use ($id) {
 
+            $this->handle(
+                new ProlongBookLoan(
+                    Uuid::fromString($id)->toString(),
+                    $this->requestDateTimeParam('prolong_to', 'Y-m-d'),
+                    new \DateTimeImmutable()
+                )
+            );
+
+            return $this->successResponse();
+        });
     }
 
     /**
      * @Route("/{id}", methods={"DELETE"})
      */
-    public function deleteAction()
+    public function deleteAction(string $id)
     {
+        return $this->wrapRequest(function () use ($id) {
 
+            $this->handle(
+                new EndBookLoan(
+                    Uuid::fromString($id)->toString(),
+                    new \DateTimeImmutable(),
+                    $this->requestParam('remarks', false)
+                )
+            );
+
+            return $this->successResponse();
+        });
     }
 
     /**

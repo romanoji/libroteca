@@ -23,7 +23,13 @@ class EntityManagerFactory
         'ReaderID' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\DoctrineReaderID',
         'ISBN' => 'RJozwiak\Libroteca\Infrastructure\Domain\Model\Book\ISBN\DoctrineISBN',
         'Authors' => 'RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine\Type\AuthorsType',
-        'text[]' => 'MartinGeorgiev\Doctrine\DBAL\Types\TextArray'
+        'text[]' => 'MartinGeorgiev\Doctrine\DBAL\Types\TextArray',
+
+        // TODO: to drop after bumping doctrine to 2.6 along with dependency
+        'date_immutable' => 'VasekPurchart\Doctrine\Type\DateTimeImmutable\DateImmutableType',
+        'datetime_immutable' => 'VasekPurchart\Doctrine\Type\DateTimeImmutable\DateTimeImmutableType',
+        'datetimetz_immutable' => 'VasekPurchart\Doctrine\Type\DateTimeImmutable\DateTimeTzImmutableType',
+        'time_immutable' => 'VasekPurchart\Doctrine\Type\DateTimeImmutable\TimeImmutableType',
     ];
 
     private static $customStringFunctions = [

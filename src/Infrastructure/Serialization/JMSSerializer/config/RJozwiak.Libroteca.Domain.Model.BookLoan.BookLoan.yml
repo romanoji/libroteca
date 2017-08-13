@@ -10,11 +10,11 @@ RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan:
       type: string
       serialized_name: reader_id
     dueDate:
-      type: DateTime<'Y-m-d'>
+      type: DateTimeImmutable<'Y-m-d'>
     ended:
       type: boolean
     endDate:
-      type: DateTime
+      type: DateTimeImmutable
     prolonged:
       type: boolean
     remarks:

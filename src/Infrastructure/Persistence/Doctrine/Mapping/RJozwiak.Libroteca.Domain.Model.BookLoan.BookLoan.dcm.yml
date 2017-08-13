@@ -15,13 +15,13 @@ RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan:
       type: ReaderID
     dueDate:
       column: due_date
-      type: date
+      type: date_immutable
     ended:
       column: has_ended
       type: boolean
     endDate:
       column: end_date
-      type: datetime
+      type: datetime_immutable
     prolonged:
       column: is_prolonged
       type: boolean
