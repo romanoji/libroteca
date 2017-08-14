@@ -43,7 +43,7 @@ class BookController extends ApiController
     /**
      * @Route(
      *     methods={"POST"},
-     *     condition="request.headers.get('Content-Type') matches '/^multipart\\/form-data/'"
+     *     condition="request.headers.get('Content-Type') matches '%^multipart/form-data%'"
      * )
      */
     public function importAction()
