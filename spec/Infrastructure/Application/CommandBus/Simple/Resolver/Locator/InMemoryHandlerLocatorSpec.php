@@ -23,7 +23,8 @@ class InMemoryHandlerLocatorSpec extends ObjectBehavior
         $this->registerHandler(new SomeOtherHandler());
     }
 
-    function it_returns_handler_from_collection() {
+    function it_returns_handler_from_collection()
+    {
         $someHandler = new SomeHandler();
         $someOtherHandler = new SomeOtherHandler();
 

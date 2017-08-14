@@ -20,7 +20,8 @@ class ProlongBookLoanHandler implements CommandHandler
      * ProlongBookLoanHandler constructor.
      * @param BookLoanRepository $bookLoanRepository
      */
-    public function __construct(BookLoanRepository $bookLoanRepository) {
+    public function __construct(BookLoanRepository $bookLoanRepository)
+    {
         $this->bookLoanRepository = $bookLoanRepository;
     }
 
