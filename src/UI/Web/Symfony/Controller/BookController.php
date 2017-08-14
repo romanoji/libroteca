@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Ramsey\Uuid\Uuid;
+use RJozwiak\Libroteca\Application\Command\ImportBooks;
 use RJozwiak\Libroteca\Application\Command\RegisterBook;
 use RJozwiak\Libroteca\Application\Command\UpdateBook;
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
@@ -36,6 +37,23 @@ class BookController extends ApiController
             return $this->successResponse(
                 $this->books()->getOne(Uuid::fromString($id)->toString())
             );
+        });
+    }
+
+    /**
+     * @Route(
+     *     methods={"POST"},
+     *     condition="request.headers.get('Content-Type') matches '/^multipart\\/form-data/'"
+     * )
+     */
+    public function importAction()
+    {
+        return $this->wrapRequest(function () {
+            $importFile = $this->request()->files->get('import_file');
+
+            $this->handle(new ImportBooks($importFile));
+
+            return $this->successResponse(null, Response::HTTP_NO_CONTENT);
         });
     }
 

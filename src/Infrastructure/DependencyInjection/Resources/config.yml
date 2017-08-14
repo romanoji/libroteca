@@ -21,6 +21,7 @@ parameters:
 
   isbn_factory.class: RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory
   book_loan_factory.class: RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoanFactory
+  books_import_file_loader.class: RJozwiak\Libroteca\Infrastructure\Application\Command\CsvFileLoader
 
   lend_book_copy_handler.class: RJozwiak\Libroteca\Application\Command\LendBookCopyHandler
   prolong_book_loan_handler.class: RJozwiak\Libroteca\Application\Command\ProlongBookLoanHandler
@@ -30,6 +31,7 @@ parameters:
   register_reader_handler.class: RJozwiak\Libroteca\Application\Command\RegisterReaderHandler
   update_book_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookHandler
   update_book_copy_remarks_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarksHandler
+  import_books_handler.class: RJozwiak\Libroteca\Application\Command\ImportBooksHandler
 
   tactician.command_bus.class: League\Tactician\CommandBus
   tactician.method_name_inflector.class: RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\MethodNameInflector\ExecuteInflector
@@ -90,6 +92,8 @@ services:
     class: '%book_loan_factory.class%'
     arguments:
       - '@book_loan_repository'
+  books_import_file_loader:
+    class: '%books_import_file_loader.class%'
 
   lend_book_copy_handler:
     class: '%lend_book_copy_handler.class%'
@@ -129,6 +133,13 @@ services:
     class: '%update_book_copy_remarks_handler.class%'
     arguments:
       - '@book_copy_repository'
+  import_books_handler:
+    class: '%import_books_handler.class%'
+    arguments:
+      - '@isbn_factory'
+      - '@book_repository'
+      - '@book_copy_repository'
+      - '@books_import_file_loader'
 
   tactician.method_name_inflector:
     class: '%tactician.method_name_inflector.class%'
@@ -144,6 +155,7 @@ services:
         - '@end_book_loan_handler'
         - '@update_book_handler'
         - '@update_book_copy_remarks_handler'
+        - '@import_books_handler'
   tactician.command_class_name_extractor:
     class: '%tactician.command_class_name_extractor.class%'
   tactician.command_handler_middleware:
