@@ -12,7 +12,7 @@ use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\ContainerAwareControllerResolver;
 use RJozwiak\Libroteca\UI\Web\Symfony\Routing\AnnotationRouteControllerLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\{
-    Container, ParameterBag\ParameterBag, ParameterBag\ParameterBagInterface
+    ContainerInterface, ParameterBag\ParameterBag, ParameterBag\ParameterBagInterface
 };
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +28,7 @@ class Application
     private const COMPOSER_AUTOLOADER_PATH = __DIR__.'/../../../../vendor/autoload.php';
     private const CONTROLLERS_PATH = __DIR__.'/Controller';
 
-    /** @var Container */
+    /** @var ContainerInterface */
     private $container;
 
     private function __construct(bool $debugMode)

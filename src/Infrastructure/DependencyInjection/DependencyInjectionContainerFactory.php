@@ -6,8 +6,8 @@ namespace RJozwiak\Libroteca\Infrastructure\DependencyInjection;
 use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\AppKernel;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Exception\EnvParameterException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -22,7 +22,7 @@ class DependencyInjectionContainerFactory
     /**
      * @param ParameterBagInterface|null $parameterBag
      * @param bool $debugMode
-     * @return Container
+     * @return ContainerInterface
      * @throws EnvParameterException
      * @throws InvalidArgumentException
      * @throws \RuntimeException
@@ -30,7 +30,7 @@ class DependencyInjectionContainerFactory
     public static function create(
         ParameterBagInterface $parameterBag = null,
         bool $debugMode = false
-    ) : Container {
+    ) : ContainerInterface {
         if (!$debugMode) {
             $containerConfigCache = new ConfigCache(self::containerCachePath(), $debugMode);
 
