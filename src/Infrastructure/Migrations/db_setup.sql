@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS books(
   id UUID PRIMARY KEY,
-  title VARCHAR NOT NULL,
   isbn VARCHAR(13) UNIQUE,
+  title VARCHAR NOT NULL,
   authors TEXT[] NOT NULL
 );
 
