@@ -31,6 +31,11 @@ class Application
     /** @var ContainerInterface */
     private $container;
 
+    /**
+     * @param bool $debugMode
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     private function __construct(bool $debugMode)
     {
         $this->container = DependencyInjectionContainerFactory::create(
@@ -55,7 +60,10 @@ class Application
         ]);
     }
 
-    public static function run(bool $debugMode)
+    /**
+     * @param bool $debugMode
+     */
+    public static function run(bool $debugMode) : void
     {
         (new self($debugMode))->bootstrap();
     }
