@@ -27,4 +27,4 @@ function removeAllFiles($dir, $exceptFiles = [], $exceptDirs = [])
 
 }
 
-removeAllFiles(__DIR__.'/../var/cache', ['.gitkeep'], ['dependency_injection', 'jms_serializer']);
+removeAllFiles(__DIR__.'/../var/cache', ['.gitkeep']);

@@ -1,7 +1,9 @@
 .idea
 
 bin/*
-var/*
-vendor/
 
-!/**/.gitkeep
+var/*
+!/var/cache/.gitkeep
+!/var/logs/.gitkeep
+
+vendor/
