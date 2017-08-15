@@ -1,6 +1,7 @@
 {
     "name": "rjozwiak/libroteca",
     "type": "project",
+    "keywords": ["ddd", "domain", "symfony", "lumen", "laravel", "framework"],
     "license": "MIT",
     "authors": [
         {
@@ -11,6 +12,9 @@
     "require": {
         "php": "^7.1",
         "ramsey/uuid": "^3.6.1",
+        "league/tactician": "^1.0.2",
+        "league/tactician-doctrine": "^1.1",
+
         "doctrine/orm": "^2.5.6",
         "martin-georgiev/postgresql-for-doctrine": "^0.10",
         "vasek-purchart/doctrine-date-time-immutable-types": "^1.0",
@@ -22,9 +26,10 @@
         "symfony/http-kernel": "^3.3",
         "symfony/routing": "^3.3",
         "symfony/framework-bundle": "^3.3",
-        "league/tactician": "^1.0.2",
-        "league/tactician-doctrine": "^1.1",
-        "jms/serializer": "^1.8.1"
+        "jms/serializer": "^1.8.1",
+
+        "laravel/lumen-framework": "5.4.*",
+        "vlucas/phpdotenv": "~2.2"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.4",
@@ -38,7 +43,8 @@
     },
     "autoload": {
         "psr-4": {
-            "RJozwiak\\Libroteca\\": "src/"
+            "RJozwiak\\Libroteca\\": "src/",
+            "RJozwiak\\Libroteca\\Lumen\\": "src/UI/Web/Lumen/Application/app/"
         }
     }
 }
