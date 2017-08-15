@@ -5,13 +5,14 @@ namespace RJozwiak\Libroteca\UI\Web\Lumen;
 
 class Application
 {
-    public static function run()
+    public static function run() : void
     {
         (new self())->bootstrap();
     }
 
     private function bootstrap(): void
     {
-        require_once __DIR__.'/Application/public/index.php';
+        $app = require_once __DIR__.'/Application/bootstrap/app.php';
+        $app->run();
     }
 }
