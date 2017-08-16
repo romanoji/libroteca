@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Infrastructure\Application\Query;
+namespace RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine;
 
 use RJozwiak\Libroteca\Domain\Model\AggregateNotFoundException;
 

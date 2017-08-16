@@ -50,11 +50,11 @@ parameters:
   jms_expression_evaluator.class: JMS\Serializer\Expression\ExpressionEvaluator
 
   # TODO: cache services to allow `abstract` service definition
-  base_doctrine_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\BaseDoctrineQueryService
-  doctrine_reader_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineReaderQueryService
-  doctrine_book_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookQueryService
-  doctrine_book_copy_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookCopyQueryService
-  doctrine_book_loan_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\DoctrineBookLoanQueryService
+  base_doctrine_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\BaseDoctrineQueryService
+  doctrine_reader_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineReaderQueryService
+  doctrine_book_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineBookQueryService
+  doctrine_book_copy_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineBookCopyQueryService
+  doctrine_book_loan_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineBookLoanQueryService
 
 services:
   request:
