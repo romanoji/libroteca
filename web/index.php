@@ -11,5 +11,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 //$debugMode = true;
 //Symfony\Application::run($debugMode);
 
-// Phalcon //
+// Lumen //
 Lumen\Application::run();
+
+// TODO: resolve which app to run by x-header or sth
