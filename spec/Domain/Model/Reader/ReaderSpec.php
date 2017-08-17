@@ -41,9 +41,14 @@ class ReaderSpec extends ObjectBehavior
         $this->id()->id()->shouldReturn(1337);
     }
 
-    function it_returns_fullname()
+    function it_returns_name()
     {
-        $this->fullname()->shouldReturn('John Kowalsky');
+        $this->name()->shouldBeLike(new Name('John'));
+    }
+
+    function it_returns_surname()
+    {
+        $this->surname()->shouldBeLike(new Surname('Kowalsky'));
     }
 
     function it_returns_email()

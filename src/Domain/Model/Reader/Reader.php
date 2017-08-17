@@ -45,7 +45,6 @@ class Reader extends AggregateRoot
         $this->surname = $surname;
         $this->email = $email;
         $this->phone = $phone;
-        $this->ongoingLoans = [];
 
         // TODO: ReaderRegistered event
     }
@@ -59,11 +58,19 @@ class Reader extends AggregateRoot
     }
 
     /**
-     * @return string
+     * @return Name
      */
-    public function fullname() : string
+    public function name() : Name
     {
-        return $this->name.' '.$this->surname;
+        return $this->name;
+    }
+
+    /**
+     * @return Surname
+     */
+    public function surname() : Surname
+    {
+        return $this->surname;
     }
 
     /**
