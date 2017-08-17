@@ -51,6 +51,10 @@ class BookController extends ApiController
         return $this->wrapRequest(function () {
             $importFile = $this->request()->files->get('import_file');
 
+            if ($importFile === null) {
+                return $this->clientErrorResponse('Import file is required.');
+            }
+
             $this->handle(new ImportBooks($importFile));
 
             return $this->successResponse(null, Response::HTTP_NO_CONTENT);
