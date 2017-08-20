@@ -7,7 +7,7 @@ use Doctrine\Common\Annotations\{
     AnnotationReader, AnnotationRegistry
 };
 use RJozwiak\Libroteca\Infrastructure\DependencyInjection\DependencyInjectionContainerFactory;
-use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\AppKernel;
+use RJozwiak\Libroteca\UI\Web\Application as BaseApplication;
 use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\ContainerAwareControllerResolver;
 use RJozwiak\Libroteca\UI\Web\Symfony\Routing\AnnotationRouteControllerLoader;
 use Symfony\Component\Config\FileLocator;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\{
     Exception\ResourceNotFoundException, Loader\AnnotationDirectoryLoader, Matcher\UrlMatcher, RouteCollection
 };
 
-class Application
+class Application extends BaseApplication
 {
     private const COMPOSER_AUTOLOADER_PATH = __DIR__.'/../../../../vendor/autoload.php';
     private const CONTROLLERS_PATH = __DIR__.'/Controller';
@@ -32,12 +32,16 @@ class Application
     private $container;
 
     /**
-     * @param bool $debugMode
+     * @param array $options
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    private function __construct(bool $debugMode)
+    protected function __construct(array $options = [])
     {
+        parent::__construct($options);
+
+        $debugMode = $options['debug'] ?: false;
+
         $this->container = DependencyInjectionContainerFactory::create(
             $this->initialContainerParams($debugMode),
             $debugMode
@@ -53,22 +57,14 @@ class Application
     private function initialContainerParams(bool $debugMode) : ParameterBagInterface
     {
         return new ParameterBag([
-            'kernel.root_dir' => realpath(AppKernel::appRootDir()),
-            'kernel.cache_dir' => realpath(AppKernel::appCacheDir()),
-            'kernel.logs_dir' => realpath(AppKernel::appLogsDir()),
+            'kernel.root_dir' => realpath(self::rootDir()),
+            'kernel.cache_dir' => realpath(self::cacheDir()),
+            'kernel.logs_dir' => realpath(self::logsDir()),
             'kernel.debug' => $debugMode
         ]);
     }
 
-    /**
-     * @param bool $debugMode
-     */
-    public static function run(bool $debugMode) : void
-    {
-        (new self($debugMode))->bootstrap();
-    }
-
-    private function bootstrap(): void
+    protected function bootstrap(): void
     {
         // TODO: setup cache for annotations, etc.
         // TODO: register session in di container
@@ -113,7 +109,7 @@ class Application
         $controllerResolver = new ContainerAwareControllerResolver(null, $this->container);
         $argumentResolver = new ArgumentResolver();
 
-        return new AppKernel(
+        return new HttpKernel(
             $dispatcher,
             $controllerResolver,
             $requestStack,

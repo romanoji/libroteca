@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\DependencyInjection;
 
-use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\AppKernel;
+use RJozwiak\Libroteca\UI\Web\Application;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -98,6 +98,6 @@ class DependencyInjectionContainerFactory
      */
     private static function containerCachePath() : string
     {
-        return AppKernel::appCacheDir().'/dependency_injection/container.php';
+        return Application::cacheDir().'/dependency_injection/container.php';
     }
 }

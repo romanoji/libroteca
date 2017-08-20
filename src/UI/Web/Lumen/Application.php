@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\UI\Web\Lumen;
 
-class Application
-{
-    public static function run() : void
-    {
-        (new self())->bootstrap();
-    }
+use RJozwiak\Libroteca\UI\Web\Application as BaseApplication;
 
-    private function bootstrap(): void
+class Application extends BaseApplication
+{
+    protected function bootstrap(): void
     {
         $app = require_once __DIR__.'/Application/bootstrap/app.php';
         $app->run();

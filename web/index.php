@@ -7,8 +7,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 switch (getenv('FRAMEWORK')) {
     case 'symfony':
-        $debugMode = true;
-        Symfony\Application::run($debugMode);
+        Symfony\Application::run(['debug' => true]);
         break;
     case 'laravel':
         Lumen\Application::run();
