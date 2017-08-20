@@ -15,7 +15,7 @@ use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;
 use RJozwiak\Libroteca\Domain\Model\Reader\Surname;
 
-class LumenQBReaderRepository implements ReaderRepository
+class LumenReaderRepository implements ReaderRepository
 {
     /**
      * @return ReaderID
@@ -30,7 +30,7 @@ class LumenQBReaderRepository implements ReaderRepository
      */
     public function count(): int
     {
-        return DB::table(Lumen\Models\Reader::TABLE)->count();
+        return Lumen\Models\Reader::count();
     }
 
     /**
@@ -38,7 +38,6 @@ class LumenQBReaderRepository implements ReaderRepository
      */
     public function save(Reader $reader)
     {
-        $attributes = ['id' => $reader->id()->id()];
         $data = [
             'name' => (string) $reader->name(),
             'surname' => (string) $reader->surname(),
@@ -46,7 +45,8 @@ class LumenQBReaderRepository implements ReaderRepository
             'phone' => $reader->phone()->phone()
         ];
 
-        DB::table(Lumen\Models\Reader::TABLE)->updateOrInsert($attributes, $data);
+        Lumen\Models\Reader::where('id', $reader->id()->id())
+            ->update($data, ['upsert' => true]);
     }
 
     /**
@@ -56,7 +56,7 @@ class LumenQBReaderRepository implements ReaderRepository
      */
     public function get(ReaderID $id): Reader
     {
-        $data = DB::table(Lumen\Models\Reader::TABLE)::find($id->id());
+        $data = Lumen\Models\Reader::find($id->id());
 
         if ($data === null) {
             throw new ReaderNotFoundException();
@@ -73,7 +73,7 @@ class LumenQBReaderRepository implements ReaderRepository
      */
     public function findOneByEmail(Email $email): ?Reader
     {
-        $data = DB::table(Lumen\Models\Reader::TABLE)::where('isbn', $email->email())->get();
+        $data = Lumen\Models\Reader::where('email', $email->email())->get();
 
         if ($data === null) {
             return null;
@@ -90,7 +90,7 @@ class LumenQBReaderRepository implements ReaderRepository
      */
     public function findOneByPhone(Phone $phone): ?Reader
     {
-        $data = DB::table(Lumen\Models\Reader::TABLE)::where('isbn', $phone->phone())->get();
+        $data = Lumen\Models\Reader::where('phone', $phone->phone())->get();
 
         if ($data === null) {
             return null;

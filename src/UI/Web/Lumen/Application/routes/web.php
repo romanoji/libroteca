@@ -1,16 +1,23 @@
 <?php
+declare(strict_types=1);
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
+use Laravel\Lumen\Application;
 
 $app->get('/', function () use ($app) {
     return $app->version();
+});
+
+$app->group(['prefix' => 'books'], function (Application $app) {
+    $app->get('', 'BookController@index');
+    $app->get('/{id}', 'BookController@get');
+    $app->post('', 'BookController@create');
+    $app->put('/{id}', 'BookController@update');
+});
+
+$app->group(['prefix' => 'book_copies'], function (Application $app) {
+    // TODO: "{id}/book_loans"
+});
+
+$app->group(['prefix' => 'readers'], function (Application $app) {
+    // TODO:
 });

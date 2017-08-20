@@ -11,7 +11,7 @@ use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\Exception\BookCopyNotFoundException;
 use RJozwiak\Libroteca\Lumen;
 
-class LumenEloquentBookCopyRepository implements BookCopyRepository
+class LumenBookCopyRepository implements BookCopyRepository
 {
     /**
      * @return BookCopyID
@@ -26,13 +26,13 @@ class LumenEloquentBookCopyRepository implements BookCopyRepository
      */
     public function save(BookCopy $bookCopy)
     {
-        $attributes = ['id' => $bookCopy->id()->id()];
         $data = [
             'book_id' => $bookCopy->bookID()->id(),
             'remarks' => $bookCopy->remarks()
         ];
 
-        Lumen\Models\BookCopy::updateOrCreate($attributes, $data);
+        Lumen\Models\BookCopy::where('id', $bookCopy->id()->id())
+            ->update($data, ['upsert' => true]);
     }
 
     /**
@@ -48,7 +48,7 @@ class LumenEloquentBookCopyRepository implements BookCopyRepository
             throw new BookCopyNotFoundException();
         }
 
-        return $this->createBookCopy($data->id, $data->book_id, $data->remarks);
+        return $this->createBookCopy($data['id'], $data['book_id'], $data['remarks']);
     }
 
     /**
@@ -61,7 +61,7 @@ class LumenEloquentBookCopyRepository implements BookCopyRepository
 
         $bookCopies = [];
         foreach ($data as $row) {
-            $bookCopies[] = $this->createBookCopy($row->id, $row->book_id, $row->remarks);
+            $bookCopies[] = $this->createBookCopy($row['id'], $row['book_id'], $row['remarks']);
         }
 
         return $bookCopies;

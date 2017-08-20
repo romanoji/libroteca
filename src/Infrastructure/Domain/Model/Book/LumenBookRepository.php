@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Book;
 
-use Illuminate\Support\Facades\DB;
-use RJozwiak\Libroteca\Lumen;
 use Ramsey\Uuid\Uuid;
+use RJozwiak\Libroteca\Lumen;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
@@ -15,7 +14,7 @@ use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
 use RJozwiak\Libroteca\Domain\Model\Book\Title;
 
-class LumenQBBookRepository implements BookRepository
+class LumenBookRepository implements BookRepository
 {
     /** @var ISBNFactory */
     private $isbnFactory;
@@ -41,7 +40,7 @@ class LumenQBBookRepository implements BookRepository
      */
     public function count(): int
     {
-        return DB::table(Lumen\Models\Book::TABLE)->count();
+        return Lumen\Models\Book::count();
     }
 
     /**
@@ -49,7 +48,6 @@ class LumenQBBookRepository implements BookRepository
      */
     public function save(Book $book)
     {
-        $attributes = ['id' => $book->id()->id()];
         $data = [
             'isbn' => $book->isbn()->isbn(),
             'title' => $book->title()->title(),
@@ -59,7 +57,8 @@ class LumenQBBookRepository implements BookRepository
             )
         ];
 
-        DB::table(Lumen\Models\Book::TABLE)->updateOrInsert($attributes, $data);
+        Lumen\Models\Book::where('id', $book->id()->id())
+            ->update($data, ['upsert' => true]);
     }
 
     /**
@@ -69,7 +68,7 @@ class LumenQBBookRepository implements BookRepository
      */
     public function get(BookID $id): Book
     {
-        $data = DB::table(Lumen\Models\Book::TABLE)::find($id->id());
+        $data = Lumen\Models\Book::find($id->id());
 
         if ($data === null) {
             throw new BookNotFoundException();
@@ -84,7 +83,7 @@ class LumenQBBookRepository implements BookRepository
      */
     public function findOneByISBN(ISBN $isbn): ?Book
     {
-        $data = DB::table(Lumen\Models\Book::TABLE)::where('isbn', $isbn->isbn())->get();
+        $data = Lumen\Models\Book::where('isbn', $isbn->isbn())->first();
 
         if ($data === null) {
             return null;
@@ -100,7 +99,7 @@ class LumenQBBookRepository implements BookRepository
      */
     public function findByAuthorAndTitle(Author $author, Title $title): array
     {
-        $data = DB::table(Lumen\Models\Book::TABLE)::where([
+        $data = Lumen\Models\Book::where([
             'author' => $author->name(),
             'title' => $title->title()
         ])->get();

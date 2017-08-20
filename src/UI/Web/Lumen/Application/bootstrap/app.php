@@ -21,6 +21,8 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
+$app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
+
 $app->withFacades();
 $app->withEloquent();
 
@@ -75,9 +77,12 @@ $app->singleton(
 |
 */
 
-// $app->register(RJozwiak\Libroteca\Lumen\Providers\AppServiceProvider::class);
-// $app->register(RJozwiak\Libroteca\Lumen\Providers\AuthServiceProvider::class);
-// $app->register(RJozwiak\Libroteca\Lumen\Providers\EventServiceProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\DomainServicesProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\RepositoriesProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\ApplicationServicesProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\CommandBusProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\CommandHandlersProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\QueryServicesProvider::class);
 
 /*
 |--------------------------------------------------------------------------

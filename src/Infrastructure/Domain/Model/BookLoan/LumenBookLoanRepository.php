@@ -14,10 +14,8 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Infrastructure\Serialization\Basic\Deserializer;
 
-class LumenQBBookLoanRepository implements BookLoanRepository
+class LumenBookLoanRepository implements BookLoanRepository
 {
-    private const TABLE = 'book_loans';
-
     /** @var Deserializer */
     private $deserializer;
 
@@ -42,7 +40,6 @@ class LumenQBBookLoanRepository implements BookLoanRepository
      */
     public function save(BookLoan $bookLoan)
     {
-        $attributes = ['id' => $bookLoan->id()->id()];
         $data = [
             'book_copy_id' => $bookLoan->bookCopyID()->id(),
             'reader_id' => $bookLoan->readerID()->id(),
@@ -53,7 +50,8 @@ class LumenQBBookLoanRepository implements BookLoanRepository
             'remarks' => $bookLoan->remarks()
         ];
 
-        DB::table(Lumen\Models\BookLoan::TABLE)->updateOrInsert($attributes, $data);
+        Lumen\Models\BookLoan::where('id', $bookLoan->id()->id())
+            ->update($data, ['upsert' => true]);
     }
 
     /**
@@ -63,7 +61,7 @@ class LumenQBBookLoanRepository implements BookLoanRepository
      */
     public function get(BookLoanID $id): BookLoan
     {
-        $data = DB::table(Lumen\Models\BookLoan::TABLE)::find($id->id());
+        $data = Lumen\Models\BookLoan::find($id->id());
 
         if ($data === null) {
             throw new BookLoanNotFoundException();
@@ -87,7 +85,7 @@ class LumenQBBookLoanRepository implements BookLoanRepository
      */
     public function findOngoingByBookCopyID(BookCopyID $bookCopyID): ?BookLoan
     {
-        $data = DB::table(Lumen\Models\BookLoan::TABLE)::where([
+        $data = Lumen\Models\BookLoan::where([
             'book_copy_id' => $bookCopyID->id(),
             'has_ended' => false
         ])->get();
@@ -115,7 +113,7 @@ class LumenQBBookLoanRepository implements BookLoanRepository
      */
     public function findOngoingByReaderID(ReaderID $readerID): array
     {
-        $data = DB::table(Lumen\Models\BookLoan::TABLE)::where([
+        $data = Lumen\Models\BookLoan::where([
             'reader_id' => $readerID->id(),
             'has_ended' => false
         ])->get();

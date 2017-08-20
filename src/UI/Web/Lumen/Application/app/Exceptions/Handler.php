@@ -2,15 +2,21 @@
 
 namespace RJozwiak\Libroteca\Lumen\Exceptions;
 
-use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use RJozwiak\Libroteca\Domain\Model\AggregateNotFoundException;
+use RJozwiak\Libroteca\Domain\Model\DomainLogicException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
+    private const RESOURCE_NOT_FOUND_MSG = 'Resource not found.';
+
     /**
      * A list of the exception types that should not be reported.
      *
@@ -21,30 +27,40 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
+        DomainLogicException::class,
+        InvalidUuidStringException::class
     ];
-
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $e
-     * @return void
-     */
-    public function report(Exception $e)
-    {
-        parent::report($e);
-    }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $e
+     * @return JsonResponse
      */
-    public function render($request, Exception $e)
+    public function render($request, \Exception $e)
     {
-        return parent::render($request, $e);
+        $statusCode = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+        $message = $e->getMessage();
+
+        switch (true) {
+            case $e instanceof AggregateNotFoundException:
+            case $e instanceof NotFoundHttpException:
+                $statusCode = JsonResponse::HTTP_NOT_FOUND;
+                $message = self::RESOURCE_NOT_FOUND_MSG;
+                break;
+            case $e instanceof DomainLogicException:
+            case $e instanceof ValidationException:
+            case $e instanceof InvalidUuidStringException:
+                $statusCode = JsonResponse::HTTP_UNPROCESSABLE_ENTITY;
+                break;
+        }
+
+        $response = ['success' => false];
+        if (!empty($message)) {
+            $response['error'] = ['message' => $message];
+        }
+
+        return new JsonResponse($response, $statusCode);
     }
 }

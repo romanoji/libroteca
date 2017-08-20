@@ -29,7 +29,8 @@
         "jms/serializer": "^1.8.1",
 
         "laravel/lumen-framework": "5.4.*",
-        "vlucas/phpdotenv": "~2.2"
+        "vlucas/phpdotenv": "~2.2",
+        "jenssegers/mongodb": "^3.2.2"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.4",

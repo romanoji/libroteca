@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Lumen\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Reader extends Model
+class Reader extends BaseModel
 {
-    public const TABLE = 'readers';
+    public const COLLECTION = 'readers';
 
     /** @var string */
-    protected $table = self::TABLE;
+    protected $collection = self::COLLECTION;
 
     /** @var bool */
     public $timestamps = false;
