@@ -4,7 +4,6 @@ FROM php:7.1.8-apache
 RUN \
     APT_PACKAGES="vim curl libpq-dev"; \
     PHP_EXTENSIONS="pdo pdo_pgsql"; \
-    PECL_EXTENSIONS="xdebug-2.5.5"; \
     apt-get update \
  && apt-get install -y $APT_PACKAGES \
  && apt-get clean -y \

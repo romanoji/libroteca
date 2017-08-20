@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  # front: TODO
+
+  app:
+    build: docker/symfony
+    container_name: libroteca-web
+    restart: always
+    depends_on:
+      - db
+    environment:
+      FRAMEWORK: symfony
+    ports:
+      - "8080:80"
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - .:/var/www/libroteca:rw
+    working_dir: /var/www/libroteca
+
+  db:
+    image: postgres:9.6.3
+    container_name: libroteca-db
+    restart: always
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+    environment:
+      POSTGRES_DB: libroteca_db
+      POSTGRES_USER: libroteca
+      POSTGRES_PASSWORD: libroteca
+    volumes:
+      - db-data:/var/lib/mysql
+
+   # cache: TODO
+
+volumes:
+  db-data: # default
+
+networks:
+  frontend: # default
+  backend: # default

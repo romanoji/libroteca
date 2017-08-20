@@ -4,11 +4,13 @@ services:
   # front: TODO
 
   app:
-    build: docker/web
+    build: docker/laravel
     container_name: libroteca-web
     restart: always
     depends_on:
       - db
+    environment:
+      FRAMEWORK: laravel
     ports:
       - "8080:80"
     networks:
@@ -19,19 +21,19 @@ services:
     working_dir: /var/www/libroteca
 
   db:
-    image: postgres:9.6.3
+    image: bitnami/mongodb:3.4.7-r0
     container_name: libroteca-db
     restart: always
     ports:
-      - "5433:5432"
+      - "27018:27017"
     networks:
       - backend
     environment:
-      POSTGRES_DB: libroteca_db
-      POSTGRES_USER: libroteca
-      POSTGRES_PASSWORD: libroteca
+      MONGODB_DATABASE: libroteca_db
+      MONGODB_USERNAME: libroteca
+      MONGODB_PASSWORD: libroteca
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/data/db
 
    # cache: TODO
 
