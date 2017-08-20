@@ -73,7 +73,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function findOneByEmail(Email $email): ?Reader
     {
-        $data = Lumen\Models\Reader::where('email', $email->email())->get();
+        $data = Lumen\Models\Reader::where('email', $email->email())->first();
 
         if ($data === null) {
             return null;
@@ -90,7 +90,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function findOneByPhone(Phone $phone): ?Reader
     {
-        $data = Lumen\Models\Reader::where('phone', $phone->phone())->get();
+        $data = Lumen\Models\Reader::where('phone', $phone->phone())->first();
 
         if ($data === null) {
             return null;

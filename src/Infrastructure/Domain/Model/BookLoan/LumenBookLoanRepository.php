@@ -88,23 +88,22 @@ class LumenBookLoanRepository implements BookLoanRepository
         $data = Lumen\Models\BookLoan::where([
             'book_copy_id' => $bookCopyID->id(),
             'has_ended' => false
-        ])->get();
+        ])->first();
 
-        $bookLoans = [];
-        foreach ($data as $row) {
-            $bookLoans = $this->createBookLoan(
-                $row['id'],
-                $row['book_copy_id'],
-                $row['reader_id'],
-                $row['due_date'],
-                $row['has_ended'],
-                $row['end_date'],
-                $row['is_prolonged'],
-                $row['remarks']
-            );
+        if ($data === null) {
+            return null;
         }
 
-        return $bookLoans;
+        return $this->createBookLoan(
+            $data['id'],
+            $data['book_copy_id'],
+            $data['reader_id'],
+            $data['due_date'],
+            $data['has_ended'],
+            $data['end_date'],
+            $data['is_prolonged'],
+            $data['remarks']
+        );
     }
 
     /**
