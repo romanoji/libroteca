@@ -45,7 +45,7 @@ class RegisterBookHandler implements CommandHandler
         $bookID = new BookID($command->bookID);
         $isbn = $this->isbnFactory->create($command->isbn);
         $authors = array_map(
-            function ($author) {
+            function (string $author) {
                 return new Author($author);
             },
             $command->authors

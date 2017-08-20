@@ -85,7 +85,7 @@ class ImportBooksHandler implements CommandHandler
         $isbn = $this->isbnFactory->create($isbn);
         $title = new Title($title);
         $authors = array_map(
-            function ($author) {
+            function (string $author) {
                 return new Author($author);
             },
             $authors
