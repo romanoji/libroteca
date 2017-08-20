@@ -50,15 +50,27 @@ class Handler extends ExceptionHandler
                 $message = self::RESOURCE_NOT_FOUND_MSG;
                 break;
             case $e instanceof DomainLogicException:
-            case $e instanceof ValidationException:
             case $e instanceof InvalidUuidStringException:
                 $statusCode = JsonResponse::HTTP_UNPROCESSABLE_ENTITY;
+                break;
+            case $e instanceof ValidationException:
+                $statusCode = JsonResponse::HTTP_UNPROCESSABLE_ENTITY;
+                $data = $e->validator->getMessageBag()->toArray();
                 break;
         }
 
         $response = ['success' => false];
+
+        $error = [];
         if (!empty($message)) {
-            $response['error'] = ['message' => $message];
+            $error['message'] = $message;
+        }
+        if (!empty($data)) {
+            $error['data'] = $data;
+        }
+
+        if ($error) {
+            $response['error'] = $error;
         }
 
         return new JsonResponse($response, $statusCode);

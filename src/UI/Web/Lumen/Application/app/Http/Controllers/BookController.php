@@ -46,7 +46,7 @@ class BookController extends ApiController
 
     public function create(Request $request)
     {
-        if (strpos($request->headers->get('Content-Type'), 'multipart/form-data') === 0) {
+        if (strpos($request->header('Content-Type'), 'multipart/form-data') === 0) {
             return $this->importBooks($request);
         } else {
             return $this->createBook($request);
@@ -55,6 +55,8 @@ class BookController extends ApiController
 
     private function createBook(Request $request)
     {
+        $this->validateBookParams($request);
+
         $uuid = Uuid::uuid4();
 
         $this->handle(
@@ -72,7 +74,7 @@ class BookController extends ApiController
 
     private function importBooks(Request $request)
     {
-        $importFile = $request->file('books_csv');
+        $importFile = $request->file('import_file');
 
         if ($importFile === null) {
             return $this->clientErrorResponse('Import file is required.');
@@ -86,6 +88,8 @@ class BookController extends ApiController
 
     public function update(Request $request, string $id)
     {
+        $this->validateBookParams($request);
+
         $this->handle(
             new UpdateBook(
                 Uuid::fromString($id)->toString(),
@@ -96,5 +100,13 @@ class BookController extends ApiController
         );
 
         return $this->successResponse();
+    }
+
+    private function validateBookParams(Request $request)
+    {
+        $this->validate($request, [
+            'authors' => 'required',
+            'title' => 'required',
+        ]);
     }
 }
