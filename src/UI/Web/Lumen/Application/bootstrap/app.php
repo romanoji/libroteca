@@ -58,13 +58,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    RJozwiak\Libroteca\Lumen\Http\Middleware\ExampleMiddleware::class
-// ]);
-
-// $app->routeMiddleware([
-//     'auth' => RJozwiak\Libroteca\Lumen\Http\Middleware\Authenticate::class,
-// ]);
+$app->middleware([
+    RJozwiak\Libroteca\Lumen\Http\Middleware\TransformStringBooleans::class
+]);
 
 /*
 |--------------------------------------------------------------------------

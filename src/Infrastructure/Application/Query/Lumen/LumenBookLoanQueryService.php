@@ -31,6 +31,20 @@ class LumenBookLoanQueryService implements BookLoanQueryService
      */
     public function getAll(array $filters): array
     {
-        return Lumen\Models\BookLoan::all()->toArray();
+        $allowedFields = [
+            'book_copy_id' => 'book_copy_id',
+            'reader_id' => 'reader_id',
+            'ended' => 'has_ended',
+            'prolonged' => 'is_prolonged'
+        ];
+
+        $filtersValues = [];
+        foreach ($filters as $field => $value) {
+            if (array_key_exists($field, $allowedFields)) {
+                $filtersValues[$allowedFields[$field]] = $value;
+            }
+        }
+
+        return Lumen\Models\BookLoan::where($filtersValues)->get()->toArray();
     }
 }

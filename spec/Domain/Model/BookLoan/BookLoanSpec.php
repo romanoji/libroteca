@@ -46,6 +46,16 @@ class BookLoanSpec extends ObjectBehavior
         $this->isProlonged()->shouldBe(false);
     }
 
+    function it_has_no_end_date_by_default()
+    {
+        $this->endDate()->shouldBe(null);
+    }
+
+    function it_has_empty_remarks_by_default()
+    {
+        $this->remarks()->shouldBe('');
+    }
+
     function it_returns_identifier()
     {
         $this->id()->id()->shouldBe(1);

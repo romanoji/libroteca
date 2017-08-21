@@ -12,4 +12,21 @@ class BookLoan extends BaseModel
 
     /** @var bool */
     public $timestamps = false;
+
+    /** @var array */
+    protected $casts = [
+        'due_date' => 'date',
+        'end_date' => 'datetime'
+    ];
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = parent::toArray();
+        $data['due_date'] = $this->attributes['due_date']->toDateTime()->format('Y-m-d');
+
+        return $data;
+    }
 }

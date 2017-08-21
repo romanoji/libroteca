@@ -7,17 +7,13 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class BaseModel extends Model
 {
+    // TODO: find a way to use _id as primary key
     /** @var array */
     protected $hidden = ['_id'];
 
     /** @var string */
     protected $primaryKey = 'id';
 
-//    /**
-//     * @return array
-//     */
-//    public function toArray()
-//    {
-//        return ['id' => $this['id']] + parent::toArray();
-//    }
+    /** @var array */
+    protected $guarded = [];
 }

@@ -21,7 +21,10 @@ $app->group(['prefix' => 'books'], function (Application $app) {
 });
 
 $app->group(['prefix' => 'book_loans'], function (Application $app) {
-    // TODO: "{id}/book_loans"
+    $app->get('', 'BookLoanController@index');
+    $app->get('/{id}', 'BookLoanController@get');
+    $app->post('', 'BookLoanController@create');
+    $app->put('/{id}', 'BookLoanController@update');
 });
 
 $app->group(['prefix' => 'readers'], function (Application $app) {

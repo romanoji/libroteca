@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan;
 
-use Illuminate\Support\Facades\DB;
 use RJozwiak\Libroteca\Lumen;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
@@ -40,18 +39,18 @@ class LumenBookLoanRepository implements BookLoanRepository
      */
     public function save(BookLoan $bookLoan)
     {
+        $attributes = ['id' => $bookLoan->id()->id()];
         $data = [
             'book_copy_id' => $bookLoan->bookCopyID()->id(),
             'reader_id' => $bookLoan->readerID()->id(),
             'due_date' => $bookLoan->dueDate(),
             'has_ended' => $bookLoan->hasEnded(),
-            'end_date' => $bookLoan->endDate(),
+            'end_date' => $bookLoan->endDate() ?: null,
             'is_prolonged' => $bookLoan->isProlonged(),
             'remarks' => $bookLoan->remarks()
         ];
 
-        Lumen\Models\BookLoan::where('id', $bookLoan->id()->id())
-            ->update($data, ['upsert' => true]);
+        Lumen\Models\BookLoan::updateOrCreate($attributes, $data);
     }
 
     /**
@@ -138,9 +137,9 @@ class LumenBookLoanRepository implements BookLoanRepository
      * @param int|string $id
      * @param int|string $bookCopyID
      * @param int|string $readerID
-     * @param \DateTimeImmutable $dueDate
+     * @param \DateTimeInterface $dueDate
      * @param bool $hasEnded
-     * @param \DateTimeImmutable $endDate
+     * @param null|\DateTimeInterface $endDate
      * @param bool $isProlonged
      * @param string $remarks
      * @return BookLoan
@@ -149,9 +148,9 @@ class LumenBookLoanRepository implements BookLoanRepository
         $id,
         $bookCopyID,
         $readerID,
-        \DateTimeImmutable $dueDate,
+        \DateTimeInterface $dueDate,
         bool $hasEnded,
-        \DateTimeImmutable $endDate,
+        ?\DateTimeInterface $endDate,
         bool $isProlonged,
         string $remarks
     ) : BookLoan {
@@ -159,9 +158,9 @@ class LumenBookLoanRepository implements BookLoanRepository
             'id' => new BookLoanID($id),
             'bookCopyID' => new BookCopyID($bookCopyID),
             'readerID' => new ReaderID($readerID),
-            'dueDate' => $dueDate,
+            'dueDate' => new \DateTimeImmutable('@'.$dueDate->getTimestamp()),
             'ended' => $hasEnded,
-            'endDate' => $endDate,
+            'endDate' => $endDate ? new \DateTimeImmutable('@'.$endDate->getTimestamp()) : null,
             'prolonged' => $isProlonged,
             'remarks' => $remarks
         ];

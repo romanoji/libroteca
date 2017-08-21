@@ -32,7 +32,7 @@ class BookLoan extends AggregateRoot
     /** @var bool */
     private $ended;
 
-    /** @var \DateTimeImmutable */
+    /** @var null|\DateTimeImmutable */
     private $endDate;
 
     /** @var bool */
@@ -70,6 +70,7 @@ class BookLoan extends AggregateRoot
         $this->dueDate = $dueDate;
         $this->ended = false;
         $this->prolonged = false;
+        $this->remarks = '';
     }
 
     /**
@@ -132,9 +133,9 @@ class BookLoan extends AggregateRoot
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return null|\DateTimeImmutable
      */
-    public function endDate() : \DateTimeImmutable
+    public function endDate() : ?\DateTimeImmutable
     {
         return $this->endDate;
     }
@@ -176,9 +177,7 @@ class BookLoan extends AggregateRoot
             throw new BookLoanAlreadyEndedException('Loan has already ended.');
         }
 
-        $endDate = $this->clearTime($endDate);
-
-        if ($this->isOverdue($endDate) && empty($remarks)) {
+        if ($this->isOverdue($this->clearTime($endDate)) && empty($remarks)) {
             throw new EndingOverdueLoanWithoutRemarksException('Ending overdue loan must have remarks.');
         }
 
