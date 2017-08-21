@@ -31,7 +31,7 @@ class BookLoanController extends ApiController
     /**
      * @Route(methods={"GET"})
      */
-    public function getAllAction()
+    public function indexAction()
     {
         return $this->wrapRequest(function () {
             return $this->successResponse(
