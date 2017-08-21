@@ -19,13 +19,17 @@ class LumenBookCopyQueryService implements BookCopyQueryService
     {
         $bookCopies =
             Lumen\Models\BookCopy::where('book_id', $bookID)
+                ->get()
                 ->keyBy('id')
                 ->toArray();
 
         if ($includeOngoingLoans) {
             $bookCopiesIDs = array_keys($bookCopies);
 
-            $bookLoans = Lumen\Models\BookLoan::whereIn('book_copy_id', $bookCopiesIDs)->toArray();
+            $bookLoans =
+                Lumen\Models\BookLoan::whereIn('book_copy_id', $bookCopiesIDs)
+                    ->get()
+                    ->toArray();
 
             foreach ($bookLoans as $bookLoan) {
                 $bookCopyID = $bookLoan['book_copy_id'];
@@ -34,6 +38,6 @@ class LumenBookCopyQueryService implements BookCopyQueryService
             }
         }
 
-        return $bookCopies;
+        return array_values($bookCopies);
     }
 }

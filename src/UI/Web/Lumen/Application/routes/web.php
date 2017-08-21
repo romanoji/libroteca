@@ -13,8 +13,10 @@ $app->group(['prefix' => 'books'], function (Application $app) {
     $app->post('', 'BookController@create');
     $app->put('/{id}', 'BookController@update');
 
-    $app->group(['prefix' => '/{bookID/book_copies'], function (Application $app) {
-
+    $app->group(['prefix' => '{bookID}/copies'], function (Application $app) {
+        $app->get('', 'BookCopyController@index');
+        $app->post('', 'BookCopyController@create');
+        $app->put('/{id}', 'BookCopyController@update');
     });
 });
 

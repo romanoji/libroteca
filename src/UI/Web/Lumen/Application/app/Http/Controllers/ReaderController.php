@@ -7,11 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use League\Tactician\CommandBus;
 use Ramsey\Uuid\Uuid;
-use RJozwiak\Libroteca\Application\Command\ImportBooks;
-use RJozwiak\Libroteca\Application\Command\RegisterBook;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
-use RJozwiak\Libroteca\Application\Command\UpdateBook;
-use RJozwiak\Libroteca\Application\Query\BookQueryService;
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
 use RJozwiak\Libroteca\Lumen;
 
