@@ -38,6 +38,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function save(Reader $reader)
     {
+        $attributes = ['id' => $reader->id()->id()];
         $data = [
             'name' => (string) $reader->name(),
             'surname' => (string) $reader->surname(),
@@ -45,8 +46,7 @@ class LumenReaderRepository implements ReaderRepository
             'phone' => $reader->phone()->phone()
         ];
 
-        Lumen\Models\Reader::where('id', $reader->id()->id())
-            ->update($data, ['upsert' => true]);
+        Lumen\Models\Reader::updateOrCreate($attributes, $data);
     }
 
     /**

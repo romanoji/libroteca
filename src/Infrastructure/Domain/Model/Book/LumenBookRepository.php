@@ -48,6 +48,7 @@ class LumenBookRepository implements BookRepository
      */
     public function save(Book $book)
     {
+        $attributes = ['id' => $book->id()->id()];
         $data = [
             'isbn' => $book->isbn()->isbn(),
             'title' => $book->title()->title(),
@@ -57,8 +58,7 @@ class LumenBookRepository implements BookRepository
             )
         ];
 
-        Lumen\Models\Book::where('id', $book->id()->id())
-            ->update($data, ['upsert' => true]);
+        Lumen\Models\Book::updateOrCreate($attributes, $data);
     }
 
     /**

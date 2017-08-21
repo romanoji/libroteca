@@ -26,13 +26,13 @@ class LumenBookCopyRepository implements BookCopyRepository
      */
     public function save(BookCopy $bookCopy)
     {
+        $attributes = ['id' => $bookCopy->id()->id()];
         $data = [
             'book_id' => $bookCopy->bookID()->id(),
             'remarks' => $bookCopy->remarks()
         ];
 
-        Lumen\Models\BookCopy::where('id', $bookCopy->id()->id())
-            ->update($data, ['upsert' => true]);
+        Lumen\Models\BookCopy::updateOrCreate($attributes, $data);
     }
 
     /**
