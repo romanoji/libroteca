@@ -106,7 +106,7 @@ class BookController extends ApiController
     {
         $this->validate($request, [
             'authors' => 'required',
-            'title' => 'required',
+            'title' => 'required'
         ]);
     }
 }
