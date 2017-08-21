@@ -4,13 +4,13 @@ services:
   # front: TODO
 
   app:
-    build: docker/laravel
+    build: docker/lumen
     container_name: libroteca-web
     restart: always
     depends_on:
       - db
     environment:
-      FRAMEWORK: laravel
+      FRAMEWORK: lumen
     ports:
       - "8080:80"
     networks:

@@ -9,7 +9,7 @@ switch (getenv('FRAMEWORK')) {
     case 'symfony':
         Symfony\Application::run(['debug' => true]);
         break;
-    case 'laravel':
+    case 'lumen':
         Lumen\Application::run();
         break;
     default:
