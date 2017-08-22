@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Lumen\Models;
+namespace RJozwiak\Libroteca\Infrastructure\Persistence\Lumen\Model;
 
-class BookCopy extends BaseModel
+class Book extends BaseModel
 {
-    public const COLLECTION = 'book_copies';
+    public const COLLECTION = 'books';
 
     /** @var string */
     protected $collection = self::COLLECTION;

@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen;
 
 use RJozwiak\Libroteca\Application\Query\BookCopyQueryService;
 use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class LumenBookCopyQueryService implements BookCopyQueryService
 {
@@ -18,7 +18,7 @@ class LumenBookCopyQueryService implements BookCopyQueryService
     public function getAllByBook($bookID, bool $includeOngoingLoans = false): array
     {
         $bookCopies =
-            Lumen\Models\BookCopy::where('book_id', $bookID)
+            Lumen\Model\BookCopy::where('book_id', $bookID)
                 ->get()
                 ->keyBy('id')
                 ->toArray();
@@ -27,7 +27,7 @@ class LumenBookCopyQueryService implements BookCopyQueryService
             $bookCopiesIDs = array_keys($bookCopies);
 
             $bookLoans =
-                Lumen\Models\BookLoan::whereIn('book_copy_id', $bookCopiesIDs)
+                Lumen\Model\BookLoan::whereIn('book_copy_id', $bookCopiesIDs)
                     ->get()
                     ->toArray();
 

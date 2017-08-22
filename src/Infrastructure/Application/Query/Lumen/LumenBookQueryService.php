@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen;
 
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
 use RJozwiak\Libroteca\Domain\Model\Book\Exception\BookNotFoundException;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class LumenBookQueryService implements BookQueryService
 {
@@ -14,7 +14,7 @@ class LumenBookQueryService implements BookQueryService
      */
     public function getAll(): array
     {
-        return Lumen\Models\Book::all()->toArray();
+        return Lumen\Model\Book::all()->toArray();
     }
 
     /**
@@ -24,7 +24,7 @@ class LumenBookQueryService implements BookQueryService
      */
     public function getOne($bookID): array
     {
-        $book = Lumen\Models\Book::find($bookID);
+        $book = Lumen\Model\Book::find($bookID);
 
         if ($book === null) {
             throw new BookNotFoundException();

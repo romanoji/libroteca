@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Book;
 
 use Ramsey\Uuid\Uuid;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBNFactory;
 use RJozwiak\Libroteca\Domain\Model\Book\Author;
 use RJozwiak\Libroteca\Domain\Model\Book\Book;
@@ -40,7 +40,7 @@ class LumenBookRepository implements BookRepository
      */
     public function count(): int
     {
-        return Lumen\Models\Book::count();
+        return Lumen\Model\Book::count();
     }
 
     /**
@@ -58,7 +58,7 @@ class LumenBookRepository implements BookRepository
             )
         ];
 
-        Lumen\Models\Book::updateOrCreate($attributes, $data);
+        Lumen\Model\Book::updateOrCreate($attributes, $data);
     }
 
     /**
@@ -68,7 +68,7 @@ class LumenBookRepository implements BookRepository
      */
     public function get(BookID $id): Book
     {
-        $data = Lumen\Models\Book::find($id->id());
+        $data = Lumen\Model\Book::find($id->id());
 
         if ($data === null) {
             throw new BookNotFoundException();
@@ -83,7 +83,7 @@ class LumenBookRepository implements BookRepository
      */
     public function findOneByISBN(ISBN $isbn): ?Book
     {
-        $data = Lumen\Models\Book::where('isbn', $isbn->isbn())->first();
+        $data = Lumen\Model\Book::where('isbn', $isbn->isbn())->first();
 
         if ($data === null) {
             return null;
@@ -99,7 +99,7 @@ class LumenBookRepository implements BookRepository
      */
     public function findByAuthorAndTitle(Author $author, Title $title): array
     {
-        $data = Lumen\Models\Book::where([
+        $data = Lumen\Model\Book::where([
             'author' => $author->name(),
             'title' => $title->title()
         ])->get();

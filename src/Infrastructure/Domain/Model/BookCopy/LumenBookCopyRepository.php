@@ -9,7 +9,7 @@ use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopy;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyRepository;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\Exception\BookCopyNotFoundException;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class LumenBookCopyRepository implements BookCopyRepository
 {
@@ -32,7 +32,7 @@ class LumenBookCopyRepository implements BookCopyRepository
             'remarks' => $bookCopy->remarks()
         ];
 
-        Lumen\Models\BookCopy::updateOrCreate($attributes, $data);
+        Lumen\Model\BookCopy::updateOrCreate($attributes, $data);
     }
 
     /**
@@ -42,7 +42,7 @@ class LumenBookCopyRepository implements BookCopyRepository
      */
     public function get(BookCopyID $id): BookCopy
     {
-        $data = Lumen\Models\BookCopy::find($id->id());
+        $data = Lumen\Model\BookCopy::find($id->id());
 
         if ($data === null) {
             throw new BookCopyNotFoundException();
@@ -57,7 +57,7 @@ class LumenBookCopyRepository implements BookCopyRepository
      */
     public function findByBookID(BookID $bookID): array
     {
-        $data = Lumen\Models\BookCopy::where('book_id', $bookID->id())->get();
+        $data = Lumen\Model\BookCopy::where('book_id', $bookID->id())->get();
 
         $bookCopies = [];
         foreach ($data as $row) {

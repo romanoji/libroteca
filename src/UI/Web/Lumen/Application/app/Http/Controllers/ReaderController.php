@@ -9,7 +9,7 @@ use League\Tactician\CommandBus;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class ReaderController extends ApiController
 {

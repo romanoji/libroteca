@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterBookCopy;
 use RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarks;
 use RJozwiak\Libroteca\Application\Query\BookCopyQueryService;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class BookCopyController extends ApiController
 {

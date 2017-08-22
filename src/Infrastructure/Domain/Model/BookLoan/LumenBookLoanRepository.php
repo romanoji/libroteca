@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\BookLoan;
 
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Domain\Model\BookCopy\BookCopyID;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\BookLoan;
@@ -50,7 +50,7 @@ class LumenBookLoanRepository implements BookLoanRepository
             'remarks' => $bookLoan->remarks()
         ];
 
-        Lumen\Models\BookLoan::updateOrCreate($attributes, $data);
+        Lumen\Model\BookLoan::updateOrCreate($attributes, $data);
     }
 
     /**
@@ -60,7 +60,7 @@ class LumenBookLoanRepository implements BookLoanRepository
      */
     public function get(BookLoanID $id): BookLoan
     {
-        $data = Lumen\Models\BookLoan::find($id->id());
+        $data = Lumen\Model\BookLoan::find($id->id());
 
         if ($data === null) {
             throw new BookLoanNotFoundException();
@@ -84,7 +84,7 @@ class LumenBookLoanRepository implements BookLoanRepository
      */
     public function findOngoingByBookCopyID(BookCopyID $bookCopyID): ?BookLoan
     {
-        $data = Lumen\Models\BookLoan::where([
+        $data = Lumen\Model\BookLoan::where([
             'book_copy_id' => $bookCopyID->id(),
             'has_ended' => false
         ])->first();
@@ -111,7 +111,7 @@ class LumenBookLoanRepository implements BookLoanRepository
      */
     public function findOngoingByReaderID(ReaderID $readerID): array
     {
-        $data = Lumen\Models\BookLoan::where([
+        $data = Lumen\Model\BookLoan::where([
             'reader_id' => $readerID->id(),
             'has_ended' => false
         ])->get();

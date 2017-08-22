@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen;
 
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class LumenReaderQueryService implements ReaderQueryService
 {
@@ -14,7 +14,7 @@ class LumenReaderQueryService implements ReaderQueryService
      */
     public function getAll(): array
     {
-        return Lumen\Models\Reader::all()->toArray();
+        return Lumen\Model\Reader::all()->toArray();
     }
 
     /**
@@ -24,7 +24,7 @@ class LumenReaderQueryService implements ReaderQueryService
      */
     public function getOne($readerID): array
     {
-        $reader = Lumen\Models\Reader::find($readerID);
+        $reader = Lumen\Model\Reader::find($readerID);
 
         if ($reader === null) {
             throw new ReaderNotFoundException();

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
@@ -29,7 +29,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function count(): int
     {
-        return Lumen\Models\Reader::count();
+        return Lumen\Model\Reader::count();
     }
 
     /**
@@ -45,7 +45,7 @@ class LumenReaderRepository implements ReaderRepository
             'phone' => $reader->phone()->phone()
         ];
 
-        Lumen\Models\Reader::updateOrCreate($attributes, $data);
+        Lumen\Model\Reader::updateOrCreate($attributes, $data);
     }
 
     /**
@@ -55,7 +55,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function get(ReaderID $id): Reader
     {
-        $data = Lumen\Models\Reader::find($id->id());
+        $data = Lumen\Model\Reader::find($id->id());
 
         if ($data === null) {
             throw new ReaderNotFoundException();
@@ -72,7 +72,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function findOneByEmail(Email $email): ?Reader
     {
-        $data = Lumen\Models\Reader::where('email', $email->email())->first();
+        $data = Lumen\Model\Reader::where('email', $email->email())->first();
 
         if ($data === null) {
             return null;
@@ -89,7 +89,7 @@ class LumenReaderRepository implements ReaderRepository
      */
     public function findOneByPhone(Phone $phone): ?Reader
     {
-        $data = Lumen\Models\Reader::where('phone', $phone->phone())->first();
+        $data = Lumen\Model\Reader::where('phone', $phone->phone())->first();
 
         if ($data === null) {
             return null;

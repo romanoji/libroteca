@@ -11,7 +11,7 @@ use RJozwiak\Libroteca\Application\Command\EndBookLoan;
 use RJozwiak\Libroteca\Application\Command\LendBookCopy;
 use RJozwiak\Libroteca\Application\Command\ProlongBookLoan;
 use RJozwiak\Libroteca\Application\Query\BookLoanQueryService;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class BookLoanController extends ApiController
 {

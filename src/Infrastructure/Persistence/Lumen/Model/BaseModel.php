@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RJozwiak\Libroteca\Lumen\Models;
+namespace RJozwiak\Libroteca\Infrastructure\Persistence\Lumen\Model;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 

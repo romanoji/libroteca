@@ -11,7 +11,7 @@ use RJozwiak\Libroteca\Application\Command\ImportBooks;
 use RJozwiak\Libroteca\Application\Command\RegisterBook;
 use RJozwiak\Libroteca\Application\Command\UpdateBook;
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
-use RJozwiak\Libroteca\Lumen;
+use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class BookController extends ApiController
 {
