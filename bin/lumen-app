@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-docker-compose -p libroteca-lumen -f $(dirname $0)/../docker-compose-lumen.yml $1
+docker-compose -p libroteca_lumen -f $(dirname $0)/../docker-compose-lumen.yml $1
