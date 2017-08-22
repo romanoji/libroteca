@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
-use Illuminate\Support\Facades\DB;
 use RJozwiak\Libroteca\Lumen;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Domain\Model\Reader\Email;

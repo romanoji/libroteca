@@ -5,7 +5,6 @@ namespace RJozwiak\Libroteca\Domain\Model\Book;
 
 use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
 use RJozwiak\Libroteca\Domain\Model\Book\ISBN\ISBN;
-use RJozwiak\Libroteca\Domain\Model\Book\ISBN\NullISBN;
 
 class Book extends AggregateRoot
 {
