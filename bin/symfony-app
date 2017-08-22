@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+docker-compose -p libroteca-symfony -f $(dirname $0)/../docker-compose-symfony.yml $1
