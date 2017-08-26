@@ -1,9 +1,21 @@
 version: "3"
 
 services:
-  # front: TODO
+  front-app:
+    build: frontend/docker
+    container_name: libroteca-front
+    restart: always
+    depends_on:
+      - web-app
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
+    volumes:
+      - ./frontend:/usr/src/libroteca
+    working_dir: /usr/src/libroteca
 
-  app:
+  web-app:
     build: docker/symfony
     container_name: libroteca-web
     restart: always
