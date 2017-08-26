@@ -33,4 +33,4 @@ RUN a2enmod rewrite
 
 # Override default website configuration
 COPY apache/vhost.conf /etc/apache2/sites-enabled/000-default.conf
-RUN echo "ServerName libroteca.dev" >> /etc/apache2/apache2.conf
+RUN echo "ServerName app.dev" >> /etc/apache2/apache2.conf
