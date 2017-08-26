@@ -10,11 +10,15 @@ class StateCounter extends Component {
     }
 
     _increment = () => {
-        this.setState({counter: this.state.counter + this._parseNumber(this._input.value)});
+        this.setState({
+            counter: this.state.counter + this._parseNumber(this._input.value)
+        });
     };
 
     _decrement = () => {
-        this.setState({counter: this.state.counter - this._parseNumber(this._input.value)});
+        this.setState({
+            counter: this.state.counter - this._parseNumber(this._input.value)
+        });
     };
 
     _parseNumber(value) {
