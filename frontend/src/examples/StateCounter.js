@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+// https://facebook.github.io/react/docs/uncontrolled-components.html
 class StateCounter extends Component {
     constructor() {
         super();

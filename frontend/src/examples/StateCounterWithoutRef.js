@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+// https://facebook.github.io/react/docs/forms.html#controlled-components
 class StateCounterWithoutRef extends Component {
     constructor() {
         super();
