@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import { Grid } from 'react-bootstrap';
 
 class NotFound extends Component {
     render() {
         return (
-            <div>Page not found</div>
+            <Grid>Page not found</Grid>
         );
     }
 }

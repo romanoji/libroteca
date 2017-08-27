@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { Grid } from 'react-bootstrap';
 
 class Books extends Component {
     render() {
         return (
-            <div>Books</div>
+            <Grid>Books</Grid>
         );
     }
 }
