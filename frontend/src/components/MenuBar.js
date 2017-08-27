@@ -1,16 +1,25 @@
 import React from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, NavbarBrand, Nav, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import Logo from './Logo';
 
 const MenuBar = () => (
     <Navbar>
         <Navbar.Header>
-            <Navbar.Brand>
-                <a href="#">
-                    <Logo />
-                </a>
-            </Navbar.Brand>
+            <NavbarBrand>
+                <LinkContainer to='/'>
+                    <a><Logo /></a>
+                </LinkContainer>
+            </NavbarBrand>
         </Navbar.Header>
+        <Nav>
+            <LinkContainer to='/books'>
+                <NavItem>Books</NavItem>
+            </LinkContainer>
+            <LinkContainer to='/readers'>
+                <NavItem>Readers</NavItem>
+            </LinkContainer>
+        </Nav>
     </Navbar>
 );
 
