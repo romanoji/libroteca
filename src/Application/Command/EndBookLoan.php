@@ -17,7 +17,6 @@ class EndBookLoan implements Command
     public $remarks;
 
     /**
-     * EndBookLoan constructor.
      * @param int|string $bookLoanID
      * @param \DateTimeImmutable $endDate
      * @param null|string $remarks

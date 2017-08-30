@@ -14,7 +14,6 @@ class SimpleCommandBus implements CommandBus
     private $resolver;
 
     /**
-     * SimpleCommandBus constructor.
      * @param CommandHandlerResolver $resolver
      */
     public function __construct(CommandHandlerResolver $resolver)

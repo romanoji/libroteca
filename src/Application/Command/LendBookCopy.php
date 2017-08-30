@@ -25,7 +25,6 @@ class LendBookCopy implements Command
     public $today;
 
     /**
-     * LendBookCopy constructor.
      * @param int|string $bookLoanID
      * @param int|string $readerID
      * @param int|string $bookCopyID

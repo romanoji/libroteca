@@ -44,7 +44,6 @@ class BookLoan extends AggregateRoot
     // TODO: not so bad example for event sourcing?
 
     /**
-     * Loan constructor.
      * @param BookLoanID $id
      * @param BookCopyID $bookCopyID
      * @param ReaderID $readerID

@@ -17,7 +17,6 @@ class CommandHandlerResolver
     private $locator;
 
     /**
-     * CommandHandlerResolver constructor.
      * @param HandlerInflector $inflector
      * @param HandlerLocator $locator
      */

@@ -20,7 +20,6 @@ class BookCopy extends AggregateRoot
     // TODO: maybe embed BookLoan here?
 
     /**
-     * BookCopy constructor.
      * @param BookCopyID $copyID
      * @param BookID $bookID
      * @param string $remarks

@@ -11,7 +11,6 @@ class Author
     private $name;
 
     /**
-     * Author constructor.
      * @param string $name
      * @throws \InvalidArgumentException
      */

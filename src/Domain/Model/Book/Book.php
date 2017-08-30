@@ -27,7 +27,6 @@ class Book extends AggregateRoot
 //    private $publicationDate;
 
     /**
-     * Book constructor.
      * @param BookID $id
      * @param ISBN $isbn
      * @param Author[] $authors

@@ -17,7 +17,6 @@ class ProlongBookLoan implements Command
     public $today;
 
     /**
-     * ProlongBookLoan constructor.
      * @param int|string $bookLoanID
      * @param \DateTimeImmutable $newDueDate
      * @param \DateTimeImmutable $today

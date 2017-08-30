@@ -20,7 +20,6 @@ class RegisterBookCopyHandler implements CommandHandler
     private $bookCopyRepository;
 
     /**
-     * RegisterBookCopyHandler constructor.
      * @param BookRepository $bookRepository
      * @param BookCopyRepository $bookCopyRepository
      */

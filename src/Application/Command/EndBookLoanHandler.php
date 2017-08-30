@@ -16,7 +16,6 @@ class EndBookLoanHandler implements CommandHandler
     private $bookLoanRepository;
 
     /**
-     * EndBookLoanHandler constructor.
      * @param BookLoanRepository $bookLoanRepository
      */
     public function __construct(BookLoanRepository $bookLoanRepository)

@@ -32,7 +32,6 @@ class LendBookCopyHandler implements CommandHandler
     private $bookLoanFactory;
 
     /**
-     * LendBookCopyHandler constructor.
      * @param ReaderRepository $readerRepository
      * @param BookCopyRepository $bookCopyRepository
      * @param BookLoanRepository $bookLoanRepository

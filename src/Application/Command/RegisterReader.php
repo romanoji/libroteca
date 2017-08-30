@@ -23,7 +23,6 @@ class RegisterReader implements Command
     public $phone;
 
     /**
-     * RegisterReader constructor.
      * @param int|string $readerID
      * @param string $name
      * @param string $surname

@@ -20,7 +20,6 @@ class RegisterBook implements Command
     public $title;
 
     /**
-     * RegisterBook constructor.
      * @param int|string $bookID
      * @param null|string $isbn
      * @param array $authors

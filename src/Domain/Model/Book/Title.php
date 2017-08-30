@@ -9,7 +9,6 @@ class Title
     private $title;
 
     /**
-     * Title constructor.
      * @param string $title
      * @throws \InvalidArgumentException
      */

@@ -9,7 +9,6 @@ class Email
     private $email;
 
     /**
-     * Email constructor.
      * @param string $email
      * @throws \InvalidArgumentException
      */

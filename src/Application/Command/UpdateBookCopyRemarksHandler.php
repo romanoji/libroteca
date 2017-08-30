@@ -14,7 +14,6 @@ class UpdateBookCopyRemarksHandler implements CommandHandler
     private $bookCopyRepository;
 
     /**
-     * RegisterBookHandler constructor.
      * @param BookCopyRepository $bookCopyRepository
      */
     public function __construct(BookCopyRepository $bookCopyRepository)

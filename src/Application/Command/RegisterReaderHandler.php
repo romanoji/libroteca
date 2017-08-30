@@ -20,7 +20,6 @@ class RegisterReaderHandler implements CommandHandler
     private $readerRepository;
 
     /**
-     * RegisterReaderHandler constructor.
      * @param ReaderRepository $readerRepository
      */
     public function __construct(ReaderRepository $readerRepository)

@@ -25,7 +25,6 @@ class Reader extends AggregateRoot
     // TODO: Account type + use it to determine how to send notification (via SMS/Email)
 
     /**
-     * Reader constructor.
      * @param ReaderID $id
      * @param Name $name
      * @param Surname $surname

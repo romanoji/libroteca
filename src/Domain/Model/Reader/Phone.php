@@ -11,7 +11,6 @@ class Phone
     private $phone;
 
     /**
-     * Phone constructor.
      * @param $phone
      * @throws \InvalidArgumentException
      */

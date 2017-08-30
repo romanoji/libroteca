@@ -17,7 +17,6 @@ class ProlongBookLoanHandler implements CommandHandler
     private $bookLoanRepository;
 
     /**
-     * ProlongBookLoanHandler constructor.
      * @param BookLoanRepository $bookLoanRepository
      */
     public function __construct(BookLoanRepository $bookLoanRepository)

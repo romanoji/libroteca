@@ -33,7 +33,6 @@ class ImportBooksHandler implements CommandHandler
     private $booksImportFileLoader;
 
     /**
-     * RegisterBookCopyHandler constructor.
      * @param ISBNFactory $isbnFactory
      * @param BookRepository $bookRepository
      * @param BookCopyRepository $bookCopyRepository

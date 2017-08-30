@@ -16,7 +16,6 @@ class ReaderRegistered implements DomainEvent
     private $occuredOn;
 
     /**
-     * ReaderRegisteredEvent constructor.
      * @param ReaderID $id
      */
     public function __construct(ReaderID $id)

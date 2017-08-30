@@ -14,7 +14,6 @@ class RegisterBookCopy implements Command
     public $bookID;
 
     /**
-     * RegisterBookCopy constructor.
      * @param $bookCopyID
      * @param $bookID
      */

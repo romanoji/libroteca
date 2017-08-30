@@ -9,7 +9,6 @@ abstract class ID
     private $id;
 
     /**
-     * ID constructor.
      * @param int|string $id
      * @throws \InvalidArgumentException
      */

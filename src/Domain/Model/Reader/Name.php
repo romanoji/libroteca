@@ -12,7 +12,6 @@ class Name
     private $name;
 
     /**
-     * Name constructor.
      * @param string $name
      * @throws \InvalidArgumentException
      */

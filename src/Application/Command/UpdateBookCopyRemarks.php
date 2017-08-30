@@ -14,7 +14,6 @@ class UpdateBookCopyRemarks implements Command
     public $remarks;
 
     /**
-     * UpdateBookCopyRemarks constructor.
      * @param int|string $bookCopyID
      * @param string $remarks
      */

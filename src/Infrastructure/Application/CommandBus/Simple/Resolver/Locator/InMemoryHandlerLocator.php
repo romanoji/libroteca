@@ -13,7 +13,6 @@ class InMemoryHandlerLocator implements HandlerLocator
     private $handlers = [];
 
     /**
-     * InMemoryHandlerLocator constructor.
      * @param CommandHandler[] $handlers
      * @throws \RuntimeException
      */

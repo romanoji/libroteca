@@ -23,7 +23,6 @@ class RegisterBookHandler implements CommandHandler
     private $bookRepository;
 
     /**
-     * RegisterBookHandler constructor.
      * @param ISBNFactory $isbnFactory
      * @param BookRepository $bookRepository
      */

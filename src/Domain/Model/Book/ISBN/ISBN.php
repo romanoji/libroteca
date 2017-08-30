@@ -9,7 +9,6 @@ abstract class ISBN
     private $isbn;
 
     /**
-     * ISBN constructor.
      * @param null|string $isbn
      * @throws \InvalidArgumentException
      */

@@ -15,7 +15,6 @@ class BookLoanFactory
     private $bookLoanRepository;
 
     /**
-     * BookLoanFactory constructor.
      * @param BookLoanRepository $bookLoanRepository
      */
     public function __construct(BookLoanRepository $bookLoanRepository)
