@@ -3,6 +3,7 @@ version: "3"
 services:
   front-app:
     build: frontend/docker
+    container_name: libroteca-front
     restart: always
     depends_on:
       - web-app
@@ -16,6 +17,7 @@ services:
 
   web-app:
     build: docker/lumen
+    container_name: libroteca-web
     restart: always
     depends_on:
       - db
@@ -32,6 +34,7 @@ services:
 
   db:
     image: bitnami/mongodb:3.4.7-r0
+    container_name: libroteca-db
     restart: always
     ports:
       - "27018:27017"
