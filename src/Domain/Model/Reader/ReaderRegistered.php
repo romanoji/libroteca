@@ -27,7 +27,7 @@ class ReaderRegistered implements DomainEvent
     /**
      * @return ReaderID
      */
-    public function readerID() : ReaderID
+    public function readerID(): ReaderID
     {
         return $this->readerID;
     }
@@ -35,7 +35,7 @@ class ReaderRegistered implements DomainEvent
     /**
      * @return \DateTimeImmutable
      */
-    public function occuredOn() : \DateTimeImmutable
+    public function occuredOn(): \DateTimeImmutable
     {
         return $this->occuredOn;
     }

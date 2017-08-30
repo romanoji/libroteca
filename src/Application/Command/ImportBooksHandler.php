@@ -54,7 +54,7 @@ class ImportBooksHandler implements CommandHandler
      * @param ImportBooks $command
      * @throws \InvalidArgumentException
      */
-    public function execute(ImportBooks $command) : void
+    public function execute(ImportBooks $command): void
     {
         $booksData = $this->booksImportFileLoader->loadBooksData($command->file);
 
@@ -78,7 +78,7 @@ class ImportBooksHandler implements CommandHandler
      * @throws ISBNAlreadyInUseException
      * @throws \InvalidArgumentException
      */
-    private function createBook(?string $isbn, string $title, array $authors) : BookID
+    private function createBook(?string $isbn, string $title, array $authors): BookID
     {
         $bookID = $this->bookRepository->nextID();
         $isbn = $this->isbnFactory->create($isbn);
@@ -103,7 +103,7 @@ class ImportBooksHandler implements CommandHandler
      * @param int $amount
      * @return BookCopyID[]
      */
-    private function createBookCopies(BookID $bookID, int $amount) : array
+    private function createBookCopies(BookID $bookID, int $amount): array
     {
         $ids = [];
 

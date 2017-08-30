@@ -29,7 +29,7 @@ class EndBookLoanHandler implements CommandHandler
      * @throws EndingOverdueLoanWithoutRemarksException
      * @throws BookLoanNotFoundException
      */
-    public function execute(EndBookLoan $command) : void
+    public function execute(EndBookLoan $command): void
     {
         $bookLoanID = new BookLoanID($command->bookLoanID);
 

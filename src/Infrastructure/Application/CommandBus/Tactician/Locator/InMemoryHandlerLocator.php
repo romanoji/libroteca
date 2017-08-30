@@ -45,7 +45,7 @@ class InMemoryHandlerLocator implements HandlerLocator
      * @return CommandHandler
      * @throws MissingHandlerException
      */
-    public function getHandlerForCommand($commandName) : CommandHandler
+    public function getHandlerForCommand($commandName): CommandHandler
     {
         $handlerName = $this->commandToHandler($commandName);
         if (!isset($this->handlers[$handlerName])) {

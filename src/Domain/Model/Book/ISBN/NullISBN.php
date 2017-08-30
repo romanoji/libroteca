@@ -13,7 +13,7 @@ class NullISBN extends ISBN
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return '';
     }
@@ -26,7 +26,7 @@ class NullISBN extends ISBN
      * Regex ISBN format
      * @return string
      */
-    protected function format() : string
+    protected function format(): string
     {
     }
 
@@ -38,7 +38,7 @@ class NullISBN extends ISBN
      * @param string $isbn
      * @return string
      */
-    protected function checksumDigit(?string $isbn) : string
+    protected function checksumDigit(?string $isbn): string
     {
     }
 }

@@ -12,7 +12,7 @@ class MaxOngoingLoansExceededException extends DomainLogicException
      * @param ReaderID $readerID
      * @return self
      */
-    public static function fromReaderID(ReaderID $readerID) : self
+    public static function fromReaderID(ReaderID $readerID): self
     {
         return new self("Max ongoing loans exceeded for reader with id `$readerID`.");
     }

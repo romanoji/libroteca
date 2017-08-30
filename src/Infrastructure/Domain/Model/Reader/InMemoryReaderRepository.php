@@ -18,7 +18,7 @@ class InMemoryReaderRepository implements ReaderRepository
     /**
      * @return ReaderID
      */
-    public function nextID() : ReaderID
+    public function nextID(): ReaderID
     {
         return new ReaderID($this->nextID++);
     }
@@ -26,7 +26,7 @@ class InMemoryReaderRepository implements ReaderRepository
     /**
      * @return int
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->readers);
     }
@@ -44,7 +44,7 @@ class InMemoryReaderRepository implements ReaderRepository
      * @return Reader
      * @throws ReaderNotFoundException
      */
-    public function get(ReaderID $id) : Reader
+    public function get(ReaderID $id): Reader
     {
         if (!isset($this->readers[$id->id()])) {
             throw new ReaderNotFoundException();
@@ -57,7 +57,7 @@ class InMemoryReaderRepository implements ReaderRepository
      * @param Email $email
      * @return null|Reader
      */
-    public function findOneByEmail(Email $email) : ?Reader
+    public function findOneByEmail(Email $email): ?Reader
     {
         foreach ($this->readers as $reader) {
             if ($reader->email()->equals($email)) {
@@ -72,7 +72,7 @@ class InMemoryReaderRepository implements ReaderRepository
      * @param Phone $phone
      * @return null|Reader
      */
-    public function findOneByPhone(Phone $phone) : ?Reader
+    public function findOneByPhone(Phone $phone): ?Reader
     {
         foreach ($this->readers as $reader) {
             if ($reader->phone()->equals($phone)) {

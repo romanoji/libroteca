@@ -12,7 +12,7 @@ abstract class BaseDoctrineQueryService extends DoctrineQueryService
     /**
      * @return array
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $objects = $this->queryBuilder()
             ->select('t')
@@ -29,7 +29,7 @@ abstract class BaseDoctrineQueryService extends DoctrineQueryService
      * @throws AggregateNotFoundException
      * @throws NonUniqueResultException
      */
-    public function getOne($objectID) : array
+    public function getOne($objectID): array
     {
         try {
             $object = $this->queryBuilder()
@@ -60,16 +60,16 @@ abstract class BaseDoctrineQueryService extends DoctrineQueryService
     /**
      * @return string
      */
-    abstract protected function resourceClassName() : string;
+    abstract protected function resourceClassName(): string;
 
     /**
      * @return string
      */
-    abstract protected function resourceIDClassName() : string;
+    abstract protected function resourceIDClassName(): string;
 
     /**
      * @return AggregateNotFoundException
      */
-    abstract protected function notFoundException() : AggregateNotFoundException;
+    abstract protected function notFoundException(): AggregateNotFoundException;
 
 }

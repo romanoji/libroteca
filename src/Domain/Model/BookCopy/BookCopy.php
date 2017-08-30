@@ -34,7 +34,7 @@ class BookCopy extends AggregateRoot
     /**
      * @return BookCopyID
      */
-    public function id() : BookCopyID
+    public function id(): BookCopyID
     {
         return $this->id;
     }
@@ -42,7 +42,7 @@ class BookCopy extends AggregateRoot
     /**
      * @return BookID
      */
-    public function bookID() : BookID
+    public function bookID(): BookID
     {
         return $this->bookID;
     }
@@ -50,7 +50,7 @@ class BookCopy extends AggregateRoot
     /**
      * @return string
      */
-    public function remarks() : string
+    public function remarks(): string
     {
         return $this->remarks;
     }
@@ -58,7 +58,7 @@ class BookCopy extends AggregateRoot
     /**
      * @param string $remarks
      */
-    public function updateRemarks(string $remarks) : void
+    public function updateRemarks(string $remarks): void
     {
         $this->remarks = $remarks;
     }

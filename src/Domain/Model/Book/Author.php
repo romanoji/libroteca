@@ -56,7 +56,7 @@ class Author
     /**
      * @return string
      */
-    public function name() : string
+    public function name(): string
     {
         return $this->name;
     }
@@ -64,7 +64,7 @@ class Author
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->name;
     }
@@ -73,7 +73,7 @@ class Author
      * @param Author $author
      * @return bool
      */
-    public function equals(Author $author) : bool
+    public function equals(Author $author): bool
     {
         return $this->name() === $author->name();
     }

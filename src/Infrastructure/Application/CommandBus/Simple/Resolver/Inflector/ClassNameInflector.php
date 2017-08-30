@@ -12,7 +12,7 @@ class ClassNameInflector implements HandlerInflector
      * @param Command $command
      * @return string
      */
-    public function inflect(Command $command) : string
+    public function inflect(Command $command): string
     {
         return get_class($command).'Handler';
     }

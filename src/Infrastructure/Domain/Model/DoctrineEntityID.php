@@ -36,5 +36,5 @@ abstract class DoctrineEntityID extends GuidType
     /**
      * @return string
      */
-    abstract protected function getNamespace() : string;
+    abstract protected function getNamespace(): string;
 }

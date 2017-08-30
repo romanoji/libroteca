@@ -39,7 +39,7 @@ class RegisterBookHandler implements CommandHandler
      * @throws ISBNAlreadyInUseException
      * @throws \InvalidArgumentException
      */
-    public function execute(RegisterBook $command) : void
+    public function execute(RegisterBook $command): void
     {
         $bookID = new BookID($command->bookID);
         $isbn = $this->isbnFactory->create($command->isbn);

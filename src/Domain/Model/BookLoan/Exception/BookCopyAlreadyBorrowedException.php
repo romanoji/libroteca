@@ -12,7 +12,7 @@ class BookCopyAlreadyBorrowedException extends DomainLogicException
      * @param BookCopyID $bookCopyID
      * @return self
      */
-    public static function fromBookCopyID(BookCopyID $bookCopyID) : self
+    public static function fromBookCopyID(BookCopyID $bookCopyID): self
     {
         return new self("Book copy (id: $bookCopyID) is already borrowed.");
     }

@@ -71,7 +71,7 @@ class BookCopyController extends ApiController
     /**
      * @return BookCopyQueryService
      */
-    private function booksCopies() : BookCopyQueryService
+    private function booksCopies(): BookCopyQueryService
     {
         return $this->get('doctrine_book_copy_query_service');
     }

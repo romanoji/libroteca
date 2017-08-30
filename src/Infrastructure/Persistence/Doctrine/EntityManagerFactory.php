@@ -64,7 +64,7 @@ class EntityManagerFactory
      * @throws \Doctrine\ORM\ORMException
      * @throws \InvalidArgumentException
      */
-    public static function create($connectionConfig) : EntityManagerInterface
+    public static function create($connectionConfig): EntityManagerInterface
     {
         self::registerDBALTypes();
 

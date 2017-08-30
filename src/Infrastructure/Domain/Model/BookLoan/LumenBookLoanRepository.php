@@ -153,7 +153,7 @@ class LumenBookLoanRepository implements BookLoanRepository
         ?\DateTimeInterface $endDate,
         bool $isProlonged,
         string $remarks
-    ) : BookLoan {
+    ): BookLoan {
         $properties = [
             'id' => new BookLoanID($id),
             'bookCopyID' => new BookCopyID($bookCopyID),

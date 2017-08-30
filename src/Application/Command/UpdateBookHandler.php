@@ -34,7 +34,7 @@ class UpdateBookHandler implements CommandHandler
         $this->bookRepository = $bookRepository;
     }
 
-    public function execute(UpdateBook $command) : void
+    public function execute(UpdateBook $command): void
     {
         $bookID = new BookID($command->bookID);
         $isbn = $this->isbnFactory->create($command->isbn);

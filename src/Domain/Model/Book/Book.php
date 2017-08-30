@@ -85,7 +85,7 @@ class Book extends AggregateRoot
     /**
      * @return BookID
      */
-    public function id() : BookID
+    public function id(): BookID
     {
         return $this->id;
     }
@@ -93,7 +93,7 @@ class Book extends AggregateRoot
     /**
      * @return Title
      */
-    public function title() : Title
+    public function title(): Title
     {
         return $this->title;
     }
@@ -101,7 +101,7 @@ class Book extends AggregateRoot
     /**
      * @return Author[]
      */
-    public function authors() : array
+    public function authors(): array
     {
         return $this->authors;
     }
@@ -109,7 +109,7 @@ class Book extends AggregateRoot
     /**
      * @return ISBN
      */
-    public function isbn() : ISBN
+    public function isbn(): ISBN
     {
         return $this->isbn;
     }

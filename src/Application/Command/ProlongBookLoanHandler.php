@@ -32,7 +32,7 @@ class ProlongBookLoanHandler implements CommandHandler
      * @throws ProlongOverdueBookLoanException
      * @throws \InvalidArgumentException
      */
-    public function execute(ProlongBookLoan $command) : void
+    public function execute(ProlongBookLoan $command): void
     {
         $bookLoanID = new BookLoanID($command->bookLoanID);
 

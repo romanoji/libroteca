@@ -9,7 +9,7 @@ use RJozwiak\Libroteca\Infrastructure\Application\Command\CsvFileLoader;
 
 class ApplicationServicesProvider extends ServiceProvider
 {
-    public function register() : void
+    public function register(): void
     {
         $this->app->singleton(ImportFileLoader::class, CsvFileLoader::class);
     }

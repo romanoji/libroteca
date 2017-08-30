@@ -10,7 +10,7 @@ class ISBN13 extends ISBN
     /**
      * @return string
      */
-    protected function format() : string
+    protected function format(): string
     {
         return self::FORMAT;
     }
@@ -19,7 +19,7 @@ class ISBN13 extends ISBN
      * @param string $isbn
      * @return string
      */
-    protected function checksumDigit(?string $isbn) : string
+    protected function checksumDigit(?string $isbn): string
     {
         $sum = 0;
         for ($i = 0; $i < 12; $i++) {

@@ -30,7 +30,7 @@ class CommandHandlerResolver
      * @param Command $command
      * @return CommandHandler
      */
-    public function resolve(Command $command) : CommandHandler
+    public function resolve(Command $command): CommandHandler
     {
         $handlerName = $this->inflector->inflect($command);
         $handler = $this->locator->getHandler($handlerName);

@@ -39,7 +39,7 @@ class ApiController extends Controller
     protected function successResponse(
         array $data = null,
         int $statusCode = Response::HTTP_OK
-    ) : JsonResponse {
+    ): JsonResponse {
         $responseData = ['success' => true];
 
         if ($data !== null) {
@@ -59,7 +59,7 @@ class ApiController extends Controller
         string $message = null,
         array $data = null,
         int $statusCode = Response::HTTP_UNPROCESSABLE_ENTITY
-    ) : JsonResponse {
+    ): JsonResponse {
         $responseData = ['success' => false];
 
         $error = [];
@@ -85,7 +85,7 @@ class ApiController extends Controller
     protected function errorResponse(
         $message = null,
         int $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
-    ) : JsonResponse {
+    ): JsonResponse {
         return new JsonResponse($message, $statusCode);
     }
 }

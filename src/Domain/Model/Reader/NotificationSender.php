@@ -9,5 +9,5 @@ interface NotificationSender
      * @param ReaderID $readerID
      * @param Notification $notification
      */
-    public function send(ReaderID $readerID, Notification $notification) : void;
+    public function send(ReaderID $readerID, Notification $notification): void;
 }

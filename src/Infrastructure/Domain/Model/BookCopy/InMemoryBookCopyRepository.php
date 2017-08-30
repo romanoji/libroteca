@@ -19,7 +19,7 @@ class InMemoryBookCopyRepository implements BookCopyRepository
     /**
      * @return BookCopyID
      */
-    public function nextID() : BookCopyID
+    public function nextID(): BookCopyID
     {
         return new BookCopyID($this->nextID++);
     }
@@ -37,7 +37,7 @@ class InMemoryBookCopyRepository implements BookCopyRepository
      * @return BookCopy
      * @throws BookCopyNotFoundException
      */
-    public function get(BookCopyID $id) : BookCopy
+    public function get(BookCopyID $id): BookCopy
     {
         if (!isset($this->booksCopies[$id->id()])) {
             throw new BookCopyNotFoundException();
@@ -50,7 +50,7 @@ class InMemoryBookCopyRepository implements BookCopyRepository
      * @param BookID $bookID
      * @return BookCopy[]
      */
-    public function findByBookID(BookID $bookID) : array
+    public function findByBookID(BookID $bookID): array
     {
         $booksCopies = [];
 

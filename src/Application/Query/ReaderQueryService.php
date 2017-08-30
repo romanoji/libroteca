@@ -10,12 +10,12 @@ interface ReaderQueryService
     /**
      * @return array
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
     /**
      * @param int|string $readerID
      * @return array
      * @throws ReaderNotFoundException
      */
-    public function getOne($readerID) : array;
+    public function getOne($readerID): array;
 }

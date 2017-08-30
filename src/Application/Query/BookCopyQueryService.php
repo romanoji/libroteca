@@ -13,5 +13,5 @@ interface BookCopyQueryService
      * @return array
      * @throws BookNotFoundException
      */
-    public function getAllByBook($bookID, bool $includeOngoingLoans = false) : array;
+    public function getAllByBook($bookID, bool $includeOngoingLoans = false): array;
 }

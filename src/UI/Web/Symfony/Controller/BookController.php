@@ -104,7 +104,7 @@ class BookController extends ApiController
     /**
      * @return BookQueryService
      */
-    private function books() : BookQueryService
+    private function books(): BookQueryService
     {
         return $this->get('doctrine_book_query_service');
     }

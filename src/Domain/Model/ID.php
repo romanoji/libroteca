@@ -41,7 +41,7 @@ abstract class ID
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return (string) $this->id;
     }
@@ -50,7 +50,7 @@ abstract class ID
      * @param ID $id
      * @return bool
      */
-    public function equals(ID $id) : bool
+    public function equals(ID $id): bool
     {
         return
             get_class($this) === get_class($id) &&

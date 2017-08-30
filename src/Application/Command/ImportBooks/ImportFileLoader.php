@@ -10,5 +10,5 @@ interface ImportFileLoader
      * @return BookData[]
      * @throws \InvalidArgumentException
      */
-    public function loadBooksData(\SplFileInfo $file) : array;
+    public function loadBooksData(\SplFileInfo $file): array;
 }

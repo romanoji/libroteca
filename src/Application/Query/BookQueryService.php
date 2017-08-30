@@ -10,12 +10,12 @@ interface BookQueryService
     /**
      * @return array
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
     /**
      * @param int|string $bookID
      * @return array
      * @throws BookNotFoundException
      */
-    public function getOne($bookID) : array;
+    public function getOne($bookID): array;
 }

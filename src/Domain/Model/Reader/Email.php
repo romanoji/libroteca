@@ -42,7 +42,7 @@ class Email
     /**
      * @return string
      */
-    public function email() : string
+    public function email(): string
     {
         return $this->email;
     }
@@ -50,7 +50,7 @@ class Email
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->email;
     }
@@ -59,7 +59,7 @@ class Email
      * @param Email $email
      * @return bool
      */
-    public function equals(Email $email) : bool
+    public function equals(Email $email): bool
     {
         return $this->email() === $email->email();
     }

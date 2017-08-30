@@ -57,7 +57,7 @@ class LendBookCopyHandler implements CommandHandler
      * @throws ReaderNotFoundException
      * @throws BookLoanAttemptWhenHavingOverdueLoanException
      */
-    public function execute(LendBookCopy $command) : void
+    public function execute(LendBookCopy $command): void
     {
         $bookLoanID = new BookLoanID($command->bookLoanID);
         $readerID = new ReaderID($command->readerID);

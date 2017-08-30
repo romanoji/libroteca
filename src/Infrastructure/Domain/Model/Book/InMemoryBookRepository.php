@@ -18,7 +18,7 @@ class InMemoryBookRepository implements BookRepository
     /**
      * @return BookID
      */
-    public function nextID() : BookID
+    public function nextID(): BookID
     {
         return new BookID($this->nextID++);
     }
@@ -34,7 +34,7 @@ class InMemoryBookRepository implements BookRepository
     /**
      * @return int
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->books);
     }
@@ -44,7 +44,7 @@ class InMemoryBookRepository implements BookRepository
      * @return Book
      * @throws BookNotFoundException
      */
-    public function get(BookID $id) : Book
+    public function get(BookID $id): Book
     {
         if (!isset($this->books[$id->id()])) {
             throw new BookNotFoundException();
@@ -57,7 +57,7 @@ class InMemoryBookRepository implements BookRepository
      * @param ISBN $isbn
      * @return null|Book
      */
-    public function findOneByISBN(ISBN $isbn) : ?Book
+    public function findOneByISBN(ISBN $isbn): ?Book
     {
         foreach ($this->books as $book) {
             if ($book->isbn()->equals($isbn)) {
@@ -73,7 +73,7 @@ class InMemoryBookRepository implements BookRepository
      * @param Title $title
      * @return Book[]
      */
-    public function findByAuthorAndTitle(Author $author, Title $title) : array
+    public function findByAuthorAndTitle(Author $author, Title $title): array
     {
         $books = [];
 

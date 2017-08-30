@@ -19,7 +19,7 @@ class DoctrineBookCopyID extends DoctrineEntityID
     /**
      * @return string
      */
-    protected function getNamespace() : string
+    protected function getNamespace(): string
     {
         return BookCopyID::class;
     }

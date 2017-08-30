@@ -160,7 +160,7 @@ abstract class Controller implements ContainerAwareInterface
     /**
      * @return Request
      */
-    protected function request() : Request
+    protected function request(): Request
     {
         return $this->get('request');
     }

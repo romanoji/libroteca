@@ -43,12 +43,12 @@ class SharedObjects
      * @param array $params
      * @return string
      */
-    private static function generateHash(string $class, array $params) : string
+    private static function generateHash(string $class, array $params): string
     {
         return sha1($class . ':' . serialize($params));
     }
 
-    public static function clearSharedObjects() : void
+    public static function clearSharedObjects(): void
     {
         self::$objects = new ObjectsRegistry();
     }

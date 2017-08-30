@@ -35,7 +35,7 @@ class RegisterBookCopyHandler implements CommandHandler
      * @param RegisterBookCopy $command
      * @throws BookNotFoundException
      */
-    public function execute(RegisterBookCopy $command) : void
+    public function execute(RegisterBookCopy $command): void
     {
         $bookCopyID = new BookCopyID($command->bookCopyID);
         $bookID = new BookID($command->bookID);

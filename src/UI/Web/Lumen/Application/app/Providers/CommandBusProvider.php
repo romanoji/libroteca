@@ -25,7 +25,7 @@ use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\MethodNam
 
 class CommandBusProvider extends ServiceProvider
 {
-    public function register() : void
+    public function register(): void
     {
         $this->app->singleton(Tactician\CommandBus::class, function (Application $app) {
             return new Tactician\CommandBus([

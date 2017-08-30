@@ -10,12 +10,12 @@ interface ReaderRepository
     /**
      * @return ReaderID
      */
-    public function nextID() : ReaderID;
+    public function nextID(): ReaderID;
 
     /**
      * @return int
      */
-    public function count() : int;
+    public function count(): int;
 
     /**
      * @param Reader $reader
@@ -27,17 +27,17 @@ interface ReaderRepository
      * @return Reader
      * @throws ReaderNotFoundException
      */
-    public function get(ReaderID $id) : Reader;
+    public function get(ReaderID $id): Reader;
 
     /**
      * @param Email $email
      * @return null|Reader
      */
-    public function findOneByEmail(Email $email) : ?Reader;
+    public function findOneByEmail(Email $email): ?Reader;
 
     /**
      * @param Phone $phone
      * @return null|Reader
      */
-    public function findOneByPhone(Phone $phone) : ?Reader;
+    public function findOneByPhone(Phone $phone): ?Reader;
 }

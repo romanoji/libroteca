@@ -25,7 +25,7 @@ class UpdateBookCopyRemarksHandler implements CommandHandler
      * @param UpdateBookCopyRemarks $command
      * @throws BookCopyNotFoundException
      */
-    public function execute(UpdateBookCopyRemarks $command) : void
+    public function execute(UpdateBookCopyRemarks $command): void
     {
         $bookCopyID = new BookCopyID($command->bookCopyID);
 

@@ -53,9 +53,9 @@ abstract class TypedTextArray extends TextArray
         return $objects;
     }
 
-    abstract protected function typeClass() : string;
+    abstract protected function typeClass(): string;
 
-    abstract protected function valueMethod() : string;
+    abstract protected function valueMethod(): string;
 
     private function assertClassExists(string $className)
     {

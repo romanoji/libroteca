@@ -24,7 +24,7 @@ class SimpleCommandBus implements CommandBus
     /**
      * @param Command $command
      */
-    public function handle(Command $command) : void
+    public function handle(Command $command): void
     {
         // TODO: typed Handler vs. MethodNotFoundException
 
@@ -35,7 +35,7 @@ class SimpleCommandBus implements CommandBus
      * @param Command $command
      * @return CommandHandler
      */
-    private function handlerFor(Command $command) : CommandHandler
+    private function handlerFor(Command $command): CommandHandler
     {
         return $this->resolver->resolve($command);
     }

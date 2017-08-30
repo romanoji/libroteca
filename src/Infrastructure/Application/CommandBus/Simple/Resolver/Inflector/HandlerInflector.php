@@ -12,5 +12,5 @@ interface HandlerInflector
      * @param Command $command
      * @return string
      */
-    public function inflect(Command $command) : string;
+    public function inflect(Command $command): string;
 }

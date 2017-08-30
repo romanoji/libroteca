@@ -20,7 +20,7 @@ class InMemoryBookLoanRepository implements BookLoanRepository
     /**
      * @return BookLoanID
      */
-    public function nextID() : BookLoanID
+    public function nextID(): BookLoanID
     {
         return new BookLoanID($this->nextID++);
     }
@@ -36,7 +36,7 @@ class InMemoryBookLoanRepository implements BookLoanRepository
     /**
      * @return int
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->booksLoans);
     }
@@ -46,7 +46,7 @@ class InMemoryBookLoanRepository implements BookLoanRepository
      * @return BookLoan
      * @throws BookLoanNotFoundException
      */
-    public function get(BookLoanID $id) : BookLoan
+    public function get(BookLoanID $id): BookLoan
     {
         if (!isset($this->booksLoans[$id->id()])) {
             throw new BookLoanNotFoundException();

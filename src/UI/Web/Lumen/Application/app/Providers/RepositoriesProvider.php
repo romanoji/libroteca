@@ -17,7 +17,7 @@ use RJozwiak\Libroteca\Infrastructure\Serialization\Basic\ObjectDeserializer;
 
 class RepositoriesProvider extends ServiceProvider
 {
-    public function register() : void
+    public function register(): void
     {
         $this->app->singleton(Deserializer::class, ObjectDeserializer::class);
 

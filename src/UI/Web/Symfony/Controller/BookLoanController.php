@@ -109,7 +109,7 @@ class BookLoanController extends ApiController
     /**
      * @return BookLoanQueryService
      */
-    private function bookLoans() : BookLoanQueryService
+    private function bookLoans(): BookLoanQueryService
     {
         return $this->get('doctrine_book_loan_query_service');
     }

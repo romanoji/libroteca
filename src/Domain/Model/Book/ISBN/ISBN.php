@@ -53,7 +53,7 @@ abstract class ISBN
      * Regex ISBN format
      * @return string
      */
-    abstract protected function format() : string;
+    abstract protected function format(): string;
 
     /**
      * @param string $isbn
@@ -75,12 +75,12 @@ abstract class ISBN
      * @param string $isbn
      * @return string
      */
-    abstract protected function checksumDigit(?string $isbn) : string;
+    abstract protected function checksumDigit(?string $isbn): string;
 
     /**
      * @return null|string
      */
-    public function isbn() : ?string
+    public function isbn(): ?string
     {
         return $this->isbn;
     }
@@ -88,7 +88,7 @@ abstract class ISBN
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return (string) $this->isbn;
     }
@@ -97,7 +97,7 @@ abstract class ISBN
      * @param ISBN $isbn
      * @return bool
      */
-    public function equals(ISBN $isbn) : bool
+    public function equals(ISBN $isbn): bool
     {
         // TODO: compare ISBN10 vs. ISBN13 using conversions
         return $this->isbn() === $isbn->isbn();

@@ -26,7 +26,7 @@ class ObjectsRegistry
      * @param string $key
      * @param object $object
      */
-    public function save(string $key, $object) : void
+    public function save(string $key, $object): void
     {
         $this->sharedObjects[$key] = $object;
     }

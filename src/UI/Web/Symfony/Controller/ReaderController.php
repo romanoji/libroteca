@@ -63,7 +63,7 @@ class ReaderController extends ApiController
     /**
      * @return ReaderQueryService
      */
-    private function readers() : ReaderQueryService
+    private function readers(): ReaderQueryService
     {
         return $this->get('doctrine_reader_query_service');
     }

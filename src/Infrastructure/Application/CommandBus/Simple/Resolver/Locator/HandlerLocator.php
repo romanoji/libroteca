@@ -11,5 +11,5 @@ interface HandlerLocator
      * @param string $handlerName
      * @return CommandHandler
      */
-    public function getHandler(string $handlerName) : CommandHandler;
+    public function getHandler(string $handlerName): CommandHandler;
 }

@@ -51,7 +51,7 @@ class Reader extends AggregateRoot
     /**
      * @return ReaderID
      */
-    public function id() : ReaderID
+    public function id(): ReaderID
     {
         return $this->id;
     }
@@ -59,7 +59,7 @@ class Reader extends AggregateRoot
     /**
      * @return Name
      */
-    public function name() : Name
+    public function name(): Name
     {
         return $this->name;
     }
@@ -67,7 +67,7 @@ class Reader extends AggregateRoot
     /**
      * @return Surname
      */
-    public function surname() : Surname
+    public function surname(): Surname
     {
         return $this->surname;
     }
@@ -75,7 +75,7 @@ class Reader extends AggregateRoot
     /**
      * @return Email
      */
-    public function email() : Email
+    public function email(): Email
     {
         return $this->email;
     }
@@ -83,7 +83,7 @@ class Reader extends AggregateRoot
     /**
      * @return Phone
      */
-    public function phone() : Phone
+    public function phone(): Phone
     {
         return $this->phone;
     }

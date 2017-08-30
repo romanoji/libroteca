@@ -19,7 +19,7 @@ class DoctrineBookLoanID extends DoctrineEntityID
     /**
      * @return string
      */
-    protected function getNamespace() : string
+    protected function getNamespace(): string
     {
         return BookLoanID::class;
     }

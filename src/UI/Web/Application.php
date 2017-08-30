@@ -16,7 +16,7 @@ abstract class Application
         $this->options = $options;
     }
 
-    public static function run(array $options = []) : void
+    public static function run(array $options = []): void
     {
         (new static($options))->bootstrap();
     }
@@ -26,7 +26,7 @@ abstract class Application
     /**
      * @return string
      */
-    public static function rootDir() : string
+    public static function rootDir(): string
     {
         return __DIR__.'/../../..';
     }
@@ -34,7 +34,7 @@ abstract class Application
     /**
      * @return string
      */
-    public static function cacheDir() : string
+    public static function cacheDir(): string
     {
         return self::rootDir().'/var/cache';
     }
@@ -42,7 +42,7 @@ abstract class Application
     /**
      * @return string
      */
-    public static function logsDir() : string
+    public static function logsDir(): string
     {
         return self::rootDir().'/var/logs';
     }

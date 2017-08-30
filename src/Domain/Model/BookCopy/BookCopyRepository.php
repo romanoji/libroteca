@@ -11,7 +11,7 @@ interface BookCopyRepository
     /**
      * @return BookCopyID
      */
-    public function nextID() : BookCopyID;
+    public function nextID(): BookCopyID;
 
     /**
      * @param BookCopy $bookCopy
@@ -23,11 +23,11 @@ interface BookCopyRepository
      * @return BookCopy
      * @throws BookCopyNotFoundException
      */
-    public function get(BookCopyID $id) : BookCopy;
+    public function get(BookCopyID $id): BookCopy;
 
     /**
      * @param BookID $bookID
      * @return BookCopy[]
      */
-    public function findByBookID(BookID $bookID) : array;
+    public function findByBookID(BookID $bookID): array;
 }

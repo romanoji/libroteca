@@ -94,7 +94,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return BookLoanID
      */
-    public function id() : BookLoanID
+    public function id(): BookLoanID
     {
         return $this->id;
     }
@@ -102,7 +102,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return BookCopyID
      */
-    public function bookCopyID() : BookCopyID
+    public function bookCopyID(): BookCopyID
     {
         return $this->bookCopyID;
     }
@@ -110,7 +110,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return ReaderID
      */
-    public function readerID() : ReaderID
+    public function readerID(): ReaderID
     {
         return $this->readerID;
     }
@@ -118,7 +118,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return \DateTimeImmutable
      */
-    public function dueDate() : \DateTimeImmutable
+    public function dueDate(): \DateTimeImmutable
     {
         return $this->dueDate;
     }
@@ -126,7 +126,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return bool
      */
-    public function hasEnded() : bool
+    public function hasEnded(): bool
     {
         return $this->ended;
     }
@@ -134,7 +134,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return null|\DateTimeImmutable
      */
-    public function endDate() : ?\DateTimeImmutable
+    public function endDate(): ?\DateTimeImmutable
     {
         return $this->endDate;
     }
@@ -142,7 +142,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return bool
      */
-    public function isProlonged() : bool
+    public function isProlonged(): bool
     {
         return $this->prolonged;
     }
@@ -150,7 +150,7 @@ class BookLoan extends AggregateRoot
     /**
      * @return string
      */
-    public function remarks() : string
+    public function remarks(): string
     {
         return $this->remarks;
     }
@@ -170,7 +170,7 @@ class BookLoan extends AggregateRoot
      * @throws EndingOverdueLoanWithoutRemarksException
      * @throws BookLoanAlreadyEndedException
      */
-    public function endLoan(\DateTimeImmutable $endDate, string $remarks = null) : void
+    public function endLoan(\DateTimeImmutable $endDate, string $remarks = null): void
     {
         if ($this->hasEnded()) {
             throw new BookLoanAlreadyEndedException('Loan has already ended.');
@@ -193,7 +193,7 @@ class BookLoan extends AggregateRoot
      * @throws ProlongOverdueBookLoanException
      * @throws \InvalidArgumentException
      */
-    public function prolongTo(\DateTimeImmutable $newDueDate, \DateTimeImmutable $today) : void
+    public function prolongTo(\DateTimeImmutable $newDueDate, \DateTimeImmutable $today): void
     {
         if ($this->hasEnded()) {
             throw new BookLoanAlreadyEndedException('Loan has already ended.');
@@ -228,7 +228,7 @@ class BookLoan extends AggregateRoot
      * @param \DateTimeImmutable|null $date
      * @return \DateTimeImmutable
      */
-    private function dateAfterDays($days, \DateTimeImmutable $date = null) : \DateTimeImmutable
+    private function dateAfterDays($days, \DateTimeImmutable $date = null): \DateTimeImmutable
     {
         if ($date === null) {
             $date = new \DateTimeImmutable();
@@ -242,7 +242,7 @@ class BookLoan extends AggregateRoot
      * @param \DateTimeImmutable $date
      * @return \DateTimeImmutable
      */
-    private function clearTime(\DateTimeImmutable $date) : \DateTimeImmutable
+    private function clearTime(\DateTimeImmutable $date): \DateTimeImmutable
     {
         return $date->setTime(0, 0, 0);
     }

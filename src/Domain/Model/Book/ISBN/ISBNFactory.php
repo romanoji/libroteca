@@ -10,7 +10,7 @@ class ISBNFactory
      * @return ISBN
      * @throws \InvalidArgumentException
      */
-    public function create(string $isbn = null) : ISBN
+    public function create(string $isbn = null): ISBN
     {
         if ($isbn === null || $isbn === '') {
             return new NullISBN();
@@ -31,7 +31,7 @@ class ISBNFactory
      * @param string $isbn
      * @return string
      */
-    private function toRawISBN(string $isbn) : string
+    private function toRawISBN(string $isbn): string
     {
         return strtoupper(
             str_replace('-', '', $isbn)

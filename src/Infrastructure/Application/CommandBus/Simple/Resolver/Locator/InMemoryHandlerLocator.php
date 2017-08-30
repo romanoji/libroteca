@@ -37,7 +37,7 @@ class InMemoryHandlerLocator implements HandlerLocator
      * @return CommandHandler
      * @throws \RuntimeException
      */
-    public function getHandler(string $handlerName) : CommandHandler
+    public function getHandler(string $handlerName): CommandHandler
     {
         if (!isset($this->handlers[$handlerName])) {
             throw new \RuntimeException("Handler $handlerName is not registered.");

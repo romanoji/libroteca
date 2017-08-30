@@ -12,11 +12,11 @@ interface BookLoanQueryService
      * @return array
      * @throws BookLoanNotFoundException
      */
-    public function getOne($bookLoanID) : array;
+    public function getOne($bookLoanID): array;
 
     /**
      * @param array $filters
      * @return array
      */
-    public function getAll(array $filters) : array;
+    public function getAll(array $filters): array;
 }

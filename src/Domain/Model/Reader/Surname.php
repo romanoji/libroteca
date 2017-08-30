@@ -69,7 +69,7 @@ class Surname
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->surname;
     }
@@ -78,7 +78,7 @@ class Surname
      * @param Surname $surname
      * @return bool
      */
-    public function equals(Surname $surname) : bool
+    public function equals(Surname $surname): bool
     {
         return $this->surname === $surname->surname;
     }

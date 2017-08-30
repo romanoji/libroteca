@@ -15,7 +15,7 @@ use RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen\LumenReaderQuerySe
 
 class QueryServicesProvider extends ServiceProvider
 {
-    public function register() : void
+    public function register(): void
     {
         $this->app->singleton(ReaderQueryService::class, LumenReaderQueryService::class);
 

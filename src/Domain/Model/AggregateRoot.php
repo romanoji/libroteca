@@ -17,12 +17,12 @@ abstract class AggregateRoot
     /**
      * @return int
      */
-    public function version() : int
+    public function version(): int
     {
         return $this->version;
     }
 
-    public function incrementVersion() : void
+    public function incrementVersion(): void
     {
         $this->version++;
     }

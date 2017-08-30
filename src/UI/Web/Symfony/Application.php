@@ -54,7 +54,7 @@ class Application extends BaseApplication
      * @param bool $debugMode
      * @return ParameterBagInterface
      */
-    private function initialContainerParams(bool $debugMode) : ParameterBagInterface
+    private function initialContainerParams(bool $debugMode): ParameterBagInterface
     {
         return new ParameterBag([
             'kernel.root_dir' => realpath(self::rootDir()),

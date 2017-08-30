@@ -32,7 +32,7 @@ class RegisterReaderHandler implements CommandHandler
      * @throws EmailAlreadyInUseException
      * @throws PhoneAlreadyInUseException
      */
-    public function execute(RegisterReader $command) : void
+    public function execute(RegisterReader $command): void
     {
         $readerID = new ReaderID($command->readerID);
         $name = new Name($command->name);

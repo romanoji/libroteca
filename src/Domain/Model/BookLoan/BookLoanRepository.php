@@ -12,7 +12,7 @@ interface BookLoanRepository
     /**
      * @return BookLoanID
      */
-    public function nextID() : BookLoanID;
+    public function nextID(): BookLoanID;
 
     /**
      * @param BookLoan $bookLoan
@@ -24,17 +24,17 @@ interface BookLoanRepository
      * @return BookLoan
      * @throws BookLoanNotFoundException
      */
-    public function get(BookLoanID $id) : BookLoan;
+    public function get(BookLoanID $id): BookLoan;
 
     /**
      * @param BookCopyID $bookCopyID
      * @return null|BookLoan
      */
-    public function findOngoingByBookCopyID(BookCopyID $bookCopyID) : ?BookLoan;
+    public function findOngoingByBookCopyID(BookCopyID $bookCopyID): ?BookLoan;
 
     /**
      * @param ReaderID $readerID
      * @return BookLoan[]
      */
-    public function findOngoingByReaderID(ReaderID $readerID) : array;
+    public function findOngoingByReaderID(ReaderID $readerID): array;
 }

@@ -44,7 +44,7 @@ class Phone
     /**
      * @return string
      */
-    public function phone() : string
+    public function phone(): string
     {
         return $this->phone;
     }
@@ -52,7 +52,7 @@ class Phone
     /**
      * @return string
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->phone;
     }
@@ -61,7 +61,7 @@ class Phone
      * @param Phone $phone
      * @return bool
      */
-    public function equals(Phone $phone) : bool
+    public function equals(Phone $phone): bool
     {
         return $this->phone() === $phone->phone();
     }

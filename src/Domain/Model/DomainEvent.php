@@ -8,5 +8,5 @@ interface DomainEvent
     /**
      * @return \DateTimeImmutable
      */
-    public function occuredOn() : \DateTimeImmutable;
+    public function occuredOn(): \DateTimeImmutable;
 }

@@ -10,7 +10,7 @@ abstract class BaseDoctrineDBALQueryService extends DoctrineDBALQueryService
     /**
      * @return array
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->queryBuilder()
             ->select('*')
@@ -24,7 +24,7 @@ abstract class BaseDoctrineDBALQueryService extends DoctrineDBALQueryService
      * @return array
      * @throws AggregateNotFoundException
      */
-    public function getOne($objectID) : array
+    public function getOne($objectID): array
     {
         $object = $this->queryBuilder()
             ->select('*')
@@ -44,10 +44,10 @@ abstract class BaseDoctrineDBALQueryService extends DoctrineDBALQueryService
     /**
      * @return string
      */
-    abstract protected function tableName() : string;
+    abstract protected function tableName(): string;
 
     /**
      * @return AggregateNotFoundException
      */
-    abstract protected function notFoundException() : AggregateNotFoundException;
+    abstract protected function notFoundException(): AggregateNotFoundException;
 }

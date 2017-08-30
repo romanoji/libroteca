@@ -12,7 +12,7 @@ use RJozwiak\Libroteca\Application\Command\{
 
 class CommandHandlersProvider extends ServiceProvider
 {
-    public function register() : void
+    public function register(): void
     {
         $this->app->singleton(LendBookCopyHandler::class);
 

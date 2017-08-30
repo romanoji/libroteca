@@ -30,7 +30,7 @@ class DependencyInjectionContainerFactory
     public static function create(
         ParameterBagInterface $parameterBag = null,
         bool $debugMode = false
-    ) : ContainerInterface {
+    ): ContainerInterface {
         if (!$debugMode) {
             $containerConfigCache = new ConfigCache(self::containerCachePath(), $debugMode);
 
@@ -51,7 +51,7 @@ class DependencyInjectionContainerFactory
      */
     private static function createContainer(
         ParameterBagInterface $parameterBag = null
-    ) : ContainerBuilder {
+    ): ContainerBuilder {
         $container = new ContainerBuilder($parameterBag);
 
         $loader = new YamlFileLoader($container, new FileLocator(self::CONFIG_PATH));
@@ -87,7 +87,7 @@ class DependencyInjectionContainerFactory
     /**
      * @return CachedContainer
      */
-    private static function cachedContainer() : CachedContainer
+    private static function cachedContainer(): CachedContainer
     {
         require_once self::containerCachePath();
         return new CachedContainer();
@@ -96,7 +96,7 @@ class DependencyInjectionContainerFactory
     /**
      * @return string
      */
-    private static function containerCachePath() : string
+    private static function containerCachePath(): string
     {
         return Application::cacheDir().'/dependency_injection/container.php';
     }
