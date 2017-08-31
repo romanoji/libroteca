@@ -2,7 +2,7 @@ version: "3"
 
 services:
   front-app:
-    build: frontend/docker
+    image: node:8.4.0
     container_name: libroteca-front
     restart: always
     depends_on:
@@ -13,6 +13,8 @@ services:
       - frontend
     volumes:
       - ./frontend:/usr/src/libroteca
+      - /usr/src/libroteca/node_modules
+    entrypoint: sh /usr/src/libroteca/docker/entrypoint.sh
     working_dir: /usr/src/libroteca
 
   web-app:
@@ -34,7 +36,7 @@ services:
 
   db:
     image: postgres:9.6.3
-    container_name: libroteca-db
+    container_name: libroteca-psql-db
     restart: always
     ports:
       - "5433:5432"

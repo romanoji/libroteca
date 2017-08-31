@@ -1,6 +1,6 @@
 parameters: # TODO: resolve by app environment
   database_driver: pdo_pgsql
-  database_host: libroteca-db
+  database_host: libroteca-psql-db
   database_username: libroteca
   database_password: libroteca
   database_name: libroteca_db
