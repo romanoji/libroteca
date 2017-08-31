@@ -9,6 +9,7 @@ use Doctrine\Common\Annotations\{
 use RJozwiak\Libroteca\Infrastructure\DependencyInjection\DependencyInjectionContainerFactory;
 use RJozwiak\Libroteca\UI\Web\Application as BaseApplication;
 use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\ContainerAwareControllerResolver;
+use RJozwiak\Libroteca\UI\Web\Symfony\Kernel\EventListener\CORSListener;
 use RJozwiak\Libroteca\UI\Web\Symfony\Routing\AnnotationRouteControllerLoader;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\{
@@ -104,6 +105,7 @@ class Application extends BaseApplication
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new RouterListener($matcher, $requestStack));
+        $dispatcher->addSubscriber(new CORSListener());
         // TODO: add ExceptionListener for MethodNotAllowed/NotFound/... + base HttpException
 
         $controllerResolver = new ContainerAwareControllerResolver(null, $this->container);

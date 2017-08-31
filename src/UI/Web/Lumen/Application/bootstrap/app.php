@@ -59,7 +59,8 @@ $app->singleton(
 */
 
 $app->middleware([
-    RJozwiak\Libroteca\Lumen\Http\Middleware\TransformStringBooleans::class
+    RJozwiak\Libroteca\Lumen\Http\Middleware\TransformStringBooleans::class,
+    RJozwiak\Libroteca\Lumen\Http\Middleware\CORSMiddleware::class
 ]);
 
 /*
