@@ -28,7 +28,7 @@ class DoctrineBookRepository extends EntityRepository implements BookRepository
     {
         $qb = $this->createQueryBuilder('b');
 
-        return (int) $qb->select($qb->expr()->count('b'))->getQuery()->getSingleResult();
+        return (int) $qb->select($qb->expr()->count('b'))->getQuery()->getSingleScalarResult();
     }
 
     /**

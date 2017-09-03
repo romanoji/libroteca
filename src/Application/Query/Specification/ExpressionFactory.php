@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Query\Specification;
 
-interface ExpressionBuilder
+interface ExpressionFactory
 {
     /**
      * @param Specification[] $specs
@@ -22,4 +22,26 @@ interface ExpressionBuilder
      * @return Expression
      */
     public function not(Specification $spec): Expression;
+
+    /**
+     * @param mixed $field
+     * @param mixed $value
+     * @return Expression
+     */
+    public function equals($field, $value): Expression;
+
+    /**
+     * @param mixed $field
+     * @param string $value
+     * @return Expression
+     */
+    public function like($field, string $value): Expression;
+
+    /**
+     * @param mixed $field
+     * @return Expression
+     */
+    public function isNull($field): Expression;
+
+    // TODO: and so on...
 }

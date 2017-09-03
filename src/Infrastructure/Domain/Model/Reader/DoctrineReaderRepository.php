@@ -31,7 +31,7 @@ class DoctrineReaderRepository extends EntityRepository implements ReaderReposit
     {
         $qb = $this->createQueryBuilder('r');
 
-        return (int) $qb->select($qb->expr()->count('r'))->getQuery()->getSingleResult();
+        return (int) $qb->select($qb->expr()->count('r'))->getQuery()->getSingleScalarResult();
     }
 
     /**

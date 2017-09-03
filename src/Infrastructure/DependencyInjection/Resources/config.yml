@@ -42,6 +42,8 @@ parameters:
 
   entity_manager.class: Doctrine\ORM\EntityManager
   entity_manager_factory.class: RJozwiak\Libroteca\Infrastructure\Persistence\Doctrine\EntityManagerFactory
+  doctrine.connection.class: Doctrine\DBAL\Connection
+  doctrine.dbal.expression_builder.class: Doctrine\DBAL\Query\Expression\ExpressionBuilder
 
   expression_language.class: Symfony\Component\ExpressionLanguage\ExpressionLanguage
 
@@ -55,6 +57,9 @@ parameters:
   doctrine_book_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineBookQueryService
   doctrine_book_copy_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineBookCopyQueryService
   doctrine_book_loan_query_service.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\DoctrineBookLoanQueryService
+
+  dbal_expression_factory.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\DBAL\DBALExpressionFactory
+  orm_expression_factory.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\ORM\ORMExpressionFactory
 
 services:
   request:
@@ -184,6 +189,12 @@ services:
         user: '%database_username%'
         password: '%database_password%'
         dbname: '%database_name%'
+  doctrine.connection:
+    class: '%doctrine.connection.class%'
+    factory: ['@entity_manager', getConnection]
+  doctrine.dbal.expression_builder:
+    class: '%doctrine.dbal.expression_builder.class%'
+    factory: ['@doctrine.connection', getExpressionBuilder]
 
   expression_language:
     class: '%expression_language.class%'
@@ -214,11 +225,13 @@ services:
     class: '%doctrine_reader_query_service.class%'
     arguments:
       - '@entity_manager'
+      - '@dbal_expression_factory'
   doctrine_book_query_service:
     class: '%doctrine_book_query_service.class%'
     arguments:
       - '@entity_manager'
       - '@jms_serializer'
+      - '@orm_expression_factory'
   doctrine_book_copy_query_service:
     class: '%doctrine_book_copy_query_service.class%'
     arguments:
@@ -229,3 +242,12 @@ services:
     arguments:
       - '@entity_manager'
       - '@jms_serializer'
+
+  dbal_expression_factory:
+    class: '%dbal_expression_factory.class%'
+    arguments:
+      - '@doctrine.dbal.expression_builder'
+  orm_expression_factory:
+    class: '%orm_expression_factory.class%'
+    arguments:
+      - '@doctrine.dbal.expression_builder'

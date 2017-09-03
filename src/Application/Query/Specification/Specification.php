@@ -6,8 +6,8 @@ namespace RJozwiak\Libroteca\Application\Query\Specification;
 interface Specification
 {
     /**
-     * @param ExpressionBuilder $builder
+     * @param ExpressionFactory $factory
      * @return Expression
      */
-    public function toExpression(ExpressionBuilder $builder): Expression;
+    public function toExpression(ExpressionFactory $factory): Expression;
 }

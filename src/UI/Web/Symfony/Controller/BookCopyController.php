@@ -47,7 +47,7 @@ class BookCopyController extends ApiController
                 )
             );
 
-            return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
+            return $this->successResponse(['id' => $uuid], null, Response::HTTP_CREATED);
         });
     }
 

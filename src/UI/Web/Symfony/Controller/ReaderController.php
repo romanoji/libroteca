@@ -6,6 +6,10 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
+use RJozwiak\Libroteca\Application\Query\Specification\OrSpecification;
+use RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\DBAL\Reader\{
+    EmailEqualsSpecification, NameLikeSpecification, PhoneEqualsSpecification, SurnameLikeSpecification
+};
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,9 +24,27 @@ class ReaderController extends ApiController
     public function indexAction()
     {
         return $this->wrapRequest(function () {
-            return $this->successResponse(
-                $this->readers()->getAll()
-            );
+            $filtersParam = $this->requestArrayParam('filters', false);
+
+            if ($filtersParam) {
+                $filters = array_filter([
+                    !empty($filtersParam['name']) ? new NameLikeSpecification($filtersParam['name']) : null,
+                    !empty($filtersParam['surname']) ? new SurnameLikeSpecification($filtersParam['surname']) : null,
+                    !empty($filtersParam['email']) ? new EmailEqualsSpecification($filtersParam['email']) : null,
+                    !empty($filtersParam['phone']) ? new PhoneEqualsSpecification($filtersParam['phone']) : null
+                ]);
+
+                $specification = null;
+                if (!empty($filters)) {
+                    $specification = new OrSpecification(...$filters);
+                }
+
+                $readers = $this->readers()->getAllByCriteria($specification);
+            } else {
+                $readers = $this->readers()->getAll();
+            }
+
+            return $this->successResponse($readers);
         });
     }
 
@@ -56,7 +78,7 @@ class ReaderController extends ApiController
                 )
             );
 
-            return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
+            return $this->successResponse(['id' => $uuid], null, Response::HTTP_CREATED);
         });
     }
 

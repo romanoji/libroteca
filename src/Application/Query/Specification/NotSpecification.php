@@ -3,25 +3,14 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Query\Specification;
 
-class NotSpecification implements Specification
+class NotSpecification extends CompositeSpecification
 {
-    /** @var Specification */
-    private $spec;
-
     /**
-     * @param Specification $spec
-     */
-    public function __construct(Specification $spec)
-    {
-        $this->spec = $spec;
-    }
-
-    /**
-     * @param ExpressionBuilder $builder
+     * @param ExpressionFactory $factory
      * @return Expression
      */
-    public function toExpression(ExpressionBuilder $builder): Expression
+    public function toExpression(ExpressionFactory $factory): Expression
     {
-        return $builder->not($this->spec);
+        return $factory->not($this->spec);
     }
 }

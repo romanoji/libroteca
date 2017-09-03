@@ -18,5 +18,5 @@ interface BookLoanQueryService
      * @param array $filters
      * @return array
      */
-    public function getAll(array $filters): array;
+    public function getAll(array $filters): array; // TODO: apply Specification pattern
 }

@@ -3,25 +3,14 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Application\Query\Specification;
 
-class OrSpecification implements Specification
+class OrSpecification extends CompositeSpecifications
 {
-    /** @var Specification[] */
-    private $specs;
-
     /**
-     * @param Specification[] $specs
-     */
-    public function __construct(Specification ...$specs)
-    {
-        $this->specs = $specs;
-    }
-
-    /**
-     * @param ExpressionBuilder $builder
+     * @param ExpressionFactory $factory
      * @return Expression
      */
-    public function toExpression(ExpressionBuilder $builder): Expression
+    public function toExpression(ExpressionFactory $factory): Expression
     {
-        return $builder->or(...$this->specs);
+        return $factory->or(...$this->specs);
     }
 }

@@ -73,17 +73,23 @@ abstract class ApiController extends Controller
     // TODO: create ResponseBuilder
     /**
      * @param null|array $data
+     * @param null|array $metadata
      * @param int $statusCode
      * @return JsonResponse
      */
     protected function successResponse(
         array $data = null,
+        array $metadata = null,
         int $statusCode = Response::HTTP_OK
     ): JsonResponse {
         $responseData = ['success' => true];
 
         if ($data !== null) {
             $responseData['data'] = $data;
+        }
+
+        if ($metadata !== null) {
+            $responseData['metadata'] = $metadata;
         }
 
         return new JsonResponse($responseData, $statusCode);

@@ -120,7 +120,7 @@ abstract class Controller implements ContainerAwareInterface
      */
     private function assertArrayParam(string $name, $value)
     {
-        if (!is_array($value)) {
+        if ($value && !is_array($value)) {
             throw new InvalidParameterException("`{$name}` parameter must be an array.");
         }
 
