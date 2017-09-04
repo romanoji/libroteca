@@ -9,6 +9,10 @@ use League\Tactician\CommandBus;
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
+use RJozwiak\Libroteca\Application\Query\Specification\OrSpecification;
+use RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen\Specification\Reader\{
+    EmailEqualsSpecification, NameLikeSpecification, PhoneEqualsSpecification, SurnameLikeSpecification
+};
 use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class ReaderController extends ApiController
@@ -28,11 +32,36 @@ class ReaderController extends ApiController
         $this->readers = $readers;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->successResponse(
-            $this->readers->getAll()
-        );
+        $this->validate($request, [
+            'filters.name' => 'string',
+            'filters.surname' => 'string',
+            'filters.email' => 'string',
+            'filters.phone' => 'string'
+        ]);
+
+        $filtersParam = $request->input('filters', []);
+
+        if ($filtersParam) {
+            $filters = array_filter([
+                !empty($filtersParam['name']) ? new NameLikeSpecification($filtersParam['name']) : null,
+                !empty($filtersParam['surname']) ? new SurnameLikeSpecification($filtersParam['surname']) : null,
+                !empty($filtersParam['email']) ? new EmailEqualsSpecification($filtersParam['email']) : null,
+                !empty($filtersParam['phone']) ? new PhoneEqualsSpecification($filtersParam['phone']) : null
+            ]);
+
+            $specification = null;
+            if (!empty($filters)) {
+                $specification = new OrSpecification(...$filters);
+            }
+
+            $readers = $this->readers->getAllByCriteria($specification);
+        } else {
+            $readers = $this->readers->getAll();
+        }
+
+        return $this->successResponse($readers);
     }
 
     public function get(string $id)
@@ -58,7 +87,7 @@ class ReaderController extends ApiController
             )
         );
 
-        return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
+        return $this->successResponse(['id' => $uuid], null, Response::HTTP_CREATED);
     }
 
     private function validateReaderParams(Request $request)

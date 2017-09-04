@@ -11,6 +11,10 @@ use RJozwiak\Libroteca\Application\Command\ImportBooks;
 use RJozwiak\Libroteca\Application\Command\RegisterBook;
 use RJozwiak\Libroteca\Application\Command\UpdateBook;
 use RJozwiak\Libroteca\Application\Query\BookQueryService;
+use RJozwiak\Libroteca\Application\Query\Pagination\Pagination;
+use RJozwiak\Libroteca\Application\Query\Specification\OrSpecification;
+use RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen\Specification\Book\ISBNLikeSpecification;
+use RJozwiak\Libroteca\Infrastructure\Application\Query\Lumen\Specification\Book\TitleLikeSpecification;
 use RJozwiak\Libroteca\Infrastructure\Persistence\Lumen;
 
 class BookController extends ApiController
@@ -30,11 +34,33 @@ class BookController extends ApiController
         $this->books = $books;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->successResponse(
-            $this->books->getAll()
-        );
+        $this->validate($request, [
+            'filters.isbn' => 'string',
+            'filters.title' => 'string',
+            'page' => 'integer'
+        ]);
+
+        $filtersParam = $request->input('filters', []);
+        $page = (int) $request->input('page', 1);
+
+        $specification = null;
+        if ($filtersParam) {
+            $filters = array_filter([
+                !empty($filtersParam['isbn']) ? new ISBNLikeSpecification($filtersParam['isbn']) : null,
+                !empty($filtersParam['title']) ? new TitleLikeSpecification($filtersParam['title']) : null,
+            ]);
+
+            if (!empty($filters)) {
+                $specification = new OrSpecification(...$filters);
+            }
+        }
+        $pagination = new Pagination($page);
+
+        $result = $this->books->getAllByCriteria($specification, $pagination);
+
+        return $this->successResponse($result->data(), $result->metadata()); // TODO: transform $result to response
     }
 
     public function get(string $id)
@@ -68,7 +94,7 @@ class BookController extends ApiController
             )
         );
 
-        return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
+        return $this->successResponse(['id' => $uuid], null, Response::HTTP_CREATED);
 
     }
 
@@ -82,7 +108,7 @@ class BookController extends ApiController
 
         $this->handle(new ImportBooks($importFile));
 
-        return $this->successResponse(null, Response::HTTP_NO_CONTENT);
+        return $this->successResponse(null, null, Response::HTTP_NO_CONTENT);
 
     }
 

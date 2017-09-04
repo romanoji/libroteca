@@ -36,7 +36,9 @@ class BookLoanController extends ApiController
     {
         $this->validate($request, [
             'filters.ended' => 'boolean',
-            'filters.prolonged' => 'boolean'
+            'filters.prolonged' => 'boolean',
+            'filters.book_copy_id' => 'string',
+            'filters.reader_id' => 'string'
         ]);
 
         return $this->successResponse(
@@ -76,7 +78,7 @@ class BookLoanController extends ApiController
             )
         );
 
-        return $this->successResponse(['id' => $uuid], Response::HTTP_CREATED);
+        return $this->successResponse(['id' => $uuid], null, Response::HTTP_CREATED);
     }
 
     public function update(Request $request, string $id)
