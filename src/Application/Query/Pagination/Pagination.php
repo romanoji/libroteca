@@ -51,7 +51,7 @@ class Pagination
     /**
      * @return int
      */
-    public function perPage(): int // TODO: rename to "perPage"
+    public function perPage(): int
     {
         return $this->perPage;
     }
