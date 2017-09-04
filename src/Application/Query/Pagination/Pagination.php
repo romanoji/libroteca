@@ -11,33 +11,33 @@ class Pagination
     private $page;
 
     /** @var int */
-    private $results;
+    private $perPage;
 
     /**
      * @param int $page
-     * @param int $results
+     * @param int $perPage
      * @throws \InvalidArgumentException
      */
-    public function __construct(int $page = 1, int $results = 10)
+    public function __construct(int $page = 1, int $perPage = 10)
     {
-        $this->setParams($page, $results);
+        $this->setParams($page, $perPage);
     }
 
     /**
      * @param int $page
-     * @param int $results
+     * @param int $perPage
      * @throws \InvalidArgumentException
      */
-    private function setParams(int $page, int $results)
+    private function setParams(int $page, int $perPage)
     {
-        if ($results > self::RESULTS_LIMIT) {
+        if ($perPage > self::RESULTS_LIMIT) {
             throw new \InvalidArgumentException(
-                sprintf("Pagination limit per page is %d results.", self::RESULTS_LIMIT)
+                sprintf("Pagination per page limit is %d results.", self::RESULTS_LIMIT)
             );
         }
 
         $this->page = $page;
-        $this->results = $results;
+        $this->perPage = $perPage;
     }
 
     /**
@@ -51,8 +51,8 @@ class Pagination
     /**
      * @return int
      */
-    public function resultsCount(): int
+    public function perPage(): int // TODO: rename to "perPage"
     {
-        return $this->results;
+        return $this->perPage;
     }
 }

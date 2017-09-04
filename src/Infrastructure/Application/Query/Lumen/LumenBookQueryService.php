@@ -64,9 +64,9 @@ class LumenBookQueryService implements BookQueryService
             $expr = $criteria->toExpression($this->expressionFactory)->value();
 
             $paginator = Lumen\Model\Book::where($expr)
-                ->paginate($pagination->resultsCount(), ['*'], 'page', $pagination->page());
+                ->paginate($pagination->perPage(), ['*'], 'page', $pagination->page());
         } else {
-            $paginator = Lumen\Model\Book::paginate($pagination->resultsCount(), ['*'], 'page', $pagination->page());
+            $paginator = Lumen\Model\Book::paginate($pagination->perPage(), ['*'], 'page', $pagination->page());
         }
 
         return new Results(

@@ -81,8 +81,8 @@ class DoctrineBookQueryService extends BaseDoctrineQueryService implements BookQ
         }
 
         $books = $qb
-            ->setFirstResult(($pagination->page() - 1) * $pagination->resultsCount())
-            ->setMaxResults($pagination->resultsCount())
+            ->setFirstResult(($pagination->page() - 1) * $pagination->perPage())
+            ->setMaxResults($pagination->perPage())
             ->getQuery()
             ->getResult();
 
@@ -105,7 +105,7 @@ class DoctrineBookQueryService extends BaseDoctrineQueryService implements BookQ
     ): PaginationMetadata {
         return new PaginationMetadata(
             $pagination->page(),
-            $pagination->resultsCount(),
+            $pagination->perPage(),
             $count,
             $this->count($qb)
         );
