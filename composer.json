@@ -1,7 +1,7 @@
 {
     "name": "rjozwiak/libroteca",
     "type": "project",
-    "keywords": ["ddd", "domain", "symfony", "lumen", "laravel", "framework"],
+    "keywords": ["ddd", "domain", "symfony", "doctrine", "lumen", "laravel", "framework"],
     "license": "MIT",
     "authors": [
         {
