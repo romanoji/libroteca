@@ -55,7 +55,11 @@ class LumenReaderQueryService implements ReaderQueryService
         if ($criteria) {
             $expr = $criteria->toExpression($this->expressionFactory)->value();
 
-            return Lumen\Model\Reader::where($expr)->get()->toArray();
+            return Lumen\Model\Reader::where($expr)
+                ->orderBy('name')
+                ->orderBy('surname')
+                ->get()
+                ->toArray();
         } else {
             return Lumen\Model\Reader::all()->toArray();
         }

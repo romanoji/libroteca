@@ -80,9 +80,10 @@ class DoctrineBookQueryService extends BaseDoctrineQueryService implements BookQ
             );
         }
 
-        $books = $qb
+        $books = (clone $qb)
             ->setFirstResult(($pagination->page() - 1) * $pagination->perPage())
             ->setMaxResults($pagination->perPage())
+            ->orderBy('t.title.title')
             ->getQuery()
             ->getResult();
 

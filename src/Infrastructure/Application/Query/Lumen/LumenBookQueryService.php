@@ -60,14 +60,15 @@ class LumenBookQueryService implements BookQueryService
         Pagination $pagination
     ): Results
     {
-        if ($criteria !== null) {
-            $expr = $criteria->toExpression($this->expressionFactory)->value();
+        $booksQuery = Lumen\Model\Book::orderBy('title');
 
-            $paginator = Lumen\Model\Book::where($expr)
-                ->paginate($pagination->perPage(), ['*'], 'page', $pagination->page());
-        } else {
-            $paginator = Lumen\Model\Book::paginate($pagination->perPage(), ['*'], 'page', $pagination->page());
+        if ($criteria !== null) {
+            $booksQuery->where(
+                $criteria->toExpression($this->expressionFactory)->value()
+            );
         }
+
+        $paginator = $booksQuery->paginate($pagination->perPage(), ['*'], 'page', $pagination->page());
 
         return new Results(
             $paginator->items(),

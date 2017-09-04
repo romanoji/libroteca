@@ -52,7 +52,9 @@ class DoctrineReaderQueryService extends BaseDoctrineDBALQueryService implements
     {
         $qb = $this->queryBuilder()
             ->select('*')
-            ->from($this->tableName());
+            ->from($this->tableName())
+            ->addOrderBy('name')
+            ->addOrderBy('surname');
 
         if ($criteria !== null) {
             $qb->where(
