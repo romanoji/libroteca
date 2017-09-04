@@ -28,7 +28,7 @@ class BookController extends ApiController
     {
         return $this->wrapRequest(function () {
             $filtersParam = $this->requestArrayParam('filters', false);
-            $page = $this->requestParam('page', false, 1);
+            $page = (int) $this->requestParam('page', false, 1);
 
             $specification = null;
             if ($filtersParam) {
