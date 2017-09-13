@@ -1,0 +1,6 @@
+parameters:
+  email.host: smtp.gmail.com
+  email.port: 25
+  email.encryption: tls
+  email.username: username
+  email.password: password

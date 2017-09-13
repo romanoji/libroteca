@@ -5,8 +5,10 @@ namespace RJozwiak\Libroteca\UI\Web\Symfony\Controller;
 
 use Ramsey\Uuid\Uuid;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
+use RJozwiak\Libroteca\Application\Command\SendNotificationToReader;
 use RJozwiak\Libroteca\Application\Query\ReaderQueryService;
 use RJozwiak\Libroteca\Application\Query\Specification\OrSpecification;
+use RJozwiak\Libroteca\Domain\Model\Reader\Notification\NotificationType;
 use RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\DBAL\Reader\{
     EmailEqualsSpecification, NameLikeSpecification, PhoneEqualsSpecification, SurnameLikeSpecification
 };
@@ -75,6 +77,14 @@ class ReaderController extends ApiController
                     $this->requestParam('surname'),
                     $this->requestParam('email'),
                     $this->requestParam('phone')
+                )
+            );
+
+            // TODO: move to event listener
+            $this->handle(
+                new SendNotificationToReader(
+                    $uuid->toString(),
+                    NotificationType::WELCOME
                 )
             );
 

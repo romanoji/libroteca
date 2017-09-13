@@ -1,5 +1,6 @@
 imports:
   - { resource: database.yml }
+  - { resource: email.yml }
   - { resource: parameters.yml }
 
 parameters:
@@ -32,6 +33,7 @@ parameters:
   update_book_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookHandler
   update_book_copy_remarks_handler.class: RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarksHandler
   import_books_handler.class: RJozwiak\Libroteca\Application\Command\ImportBooksHandler
+  send_notification_to_reader_handler.class: RJozwiak\Libroteca\Application\Command\SendNotificationToReaderHandler
 
   tactician.command_bus.class: League\Tactician\CommandBus
   tactician.method_name_inflector.class: RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\MethodNameInflector\ExecuteInflector
@@ -60,6 +62,18 @@ parameters:
 
   dbal_expression_factory.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\DBAL\DBALExpressionFactory
   orm_expression_factory.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\ORM\ORMExpressionFactory
+
+  email.class: RJozwiak\Libroteca\Domain\Model\Reader\Email
+  email_notifier.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email\Adapter\SwiftMailerNotifier
+  email_notification_builder.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email\Adapter\TwigEmailNotificationBuilder
+  email_notification_template_builder.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email\EmailNotificationTemplateBuilder
+  notifier_provider.class: RJozwiak\Libroteca\Domain\Model\Reader\MembershipBasedNotifierProvider
+  notification_builder_factory.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\NotificationBuilderFactory
+  notification_template_builder_factory.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\NotificationTemplateBuilderFactory
+  notification_sender.class: RJozwiak\Libroteca\Domain\Model\Reader\Notification\NotificationSender
+
+  swift_transport.class: Swift_SmtpTransport
+  swift_mailer.class: Swift_Mailer
 
 services:
   request:
@@ -145,6 +159,12 @@ services:
       - '@book_repository'
       - '@book_copy_repository'
       - '@books_import_file_loader'
+  send_notification_to_reader_handler:
+    class: '%send_notification_to_reader_handler.class%'
+    arguments:
+      - '@reader_repository'
+      - '@notifier_provider'
+      - '@notification_sender'
 
   tactician.method_name_inflector:
     class: '%tactician.method_name_inflector.class%'
@@ -161,6 +181,7 @@ services:
         - '@update_book_handler'
         - '@update_book_copy_remarks_handler'
         - '@import_books_handler'
+        - '@send_notification_to_reader_handler'
   tactician.command_class_name_extractor:
     class: '%tactician.command_class_name_extractor.class%'
   tactician.command_handler_middleware:
@@ -251,3 +272,49 @@ services:
     class: '%orm_expression_factory.class%'
     arguments:
       - '@doctrine.dbal.expression_builder'
+
+  no_reply_email:
+    class: '%email.class%'
+    arguments:
+      - '%email.username%'
+  email_notifier:
+    class: '%email_notifier.class%'
+    arguments:
+      - '@swift_mailer'
+      - '@no_reply_email'
+  email_notification_builder:
+    class: '%email_notification_builder.class%'
+  email_notification_template_builder:
+    class: '%email_notification_template_builder.class%'
+  notifier_provider:
+    class: '%notifier_provider.class%'
+    arguments:
+      - '@email_notifier'
+      - '@email_notifier'
+  notification_builder_factory:
+    class: '%notification_builder_factory.class%'
+  notification_template_builder_factory:
+    class: '%notification_template_builder_factory.class%'
+  notification_sender:
+    class: '%notification_sender.class%'
+    arguments:
+      - '@notification_template_builder_factory'
+      - '@notification_builder_factory'
+
+  swift_transport:
+    class: '%swift_transport.class%'
+    arguments:
+      - '%email.host%'
+      - '%email.port%'
+      - '%email.encryption%'
+    calls:
+      - method: setUsername
+        arguments:
+          - '%email.username%'
+      - method: setPassword
+        arguments:
+          - '%email.password%'
+  swift_mailer:
+    class: '%swift_mailer.class%'
+    arguments:
+      - '@swift_transport'

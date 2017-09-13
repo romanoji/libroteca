@@ -22,7 +22,8 @@ class Reader extends AggregateRoot
     /** @var Phone */
     private $phone;
 
-    // TODO: Account type + use it to determine how to send notification (via SMS/Email)
+    /** @var \DateTimeImmutable */
+    private $createdAt;
 
     /**
      * @param ReaderID $id
@@ -44,6 +45,8 @@ class Reader extends AggregateRoot
         $this->surname = $surname;
         $this->email = $email;
         $this->phone = $phone;
+
+        // TODO: created at field
 
         // TODO: ReaderRegistered event
     }
@@ -86,5 +89,13 @@ class Reader extends AggregateRoot
     public function phone(): Phone
     {
         return $this->phone;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function createdAt(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable(); // TODO: stub
     }
 }
