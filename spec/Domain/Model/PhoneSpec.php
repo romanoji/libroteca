@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
+namespace spec\RJozwiak\Libroteca\Domain\Model;
 
-use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 use PhpSpec\ObjectBehavior;
 
 class PhoneSpec extends ObjectBehavior

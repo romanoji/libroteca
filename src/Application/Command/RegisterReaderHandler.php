@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Application\Command;
 
 use RJozwiak\Libroteca\Application\CommandHandler;
-use RJozwiak\Libroteca\Domain\Model\Reader\Email;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Name;
-use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;

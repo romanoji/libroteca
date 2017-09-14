@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
+use RJozwiak\Libroteca\Domain\Model\Email;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 
 class Reader extends AggregateRoot
 {

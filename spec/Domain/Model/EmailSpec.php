@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
+namespace spec\RJozwiak\Libroteca\Domain\Model;
 
-use RJozwiak\Libroteca\Domain\Model\Reader\Email;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use PhpSpec\ObjectBehavior;
 
 class EmailSpec extends ObjectBehavior

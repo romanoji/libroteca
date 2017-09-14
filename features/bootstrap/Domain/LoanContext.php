@@ -31,8 +31,9 @@ use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\BookLoanNotFoundException
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\EndingOverdueLoanWithoutRemarksException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\MaxOngoingLoansExceededException;
 use RJozwiak\Libroteca\Domain\Model\BookLoan\Exception\ProlongOverdueBookLoanException;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\{
-    Email, ReaderID, ReaderRepository
+    ReaderID, ReaderRepository
 };
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\{
     CommandHandlerResolver, Inflector\ClassNameInflector, Locator\InMemoryHandlerLocator

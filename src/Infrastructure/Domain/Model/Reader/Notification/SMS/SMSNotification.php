@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\SMS
 
 use RJozwiak\Libroteca\Domain\Model\Reader\Notification\Notification;
 use RJozwiak\Libroteca\Domain\Model\Reader\Notification\NotificationType;
-use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 
 class SMSNotification extends Notification
 {

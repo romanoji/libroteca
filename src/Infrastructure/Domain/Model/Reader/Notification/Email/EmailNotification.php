@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email;
 
-use RJozwiak\Libroteca\Domain\Model\Reader\Email;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Notification\Notification;
 use RJozwiak\Libroteca\Domain\Model\Reader\Notification\NotificationType;
 

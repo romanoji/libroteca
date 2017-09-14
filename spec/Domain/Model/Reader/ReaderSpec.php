@@ -3,9 +3,9 @@
 namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
 use RJozwiak\Libroteca\Domain\Model\AggregateRoot;
-use RJozwiak\Libroteca\Domain\Model\Reader\Email;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Name;
-use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;
 use PhpSpec\ObjectBehavior;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;

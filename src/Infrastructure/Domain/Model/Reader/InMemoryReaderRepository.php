@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
+use RJozwiak\Libroteca\Domain\Model\Phone;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\{
-    Email, Exception\ReaderNotFoundException, Phone, Reader, ReaderID, ReaderRepository
+     Exception\ReaderNotFoundException, Reader, ReaderID, ReaderRepository
 };
 
 class InMemoryReaderRepository implements ReaderRepository

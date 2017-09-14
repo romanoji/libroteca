@@ -14,8 +14,8 @@ RJozwiak\Libroteca\Domain\Model\Reader\Reader:
       class: RJozwiak\Libroteca\Domain\Model\Reader\Surname
       columnPrefix: false
     email:
-      class: RJozwiak\Libroteca\Domain\Model\Reader\Email
+      class: RJozwiak\Libroteca\Domain\Model\Email
       columnPrefix: false
     phone:
-      class: RJozwiak\Libroteca\Domain\Model\Reader\Phone
+      class: RJozwiak\Libroteca\Domain\Model\Phone
       columnPrefix: false

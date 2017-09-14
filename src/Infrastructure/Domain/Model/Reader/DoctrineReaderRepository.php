@@ -5,9 +5,9 @@ namespace RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader;
 
 use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\Uuid;
-use RJozwiak\Libroteca\Domain\Model\Reader\Email;
+use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
-use RJozwiak\Libroteca\Domain\Model\Reader\Phone;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 use RJozwiak\Libroteca\Domain\Model\Reader\Reader;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRepository;

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
+use RJozwiak\Libroteca\Domain\Model\Email;
+use RJozwiak\Libroteca\Domain\Model\Phone;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\ReaderNotFoundException;
 
 interface ReaderRepository
