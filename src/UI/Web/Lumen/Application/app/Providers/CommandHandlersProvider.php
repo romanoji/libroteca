@@ -5,7 +5,7 @@ namespace RJozwiak\Libroteca\Lumen\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use RJozwiak\Libroteca\Application\Command\{
-    EndBookLoanHandler, ImportBooksHandler, LendBookCopyHandler,
+    EndBookLoanHandler, ImportBooksHandler, LendBookCopyHandler, SendNotificationToReaderHandler,
     ProlongBookLoanHandler, RegisterBookCopyHandler, RegisterBookHandler,
     RegisterReaderHandler, UpdateBookCopyRemarksHandler, UpdateBookHandler
 };
@@ -31,5 +31,7 @@ class CommandHandlersProvider extends ServiceProvider
         $this->app->singleton(UpdateBookCopyRemarksHandler::class);
 
         $this->app->singleton(ImportBooksHandler::class);
+
+        $this->app->singleton(SendNotificationToReaderHandler::class);
     }
 }

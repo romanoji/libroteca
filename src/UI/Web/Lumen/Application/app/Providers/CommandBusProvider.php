@@ -11,15 +11,12 @@ use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
 use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
-use RJozwiak\Libroteca\Application\Command\EndBookLoanHandler;
-use RJozwiak\Libroteca\Application\Command\ImportBooksHandler;
-use RJozwiak\Libroteca\Application\Command\LendBookCopyHandler;
-use RJozwiak\Libroteca\Application\Command\ProlongBookLoanHandler;
-use RJozwiak\Libroteca\Application\Command\RegisterBookCopyHandler;
-use RJozwiak\Libroteca\Application\Command\RegisterBookHandler;
-use RJozwiak\Libroteca\Application\Command\RegisterReaderHandler;
-use RJozwiak\Libroteca\Application\Command\UpdateBookCopyRemarksHandler;
-use RJozwiak\Libroteca\Application\Command\UpdateBookHandler;
+use RJozwiak\Libroteca\Application\Command\{
+    EndBookLoanHandler, ImportBooksHandler, LendBookCopyHandler,
+    ProlongBookLoanHandler, RegisterBookCopyHandler, RegisterBookHandler,
+    RegisterReaderHandler, UpdateBookCopyRemarksHandler, UpdateBookHandler,
+    SendNotificationToReaderHandler
+};
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\Locator\InMemoryHandlerLocator;
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\MethodNameInflector\ExecuteInflector;
 
@@ -47,7 +44,8 @@ class CommandBusProvider extends ServiceProvider
                 $app->make(RegisterReaderHandler::class),
                 $app->make(UpdateBookHandler::class),
                 $app->make(UpdateBookCopyRemarksHandler::class),
-                $app->make(ImportBooksHandler::class)
+                $app->make(ImportBooksHandler::class),
+                $app->make(SendNotificationToReaderHandler::class)
             ]);
         });
 

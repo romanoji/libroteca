@@ -35,6 +35,10 @@ parameters:
   import_books_handler.class: RJozwiak\Libroteca\Application\Command\ImportBooksHandler
   send_notification_to_reader_handler.class: RJozwiak\Libroteca\Application\Command\SendNotificationToReaderHandler
 
+  domain_event_dispatcher.class: RJozwiak\Libroteca\Infrastructure\Domain\Event\SimpleEventDispatcher
+  reader_registered_event.class: RJozwiak\Libroteca\Domain\Model\Reader\ReaderRegistered
+  reader_registered_listener.class: RJozwiak\Libroteca\Domain\Event\Reader\ReaderRegisteredListener
+
   tactician.command_bus.class: League\Tactician\CommandBus
   tactician.method_name_inflector.class: RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\MethodNameInflector\ExecuteInflector
   tactician.in_memory_locator.class: RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Tactician\Locator\InMemoryHandlerLocator
@@ -63,7 +67,7 @@ parameters:
   dbal_expression_factory.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\DBAL\DBALExpressionFactory
   orm_expression_factory.class: RJozwiak\Libroteca\Infrastructure\Application\Query\Doctrine\Specification\ORM\ORMExpressionFactory
 
-  email.class: RJozwiak\Libroteca\Domain\Model\Reader\Email
+  email.class: RJozwiak\Libroteca\Domain\Model\Email
   email_notifier.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email\Adapter\SwiftMailerNotifier
   email_notification_builder.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email\Adapter\TwigEmailNotificationBuilder
   email_notification_template_builder.class: RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\Notification\Email\EmailNotificationTemplateBuilder
@@ -143,6 +147,7 @@ services:
     class: '%register_reader_handler.class%'
     arguments:
       - '@reader_repository'
+      - '@domain_event_dispatcher'
   update_book_handler:
     class: '%update_book_handler.class%'
     arguments:
@@ -161,6 +166,20 @@ services:
       - '@books_import_file_loader'
   send_notification_to_reader_handler:
     class: '%send_notification_to_reader_handler.class%'
+    arguments:
+      - '@reader_repository'
+      - '@notifier_provider'
+      - '@notification_sender'
+
+  domain_event_dispatcher:
+    class: '%domain_event_dispatcher.class%'
+    calls:
+      - method: subscribeEventTo
+        arguments:
+          - '@reader_registered_listener'
+          - '%reader_registered_event.class%'
+  reader_registered_listener:
+    class: '%reader_registered_listener.class%'
     arguments:
       - '@reader_repository'
       - '@notifier_provider'

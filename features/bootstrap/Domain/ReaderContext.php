@@ -11,6 +11,7 @@ use Helper\SpiesOnExceptions;
 use RJozwiak\Libroteca\Application\Command\RegisterReader;
 use RJozwiak\Libroteca\Application\Command\RegisterReaderHandler;
 use RJozwiak\Libroteca\Application\CommandBus;
+use RJozwiak\Libroteca\Domain\Event\DomainEventDispatcher;
 use RJozwiak\Libroteca\Domain\Model\Reader\{
     Exception\EmailAlreadyInUseException, Exception\PhoneAlreadyInUseException, Exception\ReaderNotFoundException, Reader, ReaderID, ReaderRepository
 };
@@ -19,6 +20,7 @@ use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\Resolver\{
 };
 use RJozwiak\Libroteca\Infrastructure\Application\CommandBus\Simple\SimpleCommandBus;
 use RJozwiak\Libroteca\Infrastructure\Domain\Model\Reader\InMemoryReaderRepository;
+use RJozwiak\Libroteca\Infrastructure\Domain\Event\SimpleEventDispatcher;
 use Webmozart\Assert\Assert;
 
 class ReaderContext implements Context, SnippetAcceptingContext
@@ -27,6 +29,9 @@ class ReaderContext implements Context, SnippetAcceptingContext
 
     /** @var CommandBus */
     private $commandBus;
+
+    /** @var DomainEventDispatcher */
+    private $eventDispatcher;
 
     /** @var ReaderRepository */
     private $readerRepository;
@@ -37,11 +42,15 @@ class ReaderContext implements Context, SnippetAcceptingContext
     public function __construct()
     {
         $this->readerRepository = SharedObjects::loadOrCreate(InMemoryReaderRepository::class);
+        $this->eventDispatcher = new SimpleEventDispatcher();
         $this->commandBus = new SimpleCommandBus(
             new CommandHandlerResolver(
                 new ClassNameInflector(),
                 new InMemoryHandlerLocator([
-                    new RegisterReaderHandler($this->readerRepository)
+                    new RegisterReaderHandler(
+                        $this->readerRepository,
+                        $this->eventDispatcher
+                    )
                 ])
             )
         );

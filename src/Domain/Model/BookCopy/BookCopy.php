@@ -19,6 +19,8 @@ class BookCopy extends AggregateRoot
 
     // TODO: maybe embed BookLoan here?
 
+    // TODO: add created at field
+
     /**
      * @param BookCopyID $copyID
      * @param BookID $bookID

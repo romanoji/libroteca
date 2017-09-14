@@ -2,7 +2,7 @@
 
 namespace spec\RJozwiak\Libroteca\Domain\Model\Reader;
 
-use RJozwiak\Libroteca\Domain\Model\DomainEvent;
+use RJozwiak\Libroteca\Domain\Event\DomainEvent;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderID;
 use RJozwiak\Libroteca\Domain\Model\Reader\ReaderRegistered;
 use PhpSpec\ObjectBehavior;

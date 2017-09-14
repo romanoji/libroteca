@@ -80,6 +80,8 @@ $app->register(RJozwiak\Libroteca\Lumen\Providers\ApplicationServicesProvider::c
 $app->register(RJozwiak\Libroteca\Lumen\Providers\CommandBusProvider::class);
 $app->register(RJozwiak\Libroteca\Lumen\Providers\CommandHandlersProvider::class);
 $app->register(RJozwiak\Libroteca\Lumen\Providers\QueryServicesProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\NotificationsServicesProvider::class);
+$app->register(RJozwiak\Libroteca\Lumen\Providers\DomainEventsListenersProvider::class);
 
 /*
 |--------------------------------------------------------------------------

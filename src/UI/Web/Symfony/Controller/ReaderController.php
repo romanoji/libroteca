@@ -80,14 +80,6 @@ class ReaderController extends ApiController
                 )
             );
 
-            // TODO: move to event listener
-            $this->handle(
-                new SendNotificationToReader(
-                    $uuid->toString(),
-                    NotificationType::WELCOME
-                )
-            );
-
             return $this->successResponse(['id' => $uuid], null, Response::HTTP_CREATED);
         });
     }

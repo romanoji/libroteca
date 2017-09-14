@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RJozwiak\Libroteca\Application\Command;
 
 use RJozwiak\Libroteca\Application\CommandHandler;
+use RJozwiak\Libroteca\Domain\Event\DomainEventDispatcher;
 use RJozwiak\Libroteca\Domain\Model\Email;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\EmailAlreadyInUseException;
 use RJozwiak\Libroteca\Domain\Model\Reader\Exception\PhoneAlreadyInUseException;
@@ -19,12 +20,19 @@ class RegisterReaderHandler implements CommandHandler
     /** @var ReaderRepository */
     private $readerRepository;
 
+    /** @var DomainEventDispatcher */
+    private $domainEventDispatcher;
+
     /**
      * @param ReaderRepository $readerRepository
+     * @param DomainEventDispatcher $eventDispatcher
      */
-    public function __construct(ReaderRepository $readerRepository)
-    {
+    public function __construct(
+        ReaderRepository $readerRepository,
+        DomainEventDispatcher $eventDispatcher
+    ) {
         $this->readerRepository = $readerRepository;
+        $this->domainEventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -43,8 +51,12 @@ class RegisterReaderHandler implements CommandHandler
         $this->assertUniqueEmail($email);
         $this->assertUniquePhone($phone);
 
-        $reader = new Reader($readerID, $name, $surname, $email, $phone);
+        $reader = Reader::create($readerID, $name, $surname, $email, $phone);
         $this->readerRepository->save($reader);
+
+        foreach ($reader->unpublishedEvents() as $event) {
+            $this->domainEventDispatcher->handle($event);
+        }
     }
 
     /**

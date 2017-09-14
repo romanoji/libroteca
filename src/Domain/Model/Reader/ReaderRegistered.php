@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace RJozwiak\Libroteca\Domain\Model\Reader;
 
-use RJozwiak\Libroteca\Domain\Model\DomainEvent;
+use RJozwiak\Libroteca\Domain\Event\DomainEvent;
 
 class ReaderRegistered implements DomainEvent
 {
-    // TODO:
-
     /** @var ReaderID */
     private $readerID;
 
@@ -17,11 +15,24 @@ class ReaderRegistered implements DomainEvent
 
     /**
      * @param ReaderID $id
+     * @param \DateTimeImmutable|null $occurredOn
      */
-    public function __construct(ReaderID $id)
+    public function __construct(ReaderID $id, \DateTimeImmutable $occurredOn = null)
     {
         $this->readerID = $id;
-        $this->occuredOn = new \DateTimeImmutable();
+        $this->setOccurredOn($occurredOn);
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $occurredOn
+     */
+    private function setOccurredOn(\DateTimeImmutable $occurredOn = null)
+    {
+        if ($occurredOn === null) {
+            $occurredOn = new \DateTimeImmutable();
+        }
+
+        $this->occuredOn = $occurredOn;
     }
 
     /**

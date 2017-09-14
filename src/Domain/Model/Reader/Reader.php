@@ -49,8 +49,28 @@ class Reader extends AggregateRoot
         $this->phone = $phone;
 
         // TODO: created at field
+    }
 
-        // TODO: ReaderRegistered event
+    /**
+     * @param ReaderID $id
+     * @param Name $name
+     * @param Surname $surname
+     * @param Email $email
+     * @param Phone $phone
+     * @return Reader
+     */
+    public static function create(
+        ReaderID $id,
+        Name $name,
+        Surname $surname,
+        Email $email,
+        Phone $phone
+    ) {
+        $reader = new self($id, $name, $surname, $email, $phone);
+
+        $reader->addEvent(new ReaderRegistered($id));
+
+        return $reader;
     }
 
     /**
