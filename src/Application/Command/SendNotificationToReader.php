@@ -8,10 +8,10 @@ use RJozwiak\Libroteca\Application\Command;
 class SendNotificationToReader implements Command
 {
     /** @var int|string */
-    public $readerID;
+    private $readerID;
 
     /** @var int|string */
-    public $notificationType;
+    private $notificationType;
 
     /**
      * @param int|string $readerID
@@ -21,5 +21,21 @@ class SendNotificationToReader implements Command
     {
         $this->readerID = $readerID;
         $this->notificationType = $notificationType;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function readerID()
+    {
+        return $this->readerID;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function notificationType()
+    {
+        return $this->notificationType;
     }
 }

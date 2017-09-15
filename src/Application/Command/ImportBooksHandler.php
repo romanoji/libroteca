@@ -56,7 +56,7 @@ class ImportBooksHandler implements CommandHandler
      */
     public function execute(ImportBooks $command): void
     {
-        $booksData = $this->booksImportFileLoader->loadBooksData($command->file);
+        $booksData = $this->booksImportFileLoader->loadBooksData($command->file());
 
         foreach ($booksData as $bookData) {
             try {

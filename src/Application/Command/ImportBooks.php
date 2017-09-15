@@ -10,7 +10,7 @@ class ImportBooks implements Command
     public const FIELDS = ['isbn', 'title', 'authors', 'amount'];
 
     /** @var \SplFileInfo */
-    public $file;
+    private $file;
 
     /**
      * @param \SplFileInfo $file
@@ -18,5 +18,13 @@ class ImportBooks implements Command
     public function __construct(\SplFileInfo $file)
     {
         $this->file = $file;
+    }
+
+    /**
+     * @return \SplFileInfo
+     */
+    public function file(): \SplFileInfo
+    {
+        return $this->file;
     }
 }

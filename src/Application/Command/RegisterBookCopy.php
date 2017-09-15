@@ -8,10 +8,10 @@ use RJozwiak\Libroteca\Application\Command;
 class RegisterBookCopy implements Command
 {
     /** @var int|string */
-    public $bookCopyID;
+    private $bookCopyID;
 
     /** @var int|string */
-    public $bookID;
+    private $bookID;
 
     /**
      * @param $bookCopyID
@@ -21,5 +21,21 @@ class RegisterBookCopy implements Command
     {
         $this->bookCopyID = $bookCopyID;
         $this->bookID = $bookID;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function bookCopyID()
+    {
+        return $this->bookCopyID;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function bookID()
+    {
+        return $this->bookID;
     }
 }

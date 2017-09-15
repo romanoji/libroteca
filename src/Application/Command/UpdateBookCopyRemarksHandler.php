@@ -27,10 +27,10 @@ class UpdateBookCopyRemarksHandler implements CommandHandler
      */
     public function execute(UpdateBookCopyRemarks $command): void
     {
-        $bookCopyID = new BookCopyID($command->bookCopyID);
+        $bookCopyID = new BookCopyID($command->bookCopyID());
 
         $bookCopy = $this->bookCopyRepository->get($bookCopyID);
-        $bookCopy->updateRemarks($command->remarks);
+        $bookCopy->updateRemarks($command->remarks());
 
         $this->bookCopyRepository->save($bookCopy);
     }

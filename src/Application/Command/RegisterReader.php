@@ -8,19 +8,19 @@ use RJozwiak\Libroteca\Application\Command;
 class RegisterReader implements Command
 {
     /** @var int|string */
-    public $readerID;
+    private $readerID;
 
     /** @var string */
-    public $name;
+    private $name;
 
     /** @var string */
-    public $surname;
+    private $surname;
 
     /** @var string */
-    public $email;
+    private $email;
 
     /** @var string */
-    public $phone;
+    private $phone;
 
     /**
      * @param int|string $readerID
@@ -41,5 +41,45 @@ class RegisterReader implements Command
         $this->surname = $surname;
         $this->email = $email;
         $this->phone = $phone;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function readerID()
+    {
+        return $this->readerID;
+    }
+
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function surname(): string
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function email(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function phone(): string
+    {
+        return $this->phone;
     }
 }

@@ -34,11 +34,11 @@ class ProlongBookLoanHandler implements CommandHandler
      */
     public function execute(ProlongBookLoan $command): void
     {
-        $bookLoanID = new BookLoanID($command->bookLoanID);
+        $bookLoanID = new BookLoanID($command->bookLoanID());
 
         $bookLoan = $this->bookLoanRepository->get($bookLoanID);
 
-        $bookLoan->prolongTo($command->newDueDate, $command->today);
+        $bookLoan->prolongTo($command->newDueDate(), $command->today());
         $this->bookLoanRepository->save($bookLoan);
     }
 }

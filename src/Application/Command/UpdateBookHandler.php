@@ -36,15 +36,15 @@ class UpdateBookHandler implements CommandHandler
 
     public function execute(UpdateBook $command): void
     {
-        $bookID = new BookID($command->bookID);
-        $isbn = $this->isbnFactory->create($command->isbn);
+        $bookID = new BookID($command->bookID());
+        $isbn = $this->isbnFactory->create($command->isbn());
         $authors = array_map(
             function (string $author) {
                 return new Author($author);
             },
-            $command->authors
+            $command->authors()
         );
-        $title = new Title($command->title);
+        $title = new Title($command->title());
 
         $this->assertUniqueISBN($isbn, $bookID);
 

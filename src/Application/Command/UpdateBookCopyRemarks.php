@@ -8,10 +8,10 @@ use RJozwiak\Libroteca\Application\Command;
 class UpdateBookCopyRemarks implements Command
 {
     /** @var int|string */
-    public $bookCopyID;
+    private $bookCopyID;
 
     /** @var string */
-    public $remarks;
+    private $remarks;
 
     /**
      * @param int|string $bookCopyID
@@ -21,5 +21,21 @@ class UpdateBookCopyRemarks implements Command
     {
         $this->bookCopyID = $bookCopyID;
         $this->remarks = $remarks;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function bookCopyID()
+    {
+        return $this->bookCopyID;
+    }
+
+    /**
+     * @return string
+     */
+    public function remarks(): string
+    {
+        return $this->remarks;
     }
 }

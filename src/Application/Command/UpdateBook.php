@@ -8,16 +8,16 @@ use RJozwiak\Libroteca\Application\Command;
 class UpdateBook implements Command
 {
     /** @var int|string */
-    public $bookID;
+    private $bookID;
 
     /** @var null|string */
-    public $isbn;
+    private $isbn;
 
     /** @var array */
-    public $authors;
+    private $authors;
 
     /** @var string */
-    public $title;
+    private $title;
 
     /**
      * @param int|string $bookID
@@ -35,5 +35,37 @@ class UpdateBook implements Command
         $this->isbn = $isbn;
         $this->authors = $authors;
         $this->title = $title;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function bookID()
+    {
+        return $this->bookID;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function isbn()
+    {
+        return $this->isbn;
+    }
+
+    /**
+     * @return array
+     */
+    public function authors(): array
+    {
+        return $this->authors;
+    }
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return $this->title;
     }
 }

@@ -31,11 +31,11 @@ class EndBookLoanHandler implements CommandHandler
      */
     public function execute(EndBookLoan $command): void
     {
-        $bookLoanID = new BookLoanID($command->bookLoanID);
+        $bookLoanID = new BookLoanID($command->bookLoanID());
 
         $bookLoan = $this->bookLoanRepository->get($bookLoanID);
 
-        $bookLoan->endLoan($command->endDate, $command->remarks);
+        $bookLoan->endLoan($command->endDate(), $command->remarks());
         $this->bookLoanRepository->save($bookLoan);
     }
 }

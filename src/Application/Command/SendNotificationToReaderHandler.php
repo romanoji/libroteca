@@ -44,8 +44,8 @@ class SendNotificationToReaderHandler implements CommandHandler
      */
     public function execute(SendNotificationToReader $command)
     {
-        $reader = $this->readerRepository->get(new ReaderID($command->readerID));
-        $notificationType = new NotificationType($command->notificationType);
+        $reader = $this->readerRepository->get(new ReaderID($command->readerID()));
+        $notificationType = new NotificationType($command->notificationType());
 
         $notifier = $this->notifierProvider->provideFor($reader, $notificationType);
         $this->notificationSender

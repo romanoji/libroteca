@@ -8,13 +8,13 @@ use RJozwiak\Libroteca\Application\Command;
 class EndBookLoan implements Command
 {
     /** @var int|string */
-    public $bookLoanID;
+    private $bookLoanID;
 
     /** @var \DateTimeImmutable */
-    public $endDate;
+    private $endDate;
 
     /** @var null|string */
-    public $remarks;
+    private $remarks;
 
     /**
      * @param int|string $bookLoanID
@@ -29,5 +29,29 @@ class EndBookLoan implements Command
         $this->bookLoanID = $bookLoanID;
         $this->endDate = $endDate;
         $this->remarks = $remarks;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function bookLoanID()
+    {
+        return $this->bookLoanID;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function endDate(): \DateTimeImmutable
+    {
+        return $this->endDate;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function remarks()
+    {
+        return $this->remarks;
     }
 }

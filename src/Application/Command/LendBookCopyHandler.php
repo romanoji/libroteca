@@ -59,9 +59,9 @@ class LendBookCopyHandler implements CommandHandler
      */
     public function execute(LendBookCopy $command): void
     {
-        $bookLoanID = new BookLoanID($command->bookLoanID);
-        $readerID = new ReaderID($command->readerID);
-        $bookCopyID = new BookCopyID($command->bookCopyID);
+        $bookLoanID = new BookLoanID($command->bookLoanID());
+        $readerID = new ReaderID($command->readerID());
+        $bookCopyID = new BookCopyID($command->bookCopyID());
 
         $this->assertReaderExists($readerID);
         $this->assertBookCopyExists($bookCopyID);
@@ -71,8 +71,8 @@ class LendBookCopyHandler implements CommandHandler
                 $bookLoanID,
                 $bookCopyID,
                 $readerID,
-                $command->dueDate,
-                $command->today
+                $command->dueDate(),
+                $command->today()
             );
         $this->bookLoanRepository->save($bookLoan);
     }

@@ -42,11 +42,11 @@ class RegisterReaderHandler implements CommandHandler
      */
     public function execute(RegisterReader $command): void
     {
-        $readerID = new ReaderID($command->readerID);
-        $name = new Name($command->name);
-        $surname = new Surname($command->surname);
-        $email = new Email($command->email);
-        $phone = new Phone($command->phone);
+        $readerID = new ReaderID($command->readerID());
+        $name = new Name($command->name());
+        $surname = new Surname($command->surname());
+        $email = new Email($command->email());
+        $phone = new Phone($command->phone());
 
         $this->assertUniqueEmail($email);
         $this->assertUniquePhone($phone);

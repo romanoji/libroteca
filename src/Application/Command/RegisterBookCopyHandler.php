@@ -37,8 +37,8 @@ class RegisterBookCopyHandler implements CommandHandler
      */
     public function execute(RegisterBookCopy $command): void
     {
-        $bookCopyID = new BookCopyID($command->bookCopyID);
-        $bookID = new BookID($command->bookID);
+        $bookCopyID = new BookCopyID($command->bookCopyID());
+        $bookID = new BookID($command->bookID());
 
         $this->assertBookExists($bookID);
 

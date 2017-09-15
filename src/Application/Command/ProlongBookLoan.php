@@ -8,13 +8,13 @@ use RJozwiak\Libroteca\Application\Command;
 class ProlongBookLoan implements Command
 {
     /** @var int|string */
-    public $bookLoanID;
-
-    /** @var string */
-    public $newDueDate;
+    private $bookLoanID;
 
     /** @var \DateTimeImmutable */
-    public $today;
+    private $newDueDate;
+
+    /** @var \DateTimeImmutable */
+    private $today;
 
     /**
      * @param int|string $bookLoanID
@@ -29,5 +29,29 @@ class ProlongBookLoan implements Command
         $this->bookLoanID = $bookLoanID;
         $this->newDueDate = $newDueDate;
         $this->today = $today;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function bookLoanID()
+    {
+        return $this->bookLoanID;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function newDueDate(): \DateTimeImmutable
+    {
+        return $this->newDueDate;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function today(): \DateTimeImmutable
+    {
+        return $this->today;
     }
 }
