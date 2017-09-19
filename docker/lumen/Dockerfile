@@ -24,10 +24,6 @@ RUN pecl install xdebug-2.5.5 \
  && docker-php-ext-enable `echo xdebug-2.5.5 | sed -e "s/[^a-z ]//g"`
 COPY php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# Run app setup
-COPY setup.sh /usr/local/bin/setup.sh
-RUN chmod +x /usr/local/bin/setup.sh && /usr/local/bin/setup.sh && rm /usr/local/bin/setup.sh
-
 # Enabled rewrite module
 RUN a2enmod rewrite
 
