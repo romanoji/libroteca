@@ -18,12 +18,6 @@ RUN echo "Europe/Warsaw" > /etc/timezone \
 # Override PHP settings
 COPY php/php.ini /usr/local/etc/php
 
-# Setup Xdebug
-RUN pecl install xdebug-2.5.5 \
-    # https://github.com/docker-library/php/issues/414
- && docker-php-ext-enable `echo xdebug-2.5.5 | sed -e "s/[^a-z ]//g"`
-COPY php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 # Enabled rewrite module
 RUN a2enmod rewrite
 
