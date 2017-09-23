@@ -37,6 +37,10 @@ class SwiftMailerNotifier implements Notifier
             ->setSubject($notification->subject())
             ->setBody($notification->message(), 'text/html');
 
-        $this->mailer->send($message);
+        try {
+            $this->mailer->send($message);
+        } catch (\Swift_TransportException $e) {
+            // TODO: log exception
+        }
     }
 }
