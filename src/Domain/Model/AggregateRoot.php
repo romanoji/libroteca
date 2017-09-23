@@ -10,8 +10,8 @@ abstract class AggregateRoot
     /** @var int */
     private $version = 0;
 
-    /** @var DomainEvent[] */
-    private $events = [];
+    /** @var null|DomainEvent[] */
+    private $events;
 
     /**
      * @return ID
@@ -36,9 +36,15 @@ abstract class AggregateRoot
     /**
      * @return DomainEvent[]
      */
-    public function unpublishedEvents(): array
+    public function unpublishedEvents(bool $wipeEvents = true): array
     {
-        return $this->events;
+        $events = $this->events;
+
+        if ($wipeEvents) {
+            $this->events = null;
+        }
+
+        return $events ?: [];
     }
 
     /**
