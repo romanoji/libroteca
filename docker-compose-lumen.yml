@@ -20,7 +20,7 @@ services:
   composer:
     image: composer:1.5.2
     restart: 'no'
-    command: install --no-interaction --ignore-platform-reqs
+    command: install --no-interaction --optimize-autoloader --ignore-platform-reqs
     volumes:
       - .:/var/www/libroteca:rw
     working_dir: /var/www/libroteca
