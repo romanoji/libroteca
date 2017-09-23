@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Libroteca",
-		"_postman_id": "770db50b-56ad-2d90-7d7c-09f052ca61c6",
+		"_postman_id": "9b786766-2747-cd6e-1cd3-a62c91d56896",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -14,7 +14,25 @@
 				{
 					"name": "localhost:8080/readers",
 					"request": {
-						"url": "localhost:8080/readers",
+						"url": {
+							"raw": "localhost:8080/readers?filters[name]=Adam",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"readers"
+							],
+							"query": [
+								{
+									"key": "filters[name]",
+									"value": "Adam",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -28,7 +46,10 @@
 						"url": "localhost:8080/readers/583e6eb1-25f5-4a2e-a739-06fce5a853dd",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -120,7 +141,10 @@
 										"description": ""
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"description": ""
 							},
 							"response": []
@@ -137,7 +161,10 @@
 										"description": ""
 									}
 								],
-								"body": {},
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
 								"description": ""
 							},
 							"response": []
@@ -175,7 +202,31 @@
 				{
 					"name": "localhost:8080/books",
 					"request": {
-						"url": "localhost:8080/books",
+						"url": {
+							"raw": "localhost:8080/books?filters[title]=Tadeusz&page=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "filters[title]",
+									"value": "Tadeusz",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -195,7 +246,10 @@
 						"url": "localhost:8080/books/5086c2e1-c607-4a02-91f9-f437f894c380",
 						"method": "GET",
 						"header": [],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -338,7 +392,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
@@ -355,7 +412,10 @@
 								"description": ""
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"description": ""
 					},
 					"response": []
