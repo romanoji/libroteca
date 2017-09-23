@@ -14,6 +14,9 @@ class Readers extends Component {
         };
     }
 
+    // TODO: search & info. about no results (initial and when not found anything)
+    // TODO: search toggle'able options (equals = / like ~)
+
     componentDidMount() {
         fetch('http://localhost:8080/readers')
             .then(response => response.json())
